@@ -1,0 +1,17 @@
+{
+  "app": {
+    "title": "ZMP Ecommerce",
+    "headerColor": "#EF1724",
+    "textColor": "white",
+    "statusBarColor": "#EF1724",
+    "leftButton": "back"
+  },
+  "debug": false,
+  "listCSS": [],
+  "listSyncJS": [],
+  "listAsyncJS": [],
+  "pages": [
+    "/calendar",
+    "/restaurant"
+  ]
+}

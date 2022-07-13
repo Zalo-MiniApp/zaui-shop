@@ -1,0 +1,135 @@
+@import "./tailwind.css";
+
+/* Your app custom styles here */
+:root {
+  --zmp-theme-color: #EF1724;
+  --zmp-theme-color-rgb: 239, 23, 36;
+  --zmp-secondary-color: #ff8a00;
+  --zmp-page-bg-color: #f4f5f6;
+  --zmp-searchbar-input-height: 32px;
+  --zmp-button-border-radius: 100px;
+  --zmp-button-padding-vertical: 8px;
+  --zmp-button-bg-color-tertiary: white;
+  --zmp-appbar-app-offset: 104px;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  background-color: var(--zmp-page-bg-color);
+}
+
+.view-main.hidden-nav {
+  height: 100%;
+}
+
+.header {
+  position: relative;
+  z-index: 6000;
+}
+
+.bg-theme {
+  background-color: var(--zmp-theme-color);
+}
+
+.color-theme {
+  color: var(--zmp-theme-color);
+}
+
+
+input[type="text"] {
+  min-height: unset !important;
+}
+
+.inquiry {
+  background-color: transparent;
+
+  input[type="search"] {
+    border: none;
+    min-height: unset;
+  }
+
+  // &.searchbar .input-clear-button:after {
+  //   line-height: 32px;
+  // }
+  // .input-clear-button:before {
+  //   height: 28px;
+  // }
+  .input-clear-button:after {
+    font-size: calc(var(--zmp-input-clear-button-size) / (16 / 10));
+    line-height: 0;
+  }
+}
+
+.no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.restaurant-with-cover {
+  .zmp-icons {
+    font-size: 1.2em;
+    margin-right: 4px;
+  }
+}
+
+.restaurant-detail-box {
+  .zmp-icons {
+    margin-right: 2px;
+  }
+}
+
+.button.w-10,
+.button.w-8 {
+  padding: 0;
+
+  .zmp-icons {
+    margin-right: 0;
+  }
+}
+
+.date-booker {
+  .swiper-slide-active>.bg-white {
+    background-color: var(--zmp-secondary-color);
+    color: white;
+  }
+
+  &.fade-corner {
+    position: relative;
+
+    &:before {
+      content: " ";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      z-index: 10;
+      opacity: 0.5;
+      background: linear-gradient(to right, var(--zmp-page-bg-color) 80%, transparent);
+    }
+
+    &::after {
+      content: " ";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 80px;
+      z-index: 10;
+      opacity: 0.5;
+      background: linear-gradient(to left, var(--zmp-page-bg-color) 80%, transparent);
+    }
+  }
+}
+
+.checkbox {
+  margin: 16px 0;
+
+  .icon-checkbox {
+    margin-right: 8px;
+  }
+}

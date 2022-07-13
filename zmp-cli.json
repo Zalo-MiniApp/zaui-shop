@@ -1,0 +1,18 @@
+{
+  "cwd": "/Users/lap15182-local/Desktop/zalo/mp-template-food",
+  "newProject": true,
+  "name": "ZMP Restaurant",
+  "framework": "react-typescript",
+  "template": "tabs",
+  "cssPreProcessor": "scss",
+  "includeTailwind": true,
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkTheme": false,
+    "iconFonts": true,
+    "fillBars": false,
+    "useUiKits": true
+  },
+  "customBuild": false
+}
