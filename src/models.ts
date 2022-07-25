@@ -1,93 +1,55 @@
-export interface Restaurant {
-  id: number
-  name: string
-  districtId: number
-  location: Location
-  views: number
-  image: string
-  address: string
-  hours: {
-    opening: Hours,
-    closing: Hours,
-  },
-  days: {
-    opening: number
-    closing: number
-  },
-  hotline: string
-  map: string
-  rating: number
-}
+import { ReactNode } from "react";
 
-export interface District {
-  id: number
-  name: string
-}
+type Options = {
+  name: string;
+  title: string;
+  option: {
+    value: string;
+    label: string;
+    checked?: boolean;
+  }[];
+};
 
-export interface Location {
-  lat: number,
-  long: number
-}
+export type CartProduct = {
+  id: number;
+  order: {
+    quantity: number;
+    note: string;
+    [key: string]: any;
+  };
+};
 
-export interface Menu {
-  categories: Category[]
-}
+export type Product = {
+  pathImg: string;
+  nameProduct: string;
+  salePrice: number | string;
+  retailPrice: number | string;
+  description: string;
+  options?: Options[];
+};
 
-export interface Category {
-  id: number
-  name: string
-  foods: Food[]
-}
+export type Store = {
+  key: number;
+  pathImg: string;
+  bannerStore: string;
+  nameStore: string;
+  followers: number;
+  address: string;
+  categories: string[];
+};
 
-export interface Food {
-  id: number
-  name: string
-  price: number
-  description: string
-  image: string
-  categories: string[]
-  extras: Extra[]
-  options: Option[]
-}
+export type SectionProductsProps = {
+  title: string;
+  watchMore?: boolean;
+  pathBanner?: string;
+  direction?: "vertical" | "horizontal";
+  colPercentage?: number;
+  children?: (data: Product | Store) => ReactNode;
+  data: any;
+  onChoose?: () => void;
+};
 
-export interface Option {
-  key: string
-  label: string
-  selected: boolean
-}
-
-export interface Extra {
-  key: string
-  label: string
-  options: {
-    key: string
-    label: string
-    selected?: boolean
-  }[]
-}
-
-export interface Cart {
-  items: CartItem[]
-}
-
-export interface CartItem {
-  quantity: number
-  food: Food
-  note: string
-}
-
-export type Hours = [number, number, 'AM' | 'PM'];
-
-export interface Booking {
-  id: string
-  restaurant: Restaurant
-  cart?: Cart
-  bookingInfo?: {
-    date: Date
-    hour: Hours
-    table: string
-    seats: number
-  }
-}
-
-export type TabType = 'info' | 'menu' | 'book';
+export type OrderStoreProps = {
+  keyStore: number;
+  listPickupItems: { keyItem: number; quantity: number }[];
+};

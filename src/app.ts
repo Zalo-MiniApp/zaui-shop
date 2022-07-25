@@ -2,17 +2,23 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-// Import ZMP
-import ZMP from 'zmp-framework/core/lite-bundle';
+import ZMP from 'zmp-framework/core/lite-core';
 
 // Import ZMP-React Plugin
-import ZMPReact from 'zmp-framework/react';
+import ZMPReact from 'zmp-framework/react/lite';
+
 
 // Import tailwind styles
 import './css/styles.css';
 
 // Import ZMP Styles
 import 'zmp-framework/zmp-bundle.min.css';
+import Input from 'zmp-framework/core/modules/input';
+import Form from 'zmp-framework/core/modules/form';
+import View from 'zmp-framework/core/modules/view';
+import List from 'zmp-framework/core/modules/list';
+import VirtualList from 'zmp-framework/core/modules/virtual-list';
+import Sheet from 'zmp-framework/core/modules/sheet';
 
 // Import Icons and App Custom Styles
 import './css/icons.css';
@@ -27,7 +33,7 @@ if (!(window as any).APP_CONFIG) {
 }
 
 // Init ZMP React Plugin
-ZMP.use(ZMPReact)
+ZMP.use([ZMPReact, Input, Form, View, List, VirtualList,Sheet])
 
 // Mount React App
 createRoot(document.getElementById('app')!).render(React.createElement(App));

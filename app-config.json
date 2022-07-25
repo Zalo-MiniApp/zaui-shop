@@ -11,7 +11,9 @@
   "listSyncJS": [],
   "listAsyncJS": [],
   "pages": [
-    "/calendar",
-    "/restaurant"
+    "/search-product",
+    "/detail-section",
+    "/mini-store",
+    "/detail-product"
   ]
 }
