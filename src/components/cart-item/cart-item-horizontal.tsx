@@ -30,8 +30,7 @@ const CartItemHorizontal = ({
     <div
       className="w-full flex flex-row items-center justify-between border border-[#E4E8EC] rounded-lg overflow-hidden h-24"
       onClick={() =>{
-        zmp.views.main.router.navigate(`/detail-product/?idProduct=${productId}&idStore=${storeId}`)
-        console.log(zmp.views.main.router.routes)
+        zmp.views.main.router.navigate(`/detail-product/?productId=${productId}&storeId=${storeId}`)
       }}
     >
       <div className="flex flex-row items-center">

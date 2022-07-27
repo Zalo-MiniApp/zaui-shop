@@ -9,16 +9,20 @@
   --zmp-searchbar-input-height: 32px;
   --zmp-button-padding-vertical: 8px;
   --zmp-button-bg-color-tertiary: white;
-  --zmp-appbar-app-offset: 64px;
+  --zmp-appbar-app-offset: 66px;
   --zmp-list-margin-vertical: 0;
   --zmp-button-min-width: 12px;
   --zmp-button-bg-color-secondary: #ffdadc;
   --zmp-button-border-color-secondary: #ffdadc;
+  --zmp-button-pressed-bg-color-primary: #e35861;
+  --zmp-searchbar-height: 32px;
+  --zmp-searchbar-input-height: 32px;
+  --zmp-searchbar-in-page-content-input-border-radius:12px;
+  --zmp-searchbar-in-page-content-border-radius: 12px;
 }
 
 html {
   font-size: 100%;
-
 }
 
 body {
@@ -30,6 +34,10 @@ body {
   svg {
     vertical-align: baseline;
   }
+}
+
+.searchbar:not(.searchbar-inline).searchbar:not(.searchbar-inline) {
+  width: 100%;
 }
 
 
@@ -84,7 +92,12 @@ body {
   padding: 0;
 }
 
+//input
 .custom-search .input-clear-button {
+  top: 50%;
+}
+
+.ios .input-clear-button,  .md .input-clear-button{
   top: 50%;
 }
 
@@ -95,6 +108,9 @@ body {
 input[type="text"] {
   min-height: unset !important;
 }
+ input[type=search] {
+  min-height: unset !important
+ }
 
 // .list .item-content:after {
 //   height: 0;

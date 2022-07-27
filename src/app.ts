@@ -19,6 +19,7 @@ import View from 'zmp-framework/core/modules/view';
 import List from 'zmp-framework/core/modules/list';
 import VirtualList from 'zmp-framework/core/modules/virtual-list';
 import Sheet from 'zmp-framework/core/modules/sheet';
+import Searchbar from 'zmp-framework/core/modules/searchbar';
 
 // Import Icons and App Custom Styles
 import './css/icons.css';
@@ -33,7 +34,7 @@ if (!(window as any).APP_CONFIG) {
 }
 
 // Init ZMP React Plugin
-ZMP.use([ZMPReact, Input, Form, View, List, VirtualList,Sheet])
+ZMP.use([ZMPReact, Input, Form, View, List, VirtualList,Sheet, Searchbar])
 
 // Mount React App
 createRoot(document.getElementById('app')!).render(React.createElement(App));

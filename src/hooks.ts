@@ -1,18 +1,17 @@
 import { useEffect, useMemo, useState } from "react"
 import { useStore, zmp } from "zmp-framework/react"
 import { Router } from "zmp-core/types";
-import { Booking, Restaurant } from "./models"
 import { Sheet } from 'zmp-core/types'
 import api from 'zmp-sdk';
 import appConfig from '../app-config.json';
 
-export const useRestaurant = (id: number) => {
-  const restaurants = useStore('restaurants') as Restaurant[]
-  const restaurant = useMemo(() => {
-    return restaurants.find(restaurant => restaurant.id == id);
-  }, [id])
-  return restaurant
-}
+// export const useRestaurant = (id: number) => {
+//   const restaurants = useStore('restaurants') as Restaurant[]
+//   const restaurant = useMemo(() => {
+//     return restaurants.find(restaurant => restaurant.id == id);
+//   }, [id])
+//   return restaurant
+// }
 
 export const useCurrentRoute = () => {
   const [currentRoute, setCurrentRoute] = useState({
@@ -32,8 +31,7 @@ export const useCurrentRoute = () => {
 
 export const matchStatusBar = (sheetOpened: boolean) => {
   api.setNavigationBarColor({
-    statusBarColor: sheetOpened ? '#404040' : appConfig.app.statusBarColor,
-    color: '',
+    color: sheetOpened ? '' : appConfig.app.headerColor ,
   });
 }
 

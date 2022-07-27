@@ -2,7 +2,7 @@ import React, { forwardRef, ReactNode } from "react";
 import Box from "zmp-framework/react/box";
 import Button from "zmp-framework/react/button";
 
-type ButtonType = {
+export type ButtonType = {
   content: string;
   onClick: () => void;
   type: "primary" | "secondary";

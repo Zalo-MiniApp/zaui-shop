@@ -44,9 +44,6 @@ const SearchProduct = () => {
             items: store.state.productResult,
             renderExternal,
             height: 104,
-            renderItem: (item) => {
-              console.log(item);
-            },
           }}
         >
           <ul>

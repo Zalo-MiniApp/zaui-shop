@@ -23,7 +23,7 @@ const sectionProducts: SectionProductsProps[] = [
     title: "CHÍNH HÃNG GIÁ TỐT",
     watchMore: false,
     data: store.state.store,
-    children: (item: Store) => <CartBannerStore pathImg={item.bannerStore} onClick={() => zmp.views.main.router.navigate("/mini-store/?id=0")}/>,
+    children: (item: Store) => <CartBannerStore pathImg={item.bannerStore} onClick={() => zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`)}/>,
   },
   {
     title: "KHUYẾN MÃI HOT",

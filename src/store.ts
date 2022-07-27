@@ -4,6 +4,8 @@ import { createStore } from "zmp-core/lite";
 import { userInfo } from "zmp-sdk";
 import { Store, Product, CartProduct } from "./models";
 import { calcCrowFliesDistance } from "./utils/location";
+import { storeDummy } from "./dummy/list-store";
+import oaFollowing from "./pages/oa-following";
 
 export type orderOfStore = {
   storeId: number;
@@ -18,6 +20,7 @@ interface StoreState {
   products: Product[];
   productResult: Product[];
   store: Store[];
+  oaFollowing: Store[];
   cart: orderOfStore[];
 }
 
@@ -30,64 +33,8 @@ const store = createStore<StoreState>({
     },
     products: productResultDummy.slice(0, 6),
     productResult: productResultDummy,
-    store: [
-      {
-        key: 0,
-        pathImg: "logo-budweiser",
-        bannerStore: "img-7",
-        nameStore: "BUDWEISER VIET NAM",
-        followers: 9999,
-        address: "TP Ho Chi Minh",
-        categories: [
-          "Tất cả sản phẩm",
-          " Quần áo",
-          "Dụng cụ thể thao",
-          "Giày dép",
-        ],
-      },
-      {
-        key: 1,
-        pathImg: "logo-cp",
-        bannerStore: "img-6",
-        nameStore: "BUDWEISER VIET NAM",
-        followers: 9999,
-        address: "TP Ho Chi Minh",
-        categories: [
-          "Tất cả sản phẩm",
-          " Quần áo",
-          "Dụng cụ thể thao",
-          "Giày dép",
-        ],
-      },
-      {
-        key: 2,
-        pathImg: "logo-bigC",
-        bannerStore: "img-7",
-        nameStore: "BigC\nVIET NAM",
-        followers: 9999,
-        address: "TP Ho Chi Minh",
-        categories: [
-          "Tất cả sản phẩm",
-          " Quần áo",
-          "Dụng cụ thể thao",
-          "Giày dép",
-        ],
-      },
-      {
-        key: 3,
-        pathImg: "logo-mcdonald",
-        bannerStore: "img-2",
-        nameStore: "McDonald VIET NAM",
-        followers: 9999,
-        address: "TP Ho Chi Minh",
-        categories: [
-          "Tất cả sản phẩm",
-          " Quần áo",
-          "Dụng cụ thể thao",
-          "Giày dép",
-        ],
-      },
-    ],
+    store: storeDummy,
+    oaFollowing: storeDummy.slice(0,2),
     keyword: "",
     position: null,
     cart: [],
@@ -102,6 +49,12 @@ const store = createStore<StoreState>({
     cart({ state }) {
       return state.cart;
     },
+    store({state}) {
+      return state.store;
+    },
+    oaFollowing({state}) {
+      return state.oaFollowing;
+    }
   },
   actions: {
     setUser({ state }, data: userInfo) {
@@ -130,15 +83,14 @@ const store = createStore<StoreState>({
         });
         state.cart = [...state.cart ];
       } else {
-        const currentCart = state.cart[indexStore];
-        const indexOrder = currentCart?.listOrder.findIndex((ord) => {
+        const cart = state.cart;
+        const indexOrder = cart[indexStore]?.listOrder.findIndex((ord) => {
           return ord.id == productOrder.id;
         });
-        console.log(indexOrder);
         indexOrder >= 0
-          ? (currentCart.listOrder[indexOrder].order = productOrder.order)
-          : currentCart.listOrder.push({ ...productOrder });
-        state.cart[indexStore] = {...currentCart};
+          ? (cart[indexStore].listOrder[indexOrder].order = productOrder.order)
+          : cart[indexStore].listOrder.push({ ...productOrder });
+        state.cart = [...cart];
       }
     },
   },

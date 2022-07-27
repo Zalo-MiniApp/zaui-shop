@@ -23,13 +23,35 @@ import ButtonFixed from "../components/button-fixed";
 import cx from "../utils/cx";
 import { useStore } from "zmp-framework/react";
 
+const Note = () => (
+  <Box m="4" mb="6">
+    <Title size="small" className="mb-4">
+      Ghi chú
+    </Title>
+    <ListInput
+      id="note"
+      wrap={false}
+      type="text"
+      placeholder="Nhập ghi chú (VD. Ít đá, nhiều đường...)"
+      clearButton
+      name="note"
+      inputStyle={{
+        backgroundColor: "white",
+        width: "100%",
+        minHeight: "0",
+      }}
+    />
+  </Box>
+);
+
 function ProductPicker({ zmproute, zmprouter }) {
   const [quantity, setQuantity] = useState(1);
   const [productId, setProductId] = useState<number>(-1);
   const [storeId, setStoreId] = useState<number>(-1);
   const cart: orderOfStore[] = useStore("cart");
   const btnRef = useRef<HTMLDivElement | null>(null);
-  const [sheetOpened, setSheetOpened] = useState(false)
+  const [sheetOpened, setSheetOpened] = useState(false);
+
   const product: Product | undefined = useMemo(() => {
     if (zmproute.query) {
       const { productId, storeId } = zmproute.query;
@@ -54,7 +76,6 @@ function ProductPicker({ zmproute, zmprouter }) {
   useEffect(() => {
     if (cartProduct && sheetOpened) {
       const { quantity, ...data } = cartProduct.order;
-      console.table(data);
       setQuantity(quantity);
       zmp.form.fillFromData("#product-picker-form", {
         ...data,
@@ -76,26 +97,6 @@ function ProductPicker({ zmproute, zmprouter }) {
 
   const [opened, setOpened] = useState(false);
   const sheet = useRef<any>(null);
-  const Note = () => (
-    <Box m="4" mb="6">
-      <Title size="small" className="mb-4">
-        Ghi chú
-      </Title>
-      <ListInput
-        id="note"
-        wrap={false}
-        type="text"
-        placeholder="Nhập ghi chú (VD. Ít đá, nhiều đường...)"
-        clearButton
-        name="note"
-        inputStyle={{
-          backgroundColor: "white",
-          width: "100%",
-          minHeight: "0",
-        }}
-      />
-    </Box>
-  );
 
   return product ? (
     <Sheet

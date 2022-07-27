@@ -2,6 +2,8 @@ import Link from "zmp-framework/react/link";
 import Tabbar from "zmp-framework/react/tabbar";
 import { zmp } from "zmp-framework/react/lite";
 import { useCurrentRoute } from "../hooks";
+import OAIcon from "../static/icons/OA-icon";
+import OrderIcon from "../static/icons/order-icon";
 
 export const hideNavigationBar = () => {
   zmp.toolbar.hide("#app-tab-bar");
@@ -20,19 +22,24 @@ function NavigationBar() {
     <Tabbar bottom id="app-tab-bar">
       <Link
         href="/"
-        animate={false}
         iconZMP="zi-home"
         tabLinkActive={currentRoute.path === "/"}
       >
         Trang chủ
       </Link>
       <Link
-        href="/calendar"
-        animate={false}
-        iconZMP="zi-calendar"
-        tabLinkActive={currentRoute.path.startsWith("/calendar")}
+        href="/my-order"
+        tabLinkActive={currentRoute.path.startsWith("/my-order")}
       >
-        Lịch của tôi
+        <OrderIcon />
+        Đơn hàng
+      </Link>
+      <Link
+        href="/oa-following"
+        tabLinkActive={currentRoute.path.startsWith("/oa-following")}
+      >
+        <OAIcon />
+        OA theo dõi
       </Link>
     </Tabbar>
   );

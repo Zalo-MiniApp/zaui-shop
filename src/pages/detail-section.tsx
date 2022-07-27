@@ -21,7 +21,6 @@ const DetailSection = () => {
   });
 
   const renderExternal = (vl, newData) => {
-    console.log(newData);
     setVlData({ ...newData });
   };
 

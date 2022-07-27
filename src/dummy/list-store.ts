@@ -1,0 +1,38 @@
+export const storeDummy = [
+  {
+    key: 0,
+    pathImg: "logo-budweiser",
+    bannerStore: "img-7",
+    nameStore: "BUDWEISER VIET NAM",
+    followers: 9999,
+    address: "TP Ho Chi Minh",
+    categories: ["Tất cả sản phẩm", " Quần áo", "Dụng cụ thể thao", "Giày dép"],
+  },
+  {
+    key: 1,
+    pathImg: "logo-cp",
+    bannerStore: "img-6",
+    nameStore: "C/P VIET NAM",
+    followers: 9999,
+    address: "TP Ho Chi Minh",
+    categories: ["Tất cả sản phẩm", " Quần áo", "Dụng cụ thể thao", "Giày dép"],
+  },
+  {
+    key: 2,
+    pathImg: "logo-bigC",
+    bannerStore: "img-7",
+    nameStore: "BigC\nVIET NAM",
+    followers: 9999,
+    address: "TP Ho Chi Minh",
+    categories: ["Tất cả sản phẩm", " Quần áo", "Dụng cụ thể thao", "Giày dép"],
+  },
+  {
+    key: 3,
+    pathImg: "logo-mcdonald",
+    bannerStore: "img-2",
+    nameStore: "McDonald VIET NAM",
+    followers: 9999,
+    address: "TP Ho Chi Minh",
+    categories: ["Tất cả sản phẩm", " Quần áo", "Dụng cụ thể thao", "Giày dép"],
+  },
+];
