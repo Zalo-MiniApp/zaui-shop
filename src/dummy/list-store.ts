@@ -1,4 +1,6 @@
-export const storeDummy = [
+import { Store } from "../models";
+
+export const storeDummy: Store[] = [
   {
     key: 0,
     pathImg: "logo-budweiser",
@@ -7,6 +9,7 @@ export const storeDummy = [
     followers: 9999,
     address: "TP Ho Chi Minh",
     categories: ["Tất cả sản phẩm", " Quần áo", "Dụng cụ thể thao", "Giày dép"],
+    type: "personal"
   },
   {
     key: 1,
@@ -16,6 +19,7 @@ export const storeDummy = [
     followers: 9999,
     address: "TP Ho Chi Minh",
     categories: ["Tất cả sản phẩm", " Quần áo", "Dụng cụ thể thao", "Giày dép"],
+    type: "business"
   },
   {
     key: 2,
@@ -25,6 +29,7 @@ export const storeDummy = [
     followers: 9999,
     address: "TP Ho Chi Minh",
     categories: ["Tất cả sản phẩm", " Quần áo", "Dụng cụ thể thao", "Giày dép"],
+    type: "personal"
   },
   {
     key: 3,
@@ -34,5 +39,6 @@ export const storeDummy = [
     followers: 9999,
     address: "TP Ho Chi Minh",
     categories: ["Tất cả sản phẩm", " Quần áo", "Dụng cụ thể thao", "Giày dép"],
+    type: "personal"
   },
 ];

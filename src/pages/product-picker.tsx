@@ -152,7 +152,7 @@ function ProductPicker({ zmproute, zmprouter }) {
               typeName="tertiary"
               className="w-10 rounded-full"
               onClick={() => {
-                if (quantity > 0) setQuantity((q) => q - 1);
+                if (quantity > 1) setQuantity((q) => q - 1);
               }}
             >
               <div className="border-t border-[#667685] w-4" />

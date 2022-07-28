@@ -1,1 +1,0 @@
-import{b as d,j as e,B as m}from"./vendor.0e784a4e.module.js";import{c as o}from"./index.ae370a27.module.js";const i=({title:s,className:a,children:r})=>d("div",{children:[e(m,{m:0,p:4,className:" text-sm text-slate-600 bg-gray-100",children:s}),e("div",{className:o("p-3",a),children:r})]});export{i as C};

@@ -4,7 +4,7 @@ import Button from "zmp-framework/react/button";
 
 export type ButtonType = {
   content: string;
-  onClick: () => void;
+  onClick: (e?) => void;
   type: "primary" | "secondary";
 };
 

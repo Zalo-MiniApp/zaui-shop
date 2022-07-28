@@ -17,8 +17,9 @@
   --zmp-button-pressed-bg-color-primary: #e35861;
   --zmp-searchbar-height: 32px;
   --zmp-searchbar-input-height: 32px;
-  --zmp-searchbar-in-page-content-input-border-radius:12px;
+  --zmp-searchbar-in-page-content-input-border-radius: 12px;
   --zmp-searchbar-in-page-content-border-radius: 12px;
+  --zmp-list-item-padding-vertical: 0px;
 }
 
 html {
@@ -30,12 +31,16 @@ body {
   background-color: var(--zmp-page-bg-color);
   scrollbar-width: none;
   -ms-overflow-style: none;
+  caret-color: var(--zmp-theme-color);
 
   svg {
     vertical-align: baseline;
   }
 }
 
+i.icon {
+  vertical-align: baseline;
+}
 .searchbar:not(.searchbar-inline).searchbar:not(.searchbar-inline) {
   width: 100%;
 }
@@ -97,7 +102,8 @@ body {
   top: 50%;
 }
 
-.ios .input-clear-button,  .md .input-clear-button{
+.ios .input-clear-button,
+.md .input-clear-button {
   top: 50%;
 }
 
@@ -108,9 +114,31 @@ body {
 input[type="text"] {
   min-height: unset !important;
 }
- input[type=search] {
+
+input[type=search] {
   min-height: unset !important
- }
+}
+.list .item-content.item-input .item-inner.item-inner {
+  padding-right: 0;
+  padding-top: 0px;
+}
+
+.item-input-successful select {
+  border-color: var(--zmp-theme-color);
+}
+.list .item-content.item-input .item-inner {
+    padding-right: 0;
+    padding-top: 4px;
+}
+.input-dropdown::before {
+  width: 0 !important;
+  height: 0 !important;
+  border-width: 0 !important ;
+}
+
+select {
+  min-height: unset !important;
+}
 
 // .list .item-content:after {
 //   height: 0;
@@ -149,6 +177,7 @@ input[type="text"] {
   .title-type-picker {
     @apply p-4 bg-[#FAFCFF] text-base font-medium
   }
+
   .shadow-btn-fixed {
     -webkit-box-shadow: -1px -12px 24px -5px rgb(202 202 202 / 19%);
     -moz-box-shadow: -1px -12px 24px -5px rgb(202 202 202 / 19%);

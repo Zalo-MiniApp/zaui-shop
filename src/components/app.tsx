@@ -21,7 +21,7 @@ const MyApp = () => {
   const init = async () => {
     await api.login();
     getUser();
-    // requestLocation();
+    requestLocation();
   };
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import Page from "zmp-framework/react/page";
 import Box from "zmp-framework/react/box";
-import CartItemHorizontal from "../components/cart-item/cart-item-horizontal";
+import CardProductHorizontal from "../components/card-item/card-product-horizontal";
 import List from "zmp-framework/react/list";
 import ListItem from "zmp-framework/react/list-item";
 import store from "../store";
@@ -11,7 +11,7 @@ import {
 } from "../components/navigation-bar";
 
 import { imgUrl } from "../utils/imgUrl";
-import CartItemVertical from "../components/cart-item/cart-item-vertical";
+import CardProductVertical from "../components/card-item/card-product-vertical";
 import Card from "../components/card";
 
 const DetailSection = () => {
@@ -80,7 +80,7 @@ const DetailSection = () => {
                       virtualListIndex={items.indexOf(item)}
                     >
                       <div className="w-full">
-                        <CartItemVertical
+                        <CardProductVertical
                           pathImg={item.pathImg}
                           nameProduct={item.nameProduct}
                           salePrice={item.salePrice}

@@ -1,7 +1,7 @@
 // import React, { useState } from "react";
 import Page from "zmp-framework/react/page";
 import Box from "zmp-framework/react/box";
-import CartItemHorizontal from "../components/cart-item/cart-item-horizontal";
+import CardProductHorizontal from "../components/card-item/card-product-horizontal";
 import List from "zmp-framework/react/list";
 import ListItem from "zmp-framework/react/list-item";
 import Avatar from "zmp-framework/react/avatar";
@@ -56,7 +56,7 @@ const SearchProduct = () => {
                 virtualListIndex={items.indexOf(item)}
               >
                 <div className=" mb-2">
-                  <CartItemHorizontal
+                  <CardProductHorizontal
                     productId={index}
                     pathImg={item.pathImg}
                     nameProduct={item.nameProduct}

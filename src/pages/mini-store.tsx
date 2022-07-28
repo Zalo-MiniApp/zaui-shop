@@ -16,7 +16,7 @@ import {
   showNavigationBar,
 } from "../components/navigation-bar";
 import { categoriesProductsDummy } from "../dummy/category-products";
-import CartItemHorizontal from "../components/cart-item/cart-item-horizontal";
+import CardProductHorizontal from "../components/card-item/card-product-horizontal";
 import CategoriesStore from "../components/mini-store/categories-store";
 import CardShop from "../components/mini-store/card-shop";
 import ButtonFixed from "../components/button-fixed";
@@ -148,7 +148,7 @@ const MiniStore = ({ zmprouter }) => {
                     style={{ top: `${vlData.topPosition}px` }}
                   >
                     <div className=" mb-2 w-full">
-                      <CartItemHorizontal
+                      <CardProductHorizontal
                         pathImg={item.pathImg}
                         nameProduct={item.nameProduct}
                         salePrice={item.salePrice}

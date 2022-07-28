@@ -15,7 +15,8 @@
     "/detail-section",
     "/mini-store",
     "/detail-product",
-    "/oa-following",
-    "/my-order"
+    "/store-following",
+    "/my-order",
+    "/finish-order"
   ]
 }

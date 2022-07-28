@@ -35,8 +35,8 @@ function NavigationBar() {
         Đơn hàng
       </Link>
       <Link
-        href="/oa-following"
-        tabLinkActive={currentRoute.path.startsWith("/oa-following")}
+        href="/store-following"
+        tabLinkActive={currentRoute.path.startsWith("/store-following")}
       >
         <OAIcon />
         OA theo dõi

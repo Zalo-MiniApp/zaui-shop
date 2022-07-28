@@ -1,5 +1,5 @@
 import React from "react";
-import { listCategories } from "../../constants/listCategories";
+import { listCategories } from "../../constants/list-categories";
 import { imgUrl } from "../../utils/imgUrl";
 
 const Categories = () => {

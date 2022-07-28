@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+export type OrderStatus = "pending" | "shipping";
+
 type Options = {
   name: string;
   title: string;
@@ -36,6 +38,7 @@ export type Store = {
   followers: number;
   address: string;
   categories: string[];
+  type: "personal" | "business"
 };
 
 export type SectionProductsProps = {
@@ -53,3 +56,10 @@ export type OrderStoreProps = {
   keyStore: number;
   listPickupItems: { keyItem: number; quantity: number }[];
 };
+
+export type Address = {
+  city: string,
+  district: string,
+  ward: string,
+  detail: string
+}

@@ -4,7 +4,7 @@ import { SectionProductsProps } from "../../models";
 import cx from "../../utils/cx";
 import { imgUrl } from "../../utils/imgUrl";
 import { calcSalePercentage } from "../../utils/math";
-import CartItemVertical from "../cart-item/cart-item-vertical";
+import CardProductVertical from "../card-item/card-product-vertical";
 
 const SectionProducts = ({
   title,
@@ -51,7 +51,7 @@ const SectionProducts = ({
               {children ? (
                 children(item)
               ) : (
-                <CartItemVertical
+                <CardProductVertical
                   pathImg={item.pathImg}
                   nameProduct={item.nameProduct}
                   salePrice={item.salePrice}

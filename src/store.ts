@@ -2,25 +2,27 @@ import { productResultDummy } from "./dummy/product-result";
 
 import { createStore } from "zmp-core/lite";
 import { userInfo } from "zmp-sdk";
-import { Store, Product, CartProduct } from "./models";
+import { Store, Product, CartProduct, OrderStatus, Address } from "./models";
 import { calcCrowFliesDistance } from "./utils/location";
 import { storeDummy } from "./dummy/list-store";
-import oaFollowing from "./pages/oa-following";
 
 export type orderOfStore = {
+  orderId: number;
   storeId: number;
-  status: "pending" | "shipping";
+  status: OrderStatus;
   listOrder: CartProduct[];
+  date: Date;
 };
 
 interface StoreState {
   user: userInfo;
   keyword: string;
   position: Location | null;
+  address: Address;
   products: Product[];
   productResult: Product[];
   store: Store[];
-  oaFollowing: Store[];
+  storeFollowing: Store[];
   cart: orderOfStore[];
 }
 
@@ -34,14 +36,48 @@ const store = createStore<StoreState>({
     products: productResultDummy.slice(0, 6),
     productResult: productResultDummy,
     store: storeDummy,
-    oaFollowing: storeDummy.slice(0,2),
+    storeFollowing: storeDummy.slice(0, 2),
     keyword: "",
     position: null,
-    cart: [],
+    address: {
+      city: "",
+      district: "",
+      ward: "",
+      detail: "",
+    },
+    cart: [
+      {
+        orderId: 0,
+        storeId: 0,
+        status: "pending",
+        listOrder: [
+          {
+            id: 0,
+            order: { quantity: 3, size: "m", color: "cloud-blue", note: "buy" },
+          },
+        ],
+        date: new Date(),
+      },
+      {
+        orderId: 1,
+        storeId: 1,
+        status: "pending",
+        listOrder: [
+          {
+            id: 0,
+            order: { quantity: 3, size: "m", color: "cloud-blue", note: "buy" },
+          },
+        ],
+        date: new Date(),
+      },
+    ],
   },
   getters: {
     user({ state }) {
       return state.user;
+    },
+    address({ state }) {
+      return state.address;
     },
     keyword({ state }) {
       return state.keyword;
@@ -49,12 +85,12 @@ const store = createStore<StoreState>({
     cart({ state }) {
       return state.cart;
     },
-    store({state}) {
+    store({ state }) {
       return state.store;
     },
-    oaFollowing({state}) {
-      return state.oaFollowing;
-    }
+    storeFollowing({ state }) {
+      return state.storeFollowing;
+    },
   },
   actions: {
     setUser({ state }, data: userInfo) {
@@ -63,6 +99,9 @@ const store = createStore<StoreState>({
     },
     setPosition({ state }, data: Location) {
       state.position = data;
+      state.address =
+      { city: "5", district: "75", ward: "1", detail: "" };
+        //developer can parse address from the position state given by the user
     },
     setKeyword({ state }, keyword: string) {
       state.keyword = keyword;
@@ -77,19 +116,24 @@ const store = createStore<StoreState>({
       );
       if (indexStore < 0) {
         state.cart.push({
+          orderId: state.cart.length,
+          date: new Date(),
           storeId,
           status: "pending",
           listOrder: [{ ...productOrder } as CartProduct],
         });
-        state.cart = [...state.cart ];
+        state.cart = [...state.cart];
       } else {
         const cart = state.cart;
         const indexOrder = cart[indexStore]?.listOrder.findIndex((ord) => {
           return ord.id == productOrder.id;
         });
+
         indexOrder >= 0
           ? (cart[indexStore].listOrder[indexOrder].order = productOrder.order)
           : cart[indexStore].listOrder.push({ ...productOrder });
+
+        cart[indexStore].date = new Date();
         state.cart = [...cart];
       }
     },
