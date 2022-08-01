@@ -46,32 +46,47 @@ const Note = () => (
 
 function ProductPicker({ zmproute, zmprouter }) {
   const [quantity, setQuantity] = useState(1);
-  const [productId, setProductId] = useState<number>(-1);
   const [storeId, setStoreId] = useState<number>(-1);
   const cart: orderOfStore[] = useStore("cart");
   const btnRef = useRef<HTMLDivElement | null>(null);
   const [sheetOpened, setSheetOpened] = useState(false);
+  const listStores = useStore("store");
 
   const product: Product | undefined = useMemo(() => {
     if (zmproute.query) {
       const { productId, storeId } = zmproute.query;
+      const currentStore = listStores.find((store) => store.key == storeId);
+      const currentProduct = currentStore.listProducts.find(
+        (product) => product.id == productId
+      );
       setStoreId(storeId);
-      setProductId(productId);
-      return productResultDummy[productId];
+      return currentProduct;
     }
     return undefined;
-  }, []);
+  }, [listStores]);
+
+  const cartStore: orderOfStore | undefined = useMemo(() => {
+    if (cart && storeId) {
+      const storeInCart = cart.find((store) => store.storeId == storeId);
+      if (storeInCart) {
+        return storeInCart;
+      }
+    }
+    return undefined;
+  }, [cart, storeId]);
 
   const cartProduct: CartProduct | undefined = useMemo(() => {
-    const indexStore = cart.findIndex((store) => store.storeId == storeId);
-    const indexOrder = cart[indexStore]?.listOrder.findIndex((ord) => {
-      return ord.id == productId;
-    });
+    if (product && cartStore) {
+      const currentProductOrder = cartStore.listOrder.find((ord) => {
+        return ord.id == product.id;
+      });
 
-    if (indexOrder >= 0) {
-      return cart[indexStore].listOrder[indexOrder];
-    } else return undefined;
-  }, [productId, storeId]);
+      if (currentProductOrder) {
+        return currentProductOrder;
+      }
+    }
+    return undefined;
+  }, [product, cartStore]);
 
   useEffect(() => {
     if (cartProduct && sheetOpened) {
@@ -89,28 +104,25 @@ function ProductPicker({ zmproute, zmprouter }) {
     store.dispatch("setCart", {
       storeId,
       productOrder: {
-        id: productId,
+        id: product?.id,
         order: data,
       } as CartProduct,
     });
   };
 
-  const [opened, setOpened] = useState(false);
   const sheet = useRef<any>(null);
 
   return product ? (
     <Sheet
-    onSheetOpened={()=>{
-      setSheetOpened(true)
-    }}
+      onSheetOpen={() => {
+        setSheetOpened(true);
+      }}
       ref={sheet}
       backdrop
       closeButton
       className="overflow-auto h-auto"
       swipeToClose
-      swipeToStep
-      onSheetOpen={() => setOpened(true)}
-      onSheetClose={() => setOpened(false)}
+      swipeToStep={product.options?.length || 0 > 1 ? true : false}
       title="Chọn chi tiết"
       // @ts-ignore
       style={{ paddingBottom: btnRef.current?.el.clientHeight }}
@@ -202,7 +214,7 @@ function ProductPicker({ zmproute, zmprouter }) {
               type: "secondary",
               onClick: () => {
                 addToStore();
-                zmp.views.main.router.navigate(`/payment/?storeId=${storeId}`);
+                zmprouter.navigate(`/finish-order/?id=${cartStore?.orderId}`, {animate: false});
               },
             },
             {
@@ -215,7 +227,7 @@ function ProductPicker({ zmproute, zmprouter }) {
             },
           ]}
         >
-          <Box m={0} flex justifyContent={"space-between"}>
+          <Box m={0} flex justifyContent={"space-between"} pb={4}>
             <div className=" text-sm">Tổng tiền</div>
             <div className=" text-lg font-medium text-primary">
               {quantity * Number(product.salePrice)} VNĐ

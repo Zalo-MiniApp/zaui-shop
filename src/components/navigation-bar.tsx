@@ -17,11 +17,11 @@ export const showNavigationBar = () => {
 
 function NavigationBar() {
   const [currentRoute] = useCurrentRoute();
-  // console.log(zmp);
   return (
     <Tabbar bottom id="app-tab-bar">
       <Link
         href="/"
+        animate={false}
         iconZMP="zi-home"
         tabLinkActive={currentRoute.path === "/"}
       >
@@ -29,12 +29,14 @@ function NavigationBar() {
       </Link>
       <Link
         href="/my-order"
+        animate={false}
         tabLinkActive={currentRoute.path.startsWith("/my-order")}
       >
         <OrderIcon />
         Đơn hàng
       </Link>
       <Link
+        animate={false}
         href="/store-following"
         tabLinkActive={currentRoute.path.startsWith("/store-following")}
       >

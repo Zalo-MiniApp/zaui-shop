@@ -8,28 +8,30 @@ import {
   showNavigationBar,
 } from "../components/navigation-bar";
 import { productResultDummy } from "../dummy/product-result";
-import { Product } from "../models";
+import { Product, Store } from "../models";
 import { imgUrl } from "../utils/imgUrl";
 import { calcSalePercentage, calcTotalPriceOrder } from "../utils/math";
 import ButtonFixed, { ButtonType } from "../components/button-fixed";
 import store, { orderOfStore } from "../store";
-import { Store } from "zmp-framework";
 import { Button, useStore } from "zmp-framework/react";
 
 const DetailProduct = ({ zmproute }) => {
   const [product, setProduct] = useState<Product>();
-  const [productId, setProductId] = useState();
-  const [storeId, setStoreId] = useState();
+  const [store, setStore] = useState<Store>();
   const cart = useStore("cart");
+  const listStores = useStore("store");
 
   useEffect(() => {
     const { productId, storeId } = zmproute.query;
-    if (productId) {
-      setProductId(productId);
-      setProduct(productResultDummy[Number(productId)]);
+    if (storeId && productId && listStores) {
+      const currentStore = listStores.find((store) => store.key == storeId);
+      const currentProduct = currentStore.listProducts.find(
+        (product) => product.id == productId
+      );
+      currentStore && setStore(currentStore);
+      currentProduct && setProduct(currentProduct);
     }
-    if (storeId) setStoreId(storeId);
-  }, []);
+  }, [listStores]);
 
   const salePercentage = useMemo(
     () => calcSalePercentage(product?.salePrice, product?.retailPrice),
@@ -37,11 +39,12 @@ const DetailProduct = ({ zmproute }) => {
   );
 
   const cartStore: orderOfStore = useMemo(() => {
-    const indexStore = cart.findIndex((store) => store.storeId == storeId);
-    if (indexStore >= 0) {
-      return cart[indexStore];
-    } else return undefined;
-  }, [storeId, cart]);
+    if (store) {
+      const storeInCart = cart.find((currentStore) => currentStore.storeId == store?.key);
+      if (storeInCart) return storeInCart;
+    }
+    return undefined;
+  }, [store, cart]);
 
   const totalPrice = useMemo(() => {
     if (cartStore) return calcTotalPriceOrder(cartStore.listOrder);
@@ -53,33 +56,31 @@ const DetailProduct = ({ zmproute }) => {
       content: "Thêm vào giỏ",
       type: "primary",
       onClick: () => {
-        console.log(zmp, zmp.views.main.router.navigate);
         zmp.views.main.router.navigate({
           path: "/product-picker/",
           query: {
-            productId,
-            storeId
-          },
+            productId: product?.id,
+            storeId: store?.key,
+          }
         });
       },
     };
-  }, [productId, storeId]);
+  }, [product, store]);
 
   const btnPayment: ButtonType = useMemo(() => {
     return {
       content: "Thanh toán",
       type: "secondary",
       onClick: () => {
-        // zmp.views.main.router.navigate({
-        //   path: "/product-picker/",
-        //   query: {
-        //     productId,
-        //     storeId,
-        //   },
-        // });
+        zmp.views.main.router.navigate({
+          path: "/finish-order/",
+          query: {
+            id: cartStore.orderId,
+          },
+        },{animate: false});
       },
     };
-  }, [productId]);
+  }, [cartStore]);
 
   const listBtn = useMemo<ButtonType[]>(
     () => (totalPrice > 0 ? [btnPayment, btnCart] : [btnCart]),

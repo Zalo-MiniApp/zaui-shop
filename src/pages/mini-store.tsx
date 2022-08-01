@@ -40,9 +40,6 @@ const MiniStore = ({ zmprouter }) => {
     const { id } = zmp.views.main.router.currentRoute.query;
     setStoreInfo(store.state.store[Number(id!)]);
     matchStatusBar(true);
-    return () => {
-      matchStatusBar(false);
-    };
   }, []);
 
   const [vlData, setVlData] = useState<{
@@ -70,10 +67,10 @@ const MiniStore = ({ zmprouter }) => {
   const renderExternal = (vl, newData) => {
     setVlData({ ...newData });
   };
-  
-  const handleInputSearch= (e)=>{
-    console.log(e.target[0].value)
-  }
+
+  const handleInputSearch = (e) => {
+    console.log(e.target[0].value);
+  };
 
   return (
     <Page
@@ -104,7 +101,7 @@ const MiniStore = ({ zmprouter }) => {
               <Icon
                 zmp="zi-arrow-left"
                 className=" text-gray-500"
-                onClick={() => zmprouter.back()}
+                onClick={() => zmprouter.navigate("/",{animate: false})}
               />
               <Searchbar
                 className="w-full rounded-xl"
@@ -127,15 +124,14 @@ const MiniStore = ({ zmprouter }) => {
           </div>
           <Box m={0} className="bg-gray-100 h-3" />
           <div
-            className="bg-white p-3 mb-[110px]"
-            // onClick={()=>{ console.log('a'); zmprouter.navigate("search-product");}}
+            className="bg-white p-3 mb-[120px]"
           >
             <List
               noHairlines
               noHairlinesBetween
               virtualList
               virtualListParams={{
-                items: store.state.productResult,
+                items: storeInfo?.listProducts,
                 renderExternal,
                 height: 104,
               }}
@@ -154,8 +150,8 @@ const MiniStore = ({ zmprouter }) => {
                         salePrice={item.salePrice}
                         retailPrice={item.retailPrice}
                         pickerMode={true}
-                        productId={index}
-                        storeId={storeInfo.key}
+                        productId={item.id}
+                        storeId={item.storeId}
                       />
                     </div>
                   </ListItem>
@@ -163,32 +159,41 @@ const MiniStore = ({ zmprouter }) => {
               </ul>
             </List>
           </div>
-          {totalPrice && (
-            <Box
-              px={4}
-              py={3}
-              flex
-              justifyContent="space-between"
-              alignItems="center"
-              className=" bg-gray-300 rounded-primary fixed bottom-20 left-0 right-0 z-50"
-            >
-              <div>Đơn hàng</div>
-              <Box m={0} flex justifyContent="space-around" alignItems="center">
-                <div>{cartStore.listOrder.length} món</div>
-                <div className=" w-1 h-1 bg-black rounded-lg mx-3" />
-                <div>{totalPrice.toString()}</div>
+          {totalPrice > 0 && (
+            <>
+              {" "}
+              <Box
+                px={4}
+                py={3}
+                flex
+                justifyContent="space-between"
+                alignItems="center"
+                className=" bg-gray-300 rounded-primary fixed bottom-20 left-0 right-0 z-50"
+              >
+                <div>Đơn hàng</div>
+                <Box
+                  m={0}
+                  flex
+                  justifyContent="space-around"
+                  alignItems="center"
+                >
+                  <div>{cartStore.listOrder.length} món</div>
+                  <div className=" w-1 h-1 bg-black rounded-lg mx-3" />
+                  <div>{totalPrice.toString()}</div>
+                </Box>
               </Box>
-            </Box>
+              <ButtonFixed
+                listBtn={[
+                  {
+                    content: "Hoàn tất đơn hàng",
+                    type: "primary",
+                    onClick: () =>
+                      zmprouter.navigate(`/finish-order/?id=${cartStore.orderId}`, {animate: false}),
+                  },
+                ]}
+              />
+            </>
           )}
-          <ButtonFixed
-            listBtn={[
-              {
-                content: "Hoàn tất đơn hàng",
-                type: "primary",
-                onClick: () => console.log("click buy"),
-              },
-            ]}
-          />
         </>
       )}
     </Page>

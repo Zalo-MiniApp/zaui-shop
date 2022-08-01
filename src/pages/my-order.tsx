@@ -7,15 +7,17 @@ import { Store } from "../models";
 import { orderOfStore } from "../store";
 import CardStore from "../components/card-item/card-store";
 import { OrderStatusRef } from "../constants/referrence";
+import { useEffect } from "react";
+import { useSetNavigationBarTitle } from "../hooks";
 
 const MyOrder = ({ zmprouter }) => {
-  const handleSearchOA = (e) => {
-    console.log(e.target[0].value);
-  };
   const cart: orderOfStore[] = useStore("cart");
   const stores: Store[] = useStore("store");
 
-  console.log("cart: ", cart);
+  useEffect(() => {
+    useSetNavigationBarTitle("Đơn đặt hàng");
+  }, []);
+
   return (
     <Page ptr name="my-order">
       <Box m={0} p={4} flex justifyContent={"center"} className="bg-white">
@@ -27,7 +29,7 @@ const MyOrder = ({ zmprouter }) => {
             key={index}
             store={stores[store.storeId]}
             handleOnClick={() =>
-              zmprouter.navigate(`/finish-order/?id=${store.orderId}`)
+              zmprouter.navigate(`/finish-order/?id=${store.orderId}`, {animate: false})
             }
             type="order"
             className="p-3"

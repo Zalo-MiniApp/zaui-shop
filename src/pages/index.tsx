@@ -16,14 +16,14 @@ const sectionProducts: SectionProductsProps[] = [
     data: store.state.store,
     colPercentage: 27,
     children: (item: Store) => (
-      <CartLogoStore pathImg={item.pathImg} nameStore={item.nameStore} onClick={() => zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`)}/>
+      <CartLogoStore pathImg={item.pathImg} nameStore={item.nameStore} onClick={() => zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`, {animate: false})}/>
     ),
   },
   {
     title: "CHÍNH HÃNG GIÁ TỐT",
     watchMore: false,
     data: store.state.store,
-    children: (item: Store) => <CartBannerStore pathImg={item.bannerStore} onClick={() => zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`)}/>,
+    children: (item: Store) => <CartBannerStore pathImg={item.bannerStore} onClick={() => zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`, {animate: false})}/>,
   },
   {
     title: "KHUYẾN MÃI HOT",
@@ -60,7 +60,7 @@ const HomePage = ({ zmprouter }) => {
     const { search } = data;
     if (!!search) {
       store.dispatch("setKeyword", search);
-      zmprouter.navigate("search-product");
+      zmprouter.navigate("search-product", {animate: false});
     }
   };
 
@@ -84,7 +84,7 @@ const HomePage = ({ zmprouter }) => {
           data={section.data}
           colPercentage={section.colPercentage}
           direction={section.direction}
-          onChoose={() => zmprouter.navigate("detail-section")}
+          onChoose={() => zmprouter.navigate("detail-section", {animate: false})}
         >
           {section.children}
         </SectionProducts>

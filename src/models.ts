@@ -22,6 +22,8 @@ export type CartProduct = {
 };
 
 export type Product = {
+  id: number;
+  storeId: number;
   pathImg: string;
   nameProduct: string;
   salePrice: number | string;
@@ -38,7 +40,8 @@ export type Store = {
   followers: number;
   address: string;
   categories: string[];
-  type: "personal" | "business"
+  type: "personal" | "business",
+  listProducts: Product[]
 };
 
 export type SectionProductsProps = {

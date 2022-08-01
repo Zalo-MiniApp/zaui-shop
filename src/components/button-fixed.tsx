@@ -10,7 +10,7 @@ export type ButtonType = {
 
 type ButtonFixed = {
   children?: ReactNode;
-  listBtn: ButtonType[];
+  listBtn?: ButtonType[];
 };
 const ButtonFixed = forwardRef<HTMLDivElement, ButtonFixed>((props, ref) => {
   const { children, listBtn } = props;
@@ -23,12 +23,12 @@ const ButtonFixed = forwardRef<HTMLDivElement, ButtonFixed>((props, ref) => {
       ref={ref}
     >
       {children && (
-        <Box m={0} mb={4}>
+        <Box m={0}>
           {children}
         </Box>
       )}
       <Box m={0} flex className="gap-4">
-        {listBtn.map((btn, index) => (
+        {listBtn?.map((btn, index) => (
           <Button
             key={index}
             responsive

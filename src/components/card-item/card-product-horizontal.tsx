@@ -7,7 +7,7 @@ import { zmp } from "zmp-framework/react/lite";
 
 type CardProductHorizontalProps = {
   productId: number;
-  storeId?: number;
+  storeId: number;
   pathImg: string;
   nameProduct: string;
   salePrice: number | string;
@@ -27,8 +27,11 @@ const CardProductHorizontal = ({
   return (
     <div
       className="w-full flex flex-row items-center justify-between border border-[#E4E8EC] rounded-lg overflow-hidden h-24"
-      onClick={() =>{
-        zmp.views.main.router.navigate(`/detail-product/?productId=${productId}&storeId=${storeId}`)
+      onClick={() => {
+        zmp.views.main.router.navigate(
+          `/detail-product/?productId=${productId}&storeId=${storeId}`,
+          { animate: false }
+        );
       }}
     >
       <div className="flex flex-row items-center">
@@ -58,14 +61,17 @@ const CardProductHorizontal = ({
           <div
             className="w-6 h-6 rounded-full bg-primary flex justify-center items-center"
             onClick={(e) => {
-              e.stopPropagation(); 
-              zmp.views.main.router.navigate({
-                path: '/product-picker/',
-                query: {
-                  productId,
-                  storeId
-                }
-              })}}
+              e.stopPropagation();
+              zmp.views.main.router.navigate(
+                {
+                  path: "/product-picker/",
+                  query: {
+                    productId,
+                    storeId,
+                  },
+                },
+              );
+            }}
           >
             <Icon zmp="zi-plus" size={16} className="text-white" />
           </div>

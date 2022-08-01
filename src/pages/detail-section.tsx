@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Page from "zmp-framework/react/page";
 import Box from "zmp-framework/react/box";
 import CardProductHorizontal from "../components/card-item/card-product-horizontal";
@@ -13,6 +13,7 @@ import {
 import { imgUrl } from "../utils/imgUrl";
 import CardProductVertical from "../components/card-item/card-product-vertical";
 import Card from "../components/card";
+import { useSetNavigationBarTitle } from "../hooks";
 
 const DetailSection = () => {
   const items = [];
@@ -48,6 +49,11 @@ const DetailSection = () => {
   const calcSalePercentage = (salePrice, retailPrice) => {
     return Math.floor((1 - parseInt(salePrice) / parseInt(retailPrice)) * 100);
   };
+
+  useEffect(() => {
+    useSetNavigationBarTitle("Hè giảm giá sự kiện");
+  }, []);
+
   return (
     <Page
       onPageBeforeIn={hideNavigationBar}
@@ -88,6 +94,8 @@ const DetailSection = () => {
                             item.salePrice,
                             item.retailPrice
                           )}
+                          productId = {item.id}
+                          storeId= {item.storeId}
                         />
                       </div>
                     </ListItem>

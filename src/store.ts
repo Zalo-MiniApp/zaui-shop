@@ -17,7 +17,7 @@ export type orderOfStore = {
 interface StoreState {
   user: userInfo;
   keyword: string;
-  position: Location | null;
+  latlong: Location | null;
   address: Address;
   products: Product[];
   productResult: Product[];
@@ -38,7 +38,7 @@ const store = createStore<StoreState>({
     store: storeDummy,
     storeFollowing: storeDummy.slice(0, 2),
     keyword: "",
-    position: null,
+    latlong: null,
     address: {
       city: "",
       district: "",
@@ -76,6 +76,9 @@ const store = createStore<StoreState>({
     user({ state }) {
       return state.user;
     },
+    latlong({ state }) {
+      return state.latlong;
+    },
     address({ state }) {
       return state.address;
     },
@@ -98,14 +101,13 @@ const store = createStore<StoreState>({
       // mock booking
     },
     setPosition({ state }, data: Location) {
-      state.position = data;
-      state.address =
-      { city: "5", district: "75", ward: "1", detail: "" };
+      state.latlong = data;
+      state.address ={ city: "1", district: "19", ward: "258", detail: "" };
         //developer can parse address from the position state given by the user
     },
     setKeyword({ state }, keyword: string) {
       state.keyword = keyword;
-      console.log("keyword: ", keyword);
+   
     },
     setCart(
       { state },

@@ -11,9 +11,11 @@ import {
   showNavigationBar,
 } from "../components/navigation-bar";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Product } from "../models";
 import Card from "../components/card";
+import { useStore } from "zmp-framework/react";
+import { useSetNavigationBarTitle } from "../hooks";
 
 const SearchProduct = () => {
   const items = [];
@@ -28,6 +30,13 @@ const SearchProduct = () => {
   const renderExternal = (vl, newData) => {
     setVlData({ ...newData });
   };
+
+  const keyword = useStore("keyword");
+
+  useEffect(() => {
+    useSetNavigationBarTitle(keyword);
+  }, [keyword]);
+  
   return (
     <Page
       onPageBeforeIn={hideNavigationBar}
@@ -57,7 +66,8 @@ const SearchProduct = () => {
               >
                 <div className=" mb-2">
                   <CardProductHorizontal
-                    productId={index}
+                    productId={item.id}
+                    storeId={item.storeId}
                     pathImg={item.pathImg}
                     nameProduct={item.nameProduct}
                     salePrice={item.salePrice}

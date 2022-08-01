@@ -1,0 +1,1 @@
+import{p as c}from"./index.f0afc4ff.module.js";const n=(r,e)=>Math.floor((1-parseInt(r)/parseInt(e))*100),o=r=>r.reduce((a,t,s)=>a+Number(t.order.quantity)*Number(c[t.id].salePrice),0);export{o as a,n as c};

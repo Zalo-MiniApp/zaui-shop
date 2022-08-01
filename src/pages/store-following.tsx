@@ -28,7 +28,7 @@ const StoreFollowing = ({ zmprouter }) => {
             <CardStore
               store={store}
               handleOnClick={() =>
-                zmprouter.navigate(`/mini-store/?id=${store.key}`)
+                zmprouter.navigate(`/mini-store/?id=${store.key}`, {animate: false})
               }
             />
           ))}

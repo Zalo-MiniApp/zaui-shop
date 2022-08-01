@@ -59,6 +59,8 @@ const SectionProducts = ({
                     item.salePrice,
                     item.retailPrice
                   )}
+                  productId={item.id}
+                  storeId={item.storeId}
                 />
               )}
             </div>

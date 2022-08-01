@@ -1,4 +1,5 @@
 import React from "react";
+import { zmp } from "zmp-framework/react/lite";
 import { imgUrl } from "../../utils/imgUrl";
 import ImageRatio from "../img-ratio";
 type CardProductVerticalProps = {
@@ -6,15 +7,19 @@ type CardProductVerticalProps = {
   nameProduct: string;
   salePrice: number | string;
   salePercentage?: number;
+  productId: number | string;
+  storeId: number | string;
 };
 const CardProductVertical = ({
+  productId, 
+  storeId,
   pathImg,
   nameProduct,
   salePrice,
   salePercentage,
 }: CardProductVerticalProps) => {
   return (
-    <div className="w-full relative border border-[#E4E8EC] rounded-lg overflow-hidden">
+    <div className="w-full relative border border-[#E4E8EC] rounded-lg overflow-hidden" onClick={()=>zmp.views.main.router.navigate(`/detail-product/?productId=${productId}&storeId=${storeId}`, {animate: false})}>
       <ImageRatio src={imgUrl(pathImg)} alt={"image product"} ratio={1} />
       {salePercentage && (
         <div className="absolute top-2.5 right-2.5 text-white font-medium text-sm px-2 py-1 bg-[#FF9743] w-auto h-auto rounded-lg">

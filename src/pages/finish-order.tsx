@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Icon, useStore, zmp } from "zmp-framework/react";
 import { orderOfStore } from "../store";
 import Page from "zmp-framework/react/page";
@@ -19,6 +19,8 @@ import { locationVN } from "../dummy/location";
 import { calcTotalPriceOrder } from "../utils/math";
 import { AddressForm } from "../constants/address-form";
 import ButtonFixed from "../components/button-fixed";
+import { pay, requestLocation } from "../services/zalo";
+import { useSetNavigationBarTitle } from "../hooks";
 
 const CardProduct = ({ pathImg, nameProduct, salePrice, quantity }) => (
   <div className="w-full flex flex-row items-center justify-between gap-1 border border-[#E4E8EC] rounded-lg overflow-hidden h-24 p-2 mt-2 bg-white">
@@ -53,40 +55,58 @@ const FinishOrder = (props) => {
   const cart = useStore("cart");
   const stores: Store[] = useStore("store");
   const address: Address = useStore("address");
-  const [currentCity, setCurrentCity] = useState<any>(null);
-  const [currentDistrict, setCurrentDistrict] = useState<string>("");
+  const latlong: Address = useStore("latlong");
+  const [currentDistricts, setCurrentDistricts] = useState<any>();
+  const [currentWards, setCurrentWards] = useState<any>();
   const [orderInfo, setOrderInfo] = useState<orderOfStore>();
+  const [changeForm, setChangeForm] = useState<Address | null>(null);
+
+  const checkInitialFillForm = useRef<boolean>(true);
+
   useEffect(() => {
     const { id } = zmp.views.main.router.currentRoute.query;
-    const indexOrder = cart.findIndex((order) => order.storeId == id);
+    const indexOrder = cart.findIndex((order) => order.orderId == id);
     setOrderInfo(cart[indexOrder]);
+    // if (!latlong) requestLocation();
   }, []);
 
-  console.log(orderInfo);
-  console.log(locationVN);
-  console.log(address);
-
-  const handleOnSubmitForm = (e) => {
+  const handleOnSubmitForm = async (e) => {
     e.preventDefault();
-    console.log(zmp.form.convertToData("#input-address-form"));
+    await pay(1000000);
   };
 
   useEffect(() => {
-    if (orderInfo && address) {
-      zmp.form.fillFromData("#input-address-form", {
-        city: address.city,
-        district: address.district,
-      });
-      setCurrentCity(locationVN[Number(address.city) - 1]);
-      //   setCurrentDistrict(locationVN[Number(address.city) - 1])
-    } else {
-      zmp.form.fillFromData("#input-address-form", {
-        city: "",
-        district: "",
-      });
-      setCurrentCity({ ...locationVN[0] });
+    if (orderInfo) {
+      let currentAddress: Address;
+      !changeForm ? (currentAddress = address) : (currentAddress = changeForm);
+      const { city, district, ward } = currentAddress;
+      const indexCity = Number(city) - 1 > -1 ? Number(city) - 1 : 0;
+      const indexDistrict = locationVN[indexCity].districts.findIndex(
+        (currentDistrict) => currentDistrict.id == district
+      );
+      setCurrentDistricts(locationVN[indexCity]?.districts);
+      setCurrentWards(
+        locationVN[indexCity].districts[indexDistrict > -1 ? indexDistrict : 0]
+          .wards
+      );
     }
-  }, [orderInfo, address]);
+  }, [orderInfo, address, changeForm]);
+
+  useEffect(() => {
+    if (currentDistricts && currentWards && checkInitialFillForm.current) {
+      zmp.form.fillFromData("#input-address-form", {
+        district: address.district,
+        city: address.city,
+        ward: address.ward,
+      });
+      checkInitialFillForm.current = false;
+    }
+  }, [currentDistricts, currentWards]);
+
+  useEffect(() => {
+    useSetNavigationBarTitle("Đơn đặt hàng");
+  }, []);
+
   return (
     <Page
       ptr
@@ -96,8 +116,8 @@ const FinishOrder = (props) => {
       }}
       onPageBeforeOut={showNavigationBar}
     >
-      {orderInfo && (
-        <>
+      {orderInfo && address && (
+        <div className=" mb-[80px]">
           <Box m={0} p={4} className=" bg-white">
             <CardStore
               store={stores[orderInfo.storeId]}
@@ -146,28 +166,17 @@ const FinishOrder = (props) => {
                     listOptions = locationVN;
                     break;
                   case "district":
-                    listOptions =
-                      locationVN[Number(address.city) - 1 || 0].districts;
-                    console.log("listOptions district", listOptions);
+                    listOptions = currentDistricts;
                     break;
-
                   case "ward":
-                    const index = locationVN[
-                      Number(address.city) - 1
-                    ].districts.findIndex(
-                      (district) => district.id == address.district
-                    );
-                    listOptions =
-                      locationVN[Number(address.city) - 1].districts[index]
-                        ?.wards;
-                    console.log("listOptions ward", listOptions);
+                    listOptions = currentWards;
                     break;
                   default:
                     listOptions = locationVN;
                     break;
                 }
                 return (
-                  <>
+                  <div key={index}>
                     <Text
                       size="large"
                       bold
@@ -194,6 +203,17 @@ const FinishOrder = (props) => {
                           border: "unset",
                           transform: "translateX(-8px)",
                         }}
+                        onChange={() => {
+                          if (
+                            item.type !== "text" &&
+                            !checkInitialFillForm.current
+                          )
+                            setChangeForm(
+                              zmp.form.convertToData(
+                                "#input-address-form"
+                              ) as Address
+                            );
+                        }}
                       >
                         {item.type === "select" && (
                           <option
@@ -206,7 +226,7 @@ const FinishOrder = (props) => {
                           </option>
                         )}
                         {item.type === "select" &&
-                          listOptions.map((option) => (
+                          listOptions?.map((option) => (
                             <option key={option.id} value={option.id}>
                               {option.name}
                             </option>
@@ -222,87 +242,25 @@ const FinishOrder = (props) => {
                         </div>
                       )}
                     </Box>
-                  </>
+                  </div>
                 );
               })}
-            </List>
-            {/* <Box m={0}>
-                <Text
-                  size="large"
-                  bold
-                  className=" after:content-['_*'] after:text-primary after:align-middle"
-                >
-                  Tỉnh, thành phố
-                </Text>
-                <Box className="relative" m={0} mb={10}>
-                  <ListInput
-                    type="select"
-                    name="city"
-                    required
-                    inputStyle={{
-                      lineHeight: "20px",
-                      height: "fit-content",
-                      padding: "8px",
-                      border: "unset",
-                      transform: "translateX(-8px)",
-                      color: address.city ? "black" : "#99A3AD",
-                    }}
-                  >
-                    <option value="" disabled hidden className=" text-gray-50">
-                      Chọn tỉnh, thành phố...
-                    </option>
-                    <option value="1">Hồ Chí Minh</option>
-                    <option value="2">Hà Nội</option>
-                  </ListInput>
-                  <div className="center-absolute right-2">
-                    <Icon
-                      zmp="zi-chevron-down"
-                      className="pointer-events-none"
-                      size={20}
-                    ></Icon>
-                  </div>
-                </Box>
-              </Box>
-              <Box className="relative">
-                <ListInput
-                  type="select"
-                  name="district"
-                  required
-                  inputStyle={{
-                    lineHeight: "20px",
-                    height: "fit-content",
-                    paddingLeft: "0",
-                    paddingRight: "0",
-                    border: "unset",
-                  }}
-                >
-                  <option value="" disabled hidden>
-                    Select your district
-                  </option>
-                  <option value="1">Quận 1</option>
-                  <option value="2">Quận 2</option>
-                </ListInput>
-                <div className="absolute top-0 right-0">
-                  <Icon
-                    zmp="zi-chevron-down"
-                    className="pointer-events-none"
-                    size={20}
-                  ></Icon>
-                </div>
-              </Box> */}
-                  </Box>
-            <Text className=" p-4 text-center">Đặt hàng đồng nghĩa với việc bạn đồng ý quan tâm Big C Việt Nam để nhận tin tức mới</Text>
 
-            <ButtonFixed
-              listBtn={[
-                {
-                  content: "Đặt hàng",
-                  type: "primary",
-                  onClick: (e) => handleOnSubmitForm(e),
-                },
-              ]}
-            />
-        </>
+              <ButtonFixed>
+                <button
+                  type="submit"
+                  className=" bg-primary text-white rounded-lg h-12"
+                >
+                  Đặt hàng
+                </button>
+              </ButtonFixed>
+            </List>
+          </Box>
+          <Text className=" p-4 text-center">
+            Đặt hàng đồng nghĩa với việc bạn đồng ý quan tâm Big C Việt Nam để
+            nhận tin tức mới
+          </Text>
+        </div>
       )}
     </Page>
   );
