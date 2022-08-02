@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import { categoriesProductsDummy } from "../../dummy/category-products";
-import cx from "../../utils/cx";
-import Box from "zmp-framework/react/box";
 import Icon from "zmp-framework/react/icon";
+import Box from "zmp-framework/react/box";
+import categoriesProductsDummy from "../../dummy/category-products";
+import cx from "../../utils/cx";
 
 type CategoryStoreProps = {
   categories: string[];
@@ -27,7 +27,7 @@ const CategoriesStore = ({
       <div className="overflow-x-auto flex flex-row text-base mx-4">
         {categories?.map((category, index) => (
           <div
-            key={index}
+            key={category}
             className={cx(
               "mr-4 flex-none pb-2",
               activeCate === index
@@ -35,6 +35,7 @@ const CategoriesStore = ({
                 : "text-gray-500"
             )}
             onClick={() => setActiveCate(index)}
+            role="button"
           >
             {category}
           </div>
@@ -62,7 +63,7 @@ const CategoriesStore = ({
               zmp="zi-chevron-down"
               className="pointer-events-none"
               size={24}
-            ></Icon>
+             />
           </div>
         </div>
       </Box>

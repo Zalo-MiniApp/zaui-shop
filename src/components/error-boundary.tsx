@@ -1,9 +1,9 @@
-import React from "react";
-import { ReactNode } from "react";
+import React, { ReactNode } from 'react';
 
 class ErrorBoundary extends React.Component<{ children: ReactNode }> {
   constructor(props) {
     super(props);
+    // eslint-disable-next-line react/no-unused-state
     this.state = { hasError: false, error: null };
   }
 
@@ -18,6 +18,7 @@ class ErrorBoundary extends React.Component<{ children: ReactNode }> {
   }
 
   render() {
+    // eslint-disable-next-line react/destructuring-assignment
     return this.props.children;
   }
 }

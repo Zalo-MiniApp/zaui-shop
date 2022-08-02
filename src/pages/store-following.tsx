@@ -1,22 +1,18 @@
-import React from "react";
-import { useStore } from "zmp-framework/react";
-import Box from "zmp-framework/react/box";
-import Page from "zmp-framework/react/page";
-import Searchbar from "zmp-framework/react/searchbar";
-import Icon from "zmp-framework/react/icon";
-import { Store } from "../models";
-import { imgUrl } from "../utils/imgUrl";
-import { OrderStatusRef, StoreTypeRef } from "../constants/referrence";
-import CardShop from "../components/mini-store/card-shop";
-import CardStore from "../components/card-item/card-store";
+import { useStore } from 'zmp-framework/react';
+import Box from 'zmp-framework/react/box';
+import Page from 'zmp-framework/react/page';
+import Searchbar from 'zmp-framework/react/searchbar';
+import { Store } from '../models';
+import CardStore from '../components/card-item/card-store';
+import { setNavigationBarTitle } from '../services/navigation-bar';
 
 const StoreFollowing = ({ zmprouter }) => {
   const handleSearchOA = (e) => {
     console.log(e.target[0].value);
   };
-  const storeFollowing: Store[] = useStore("storeFollowing");
+  const storeFollowing: Store[] = useStore('storeFollowing');
   return (
-    <Page ptr name="store-following">
+    <Page ptr name="store-following" onPageBeforeIn={()=> setNavigationBarTitle("OA đã theo dõi")}>
       <Box m={0} pt={4} pb={0} px={4} className="bg-white">
         <Searchbar
           className="w-full rounded-xl"
@@ -26,9 +22,10 @@ const StoreFollowing = ({ zmprouter }) => {
         <div className="mt-4">
           {storeFollowing.map((store) => (
             <CardStore
+              key={store.key}
               store={store}
               handleOnClick={() =>
-                zmprouter.navigate(`/mini-store/?id=${store.key}`, {animate: false})
+                zmprouter.navigate(`/mini-store/?id=${store.key}`, { animate: false })
               }
             />
           ))}
@@ -36,6 +33,6 @@ const StoreFollowing = ({ zmprouter }) => {
       </Box>
     </Page>
   );
-}
+};
 
 export default StoreFollowing;

@@ -17,7 +17,9 @@
   "scripts": {
     "start": "zmp start",
     "deploy": "zmp deploy",
-    "build:css": "postcss src/css/tailwind.css -o src/css/styles.css"
+    "build:css": "postcss src/css/tailwind.css -o src/css/styles.css",
+    "lint:js": "eslint src/**/*.{ts,tsx}",
+    "format": "prettier --write src/**/*.{ts,tsx,css∂}"
   },
   "dependencies": {
     "@tailwindcss/line-clamp": "^0.4.0",
@@ -27,21 +29,32 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "swiper": "^8.2.4",
-    "zmp-sdk": "^2.21.2",
     "zmp-cli": "^3.1.0-15",
     "zmp-dom": "^1.0.0",
     "zmp-framework": "^1.8.0-2.lite",
-    "zmp-icons": "^1.0.0"
+    "zmp-icons": "^1.0.0",
+    "zmp-sdk": "^2.21.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^1.3.2",
     "@babel/core": "^7.13.10",
     "@babel/plugin-transform-runtime": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
     "@babel/preset-react": "^7.12.13",
     "@babel/runtime": "^7.13.10",
+    "@vitejs/plugin-react": "^1.3.2",
     "autoprefixer": "^10.4.7",
     "cross-env": "^7.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "eslint": "^8.18.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "prettier": "^2.7.1",
     "postcss": "^8.4.14",
     "postcss-aspect-ratio-polyfill": "^2.0.0",
     "postcss-cli": "^8.3.1",

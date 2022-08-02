@@ -1,9 +1,8 @@
 import React, { ReactNode } from "react";
-import { StoreTypeRef, OrderStatusRef } from "../../constants/referrence";
 import Icon from "zmp-framework/react/icon";
+import { StoreTypeRef } from "../../constants/referrence";
 import { Store } from "../../models";
-import { imgUrl } from "../../utils/imgUrl";
-import { zmp } from "zmp-framework/react/lite";
+import { ImgUrl } from "../../utils";
 import cx from "../../utils/cx";
 
 const CardStore = ({
@@ -22,8 +21,7 @@ const CardStore = ({
   hasBorderBottom?: boolean;
   customRightSide?: ReactNode;
   className?: string;
-}) => {
-  return (
+}) => (
     <div
       key={store.key}
       className={cx(
@@ -32,12 +30,13 @@ const CardStore = ({
         className && className
       )}
       onClick={handleOnClick}
+      role="button"
     >
       <div className="flex flex-row items-center">
         <div className="w-auto flex-none">
           <img
-            src={imgUrl(store.pathImg)}
-            alt={"image product"}
+            src={ImgUrl(store.pathImg)}
+            alt="product"
             className=" w-9 h-9 object-cover rounded-full bg-white"
           />
         </div>
@@ -52,13 +51,10 @@ const CardStore = ({
           )}
         </div>
       </div>
-      {hasRightSide && (customRightSide ? (
-        customRightSide
-      ) : (
+      {hasRightSide && (customRightSide || (
         <Icon size={20} zmp="zi-chevron-right" className=" text-zinc-500" />
       ))}
     </div>
   );
-};
 
 export default CardStore;

@@ -44,7 +44,16 @@ export type Store = {
   listProducts: Product[]
 };
 
+export type orderOfStore = {
+  orderId: number;
+  storeId: number;
+  status: OrderStatus;
+  listOrder: CartProduct[];
+  date: Date;
+};
+
 export type SectionProductsProps = {
+  id?: number;
   title: string;
   watchMore?: boolean;
   pathBanner?: string;

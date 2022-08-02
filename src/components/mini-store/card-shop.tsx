@@ -1,16 +1,15 @@
 import React from 'react';
-import { Store } from '../../models';
-import { imgUrl } from '../../utils/imgUrl';
 import Icon from "zmp-framework/react/icon";
 import Button from "zmp-framework/react/button";
+import { Store } from '../../models';
+import { ImgUrl } from '../../utils';
 
-const CardShop = ({ storeInfo }: { storeInfo: Store }) => {
-    return (
+const CardShop = ({ storeInfo }: { storeInfo: Store }) => (
       <div className="flex flex-row justify-between items-center p-4 bg-white">
         {storeInfo && (
           <div className="flex flex-row items-center">
             <img
-              src={imgUrl(storeInfo.pathImg)}
+              src={ImgUrl(storeInfo.pathImg)}
               alt="store-img"
               className=" rounded-full object-cover w-[60px] h-[60px]"
             />
@@ -40,6 +39,5 @@ const CardShop = ({ storeInfo }: { storeInfo: Store }) => {
         </Button>
       </div>
     );
-  };
 
 export default CardShop;

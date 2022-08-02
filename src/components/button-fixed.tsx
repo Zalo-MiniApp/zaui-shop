@@ -1,18 +1,19 @@
-import React, { forwardRef, ReactNode } from "react";
-import Box from "zmp-framework/react/box";
-import Button from "zmp-framework/react/button";
+import React, { forwardRef, ReactNode } from 'react';
+import Box from 'zmp-framework/react/box';
+import Button from 'zmp-framework/react/button';
 
 export type ButtonType = {
+  id:number;
   content: string;
   onClick: (e?) => void;
-  type: "primary" | "secondary";
+  type: 'primary' | 'secondary';
 };
 
-type ButtonFixed = {
+type ButtonFixedProps = {
   children?: ReactNode;
   listBtn?: ButtonType[];
 };
-const ButtonFixed = forwardRef<HTMLDivElement, ButtonFixed>((props, ref) => {
+const ButtonFixed = forwardRef<HTMLDivElement, ButtonFixedProps>((props, ref) => {
   const { children, listBtn } = props;
   return (
     <Box
@@ -22,20 +23,10 @@ const ButtonFixed = forwardRef<HTMLDivElement, ButtonFixed>((props, ref) => {
       // @ts-ignore
       ref={ref}
     >
-      {children && (
-        <Box m={0}>
-          {children}
-        </Box>
-      )}
+      {children && <Box m={0}>{children}</Box>}
       <Box m={0} flex className="gap-4">
-        {listBtn?.map((btn, index) => (
-          <Button
-            key={index}
-            responsive
-            typeName={btn.type}
-            large
-            onClick={btn.onClick}
-          >
+        {listBtn?.map((btn) => (
+          <Button key={btn.id} responsive typeName={btn.type} large onClick={btn.onClick}>
             {btn.content}
           </Button>
         ))}

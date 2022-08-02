@@ -27,10 +27,12 @@ const SearchCustom = ({
       className="custom-search flex items-center justify-between flex-row m-0"
     >
       {createPortal(
+        // eslint-disable-next-line jsx-a11y/control-has-associated-label
         <div
           className="absolute left-0 bg-zinc-900/70 w-full h-screen top-[calc(2rem+0.75rem*2)]"
           onClick={() => setIsTyping(false)}
           style={{ zIndex: isTyping ? "9999999" : "-9999" }}
+          role="button"
         />,
         document.getElementById("zmp-root")!
       )}

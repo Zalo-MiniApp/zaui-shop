@@ -7,10 +7,6 @@ import ZMP from 'zmp-framework/core/lite-core';
 // Import ZMP-React Plugin
 import ZMPReact from 'zmp-framework/react/lite';
 
-
-// Import tailwind styles
-import './css/styles.css';
-
 // Import ZMP Styles
 import 'zmp-framework/zmp-bundle.min.css';
 import Input from 'zmp-framework/core/modules/input';

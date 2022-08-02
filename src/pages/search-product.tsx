@@ -1,21 +1,16 @@
 // import React, { useState } from "react";
-import Page from "zmp-framework/react/page";
-import Box from "zmp-framework/react/box";
-import CardProductHorizontal from "../components/card-item/card-product-horizontal";
-import List from "zmp-framework/react/list";
-import ListItem from "zmp-framework/react/list-item";
-import Avatar from "zmp-framework/react/avatar";
-import store from "../store";
-import {
-  hideNavigationBar,
-  showNavigationBar,
-} from "../components/navigation-bar";
+import Page from 'zmp-framework/react/page';
+import List from 'zmp-framework/react/list';
+import ListItem from 'zmp-framework/react/list-item';
+import { useEffect, useState } from 'react';
+import { useStore } from 'zmp-framework/react';
+import CardProductHorizontal from '../components/card-item/card-product-horizontal';
+import store from '../store';
+import { hideNavigationBar, showNavigationBar } from '../components/navigation-bar';
 
-import { useEffect, useState } from "react";
-import { Product } from "../models";
-import Card from "../components/card";
-import { useStore } from "zmp-framework/react";
-import { useSetNavigationBarTitle } from "../hooks";
+import { Product } from '../models';
+import Card from '../components/card';
+import { setNavigationBarTitle } from '../services/navigation-bar';
 
 const SearchProduct = () => {
   const items = [];
@@ -31,12 +26,12 @@ const SearchProduct = () => {
     setVlData({ ...newData });
   };
 
-  const keyword = useStore("keyword");
+  const keyword = useStore('keyword');
 
   useEffect(() => {
-    useSetNavigationBarTitle(keyword);
+    setNavigationBarTitle(keyword);
   }, [keyword]);
-  
+
   return (
     <Page
       onPageBeforeIn={hideNavigationBar}
@@ -46,8 +41,8 @@ const SearchProduct = () => {
     >
       <Card title="365 Sản phẩm">
         <List
-        noHairlines
-        noHairlinesBetween
+          noHairlines
+          noHairlinesBetween
           virtualList
           virtualListParams={{
             items: store.state.productResult,
@@ -56,9 +51,9 @@ const SearchProduct = () => {
           }}
         >
           <ul>
-            {vlData.items.map((item, index) => (
+            {vlData.items.map((item) => (
               <ListItem
-                key={index}
+                key={item.id}
                 link="#"
                 style={{ top: `${vlData.topPosition}px` }}
                 // @ts-ignore

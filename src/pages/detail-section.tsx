@@ -1,22 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
-import Page from "zmp-framework/react/page";
-import Box from "zmp-framework/react/box";
-import CardProductHorizontal from "../components/card-item/card-product-horizontal";
-import List from "zmp-framework/react/list";
-import ListItem from "zmp-framework/react/list-item";
-import store from "../store";
-import {
-  hideNavigationBar,
-  showNavigationBar,
-} from "../components/navigation-bar";
-
-import { imgUrl } from "../utils/imgUrl";
-import CardProductVertical from "../components/card-item/card-product-vertical";
-import Card from "../components/card";
-import { useSetNavigationBarTitle } from "../hooks";
+import { useMemo, useState } from 'react';
+import Page from 'zmp-framework/react/page';
+import List from 'zmp-framework/react/list';
+import ListItem from 'zmp-framework/react/list-item';
+import store from '../store';
+import { hideNavigationBar, showNavigationBar } from '../components/navigation-bar';
+import imgUrl from '../utils/img-url';
+import CardProductVertical from '../components/card-item/card-product-vertical';
+import Card from '../components/card';
+import { Product } from '../models';
+import { setNavigationBarTitle } from '../services/navigation-bar';
+import { CalcSalePercentage } from '../utils';
 
 const DetailSection = () => {
-  const items = [];
   const [vlData, setVlData] = useState<any>({
     items: [],
   });
@@ -25,9 +20,9 @@ const DetailSection = () => {
     setVlData({ ...newData });
   };
 
-  const chunkData = (inputArray) => {
+  const chunkData = (inputArray: Product[]) => {
     const perChunk = 2; // items per chunk
-    const result = inputArray.reduce((resultArray, item, index) => {
+    const result = inputArray.reduce((resultArray: any, item, index) => {
       const chunkIndex = Math.floor(index / perChunk);
 
       if (!resultArray[chunkIndex]) {
@@ -46,26 +41,21 @@ const DetailSection = () => {
     [store.state.productResult]
   );
 
-  const calcSalePercentage = (salePrice, retailPrice) => {
-    return Math.floor((1 - parseInt(salePrice) / parseInt(retailPrice)) * 100);
-  };
-
-  useEffect(() => {
-    useSetNavigationBarTitle("Hè giảm giá sự kiện");
-  }, []);
-
   return (
     <Page
-      onPageBeforeIn={hideNavigationBar}
+      onPageBeforeIn={() => {
+        hideNavigationBar();
+        setNavigationBarTitle('Hè giảm giá sự kiện');
+      }}
       onPageBeforeOut={showNavigationBar}
       name="search-product"
       className="bg-white"
     >
-      <img src={imgUrl("banner")} className="w-full object-cover" />
+      <img src={imgUrl('banner')} className="w-full object-cover" alt="" />
       <Card title="365 Sản phẩm">
         <List
-        noHairlines
-        noHairlinesBetween
+          noHairlines
+          noHairlinesBetween
           virtualList
           virtualListParams={{
             items: nomalizeData,
@@ -75,11 +65,10 @@ const DetailSection = () => {
         >
           <ul>
             <div className="gap-2 grid grid-cols-2">
-              {vlData.items.map((items, index) =>
-                items.map((item, index) => (
-                  <div key={index}>
+              {vlData.items.map((items) =>
+                items.map((item) => (
+                  <div key={item.id}>
                     <ListItem
-                      key={index}
                       link="#"
                       style={{ top: `${vlData.topPosition}px` }}
                       // @ts-ignore
@@ -90,12 +79,9 @@ const DetailSection = () => {
                           pathImg={item.pathImg}
                           nameProduct={item.nameProduct}
                           salePrice={item.salePrice}
-                          salePercentage={calcSalePercentage(
-                            item.salePrice,
-                            item.retailPrice
-                          )}
-                          productId = {item.id}
-                          storeId= {item.storeId}
+                          salePercentage={CalcSalePercentage(item.salePrice, item.retailPrice)}
+                          productId={item.id}
+                          storeId={item.storeId}
                         />
                       </div>
                     </ListItem>

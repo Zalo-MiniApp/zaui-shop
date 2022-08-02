@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { imgUrl } from "../../utils/imgUrl";
-import ImageRatio from "../img-ratio";
+import React from "react";
 import Box from "zmp-framework/react/box";
 import Icon from "zmp-framework/react/icon";
 import { zmp } from "zmp-framework/react/lite";
+import convertPrice from "../../utils/convert-price";
+import imgUrl from "../../utils/img-url";
+import ImageRatio from "../img-ratio";
 
 type CardProductHorizontalProps = {
   productId: number;
@@ -22,9 +23,7 @@ const CardProductHorizontal = ({
   salePrice,
   retailPrice,
   pickerMode = false,
-}: CardProductHorizontalProps) => {
-  const [quantity, setQuantity] = useState<number>(0);
-  return (
+}: CardProductHorizontalProps) => (
     <div
       className="w-full flex flex-row items-center justify-between border border-[#E4E8EC] rounded-lg overflow-hidden h-24"
       onClick={() => {
@@ -33,19 +32,20 @@ const CardProductHorizontal = ({
           { animate: false }
         );
       }}
+      role="button"
     >
       <div className="flex flex-row items-center">
         <div className="w-24 flex-none">
-          <ImageRatio src={imgUrl(pathImg)} alt={"image product"} ratio={1} />
+          <ImageRatio src={imgUrl(pathImg)} alt="image product" ratio={1} />
         </div>
         <div className=" p-3 pr-0">
           <div className="line-clamp-2 text-sm break-words">{nameProduct}</div>
           <span className=" pt-1 font-semibold text-sm text-primary">
             <span className=" font-normal text-xs text-primary">đ</span>
-            {salePrice}
+            {convertPrice(salePrice)}
           </span>
           <span className=" pl-2 pt-1 font-medium text-xs text-zinc-400">
-            đ{retailPrice}
+            đ{convertPrice(retailPrice)}
           </span>
         </div>
       </div>
@@ -72,6 +72,7 @@ const CardProductHorizontal = ({
                 },
               );
             }}
+            role="button"
           >
             <Icon zmp="zi-plus" size={16} className="text-white" />
           </div>
@@ -81,6 +82,5 @@ const CardProductHorizontal = ({
       )}
     </div>
   );
-};
 
 export default CardProductHorizontal;

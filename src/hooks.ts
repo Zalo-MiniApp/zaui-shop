@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useState } from "react"
-import { useStore, zmp } from "zmp-framework/react"
+import { useEffect, useState } from "react"
+import { zmp } from "zmp-framework/react";
+// eslint-disable-next-line import/no-unresolved
 import { Router } from "zmp-core/types";
-import { Sheet } from 'zmp-core/types'
-import api from 'zmp-sdk';
-import appConfig from '../app-config.json';
 
 
+// eslint-disable-next-line import/prefer-default-export
 export const useCurrentRoute = () => {
   const [currentRoute, setCurrentRoute] = useState({
     path: '/',
@@ -22,13 +21,4 @@ export const useCurrentRoute = () => {
   return [currentRoute];
 }
 
-export const matchStatusBar = (sheetOpened: boolean) => {
-  api.setNavigationBarColor({
-    color: sheetOpened ? '' : appConfig.app.headerColor ,
-  });
-}
-
-export const useSetNavigationBarTitle = (title: string = "") => {
-  api.setNavigationBarTitle({title: title});
-}
 

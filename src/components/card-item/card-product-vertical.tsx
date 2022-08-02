@@ -1,7 +1,9 @@
 import React from "react";
 import { zmp } from "zmp-framework/react/lite";
-import { imgUrl } from "../../utils/imgUrl";
+import { ImgUrl } from "../../utils";
+import convertPrice from "../../utils/convert-price";
 import ImageRatio from "../img-ratio";
+
 type CardProductVerticalProps = {
   pathImg: string;
   nameProduct: string;
@@ -17,10 +19,9 @@ const CardProductVertical = ({
   nameProduct,
   salePrice,
   salePercentage,
-}: CardProductVerticalProps) => {
-  return (
-    <div className="w-full relative border border-[#E4E8EC] rounded-lg overflow-hidden" onClick={()=>zmp.views.main.router.navigate(`/detail-product/?productId=${productId}&storeId=${storeId}`, {animate: false})}>
-      <ImageRatio src={imgUrl(pathImg)} alt={"image product"} ratio={1} />
+}: CardProductVerticalProps) => (
+    <div className="w-full relative border border-[#E4E8EC] rounded-lg overflow-hidden" onClick={()=>zmp.views.main.router.navigate(`/detail-product/?productId=${productId}&storeId=${storeId}`, {animate: false})} role="button">
+      <ImageRatio src={ImgUrl(pathImg)} alt="image product" ratio={1} />
       {salePercentage && (
         <div className="absolute top-2.5 right-2.5 text-white font-medium text-sm px-2 py-1 bg-[#FF9743] w-auto h-auto rounded-lg">
           -{salePercentage}%
@@ -30,11 +31,10 @@ const CardProductVertical = ({
         <div className="line-clamp-2 text-sm">{nameProduct}</div>
         <div className=" pt-1 font-semibold text-sm text-primary">
           <span className=" font-normal text-xs text-primary">đ</span>
-          {salePrice}
+          {convertPrice(salePrice)}
         </div>
       </div>
     </div>
   );
-};
 
 export default CardProductVertical;
