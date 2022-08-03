@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
 import Page from 'zmp-framework/react/page';
 
 import List from 'zmp-framework/react/list';
@@ -63,7 +63,7 @@ const MiniStore = ({ zmprouter }) => {
     setVlData({ ...newData });
   };
 
-  const handleInputSearch = (e) => {
+  const handleInputSearch = (e: SyntheticEvent) => {
     console.log(e.target[0].value);
   };
 

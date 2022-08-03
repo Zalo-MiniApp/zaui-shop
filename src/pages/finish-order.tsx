@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { Icon, useStore, zmp } from 'zmp-framework/react';
 import Page from 'zmp-framework/react/page';
 import Box from 'zmp-framework/react/box';
@@ -59,7 +59,7 @@ const FinishOrder = () => {
     // if (!latlong) requestLocation();
   }, []);
 
-  const handleOnSubmitForm = async (e) => {
+  const handleOnSubmitForm = async (e: SyntheticEvent) => {
     e.preventDefault();
     await pay(1000000);
   };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import Box from "zmp-framework/react/box";
 import Icon from "zmp-framework/react/icon";
 import { zmp } from "zmp-framework/react/lite";
@@ -58,7 +58,7 @@ const CardProductHorizontal = ({
         >
           <div
             className="w-6 h-6 rounded-full bg-primary flex justify-center items-center"
-            onClick={(e) => {
+            onClick={(e:SyntheticEvent ) => {
               e.stopPropagation();
               zmp.views.main.router.navigate(
                 {

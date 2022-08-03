@@ -1,15 +1,14 @@
-import React, { useRef, useState } from 'react';
-import Input from 'zmp-framework/react/input';
+import React, { SyntheticEvent, useState } from 'react';
 import List from 'zmp-framework/react/list';
 import ListInput from 'zmp-framework/react/list-input';
 import Icon from 'zmp-framework/react/icon';
 import { createPortal } from 'react-dom';
 import { zmp } from 'zmp-framework/react/lite';
 
-const SearchCustom = ({ onHandleSubmitForm }: { onHandleSubmitForm: (e) => void }) => {
+const SearchCustom = ({ onHandleSubmitForm }: { onHandleSubmitForm: (data) => void }) => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
 
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = (e: SyntheticEvent) => {
     e.preventDefault();
     e.target[0].blur();
     setIsTyping(false);
@@ -20,7 +19,7 @@ const SearchCustom = ({ onHandleSubmitForm }: { onHandleSubmitForm: (e) => void 
       style={{ listStyle: 'none' }}
       form
       id="search-form"
-      onSubmit={(e) => {
+      onSubmit={(e: SyntheticEvent) => {
         handleSubmitForm(e);
       }}
       noHairlinesBetween

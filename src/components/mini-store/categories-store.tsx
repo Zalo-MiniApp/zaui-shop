@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { SyntheticEvent, useRef } from "react";
 import Icon from "zmp-framework/react/icon";
 import Box from "zmp-framework/react/box";
 import categoriesProductsDummy from "../../dummy/category-products";
@@ -50,7 +50,7 @@ const CategoriesStore = ({
             className=" min-h-0 rounded-md bg-white h-8 w-28 flex items-center justify-between px-2"
             ref={selectRef}
             value={activeFilter}
-            onChange={(e) => setActiveFilter(e.target.value)}
+            onChange={(e: SyntheticEvent) => setActiveFilter((e.target as HTMLSelectElement).value)}
           >
             {filter.map((opt) => (
               <option key={opt.key} value={opt.key}>

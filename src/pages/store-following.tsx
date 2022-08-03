@@ -2,13 +2,13 @@ import { useStore } from 'zmp-framework/react';
 import Box from 'zmp-framework/react/box';
 import Page from 'zmp-framework/react/page';
 import Searchbar from 'zmp-framework/react/searchbar';
+import { SyntheticEvent } from 'react';
 import { Store } from '../models';
 import CardStore from '../components/card-item/card-store';
-import { setNavigationBarTitle } from '../services/navigation-bar';
 import { setHeader } from '../utils';
 
 const StoreFollowing = ({ zmprouter }) => {
-  const handleSearchOA = (e) => {
+  const handleSearchOA = (e: SyntheticEvent) => {
     console.log(e.target[0].value);
   };
   const storeFollowing: Store[] = useStore('storeFollowing');

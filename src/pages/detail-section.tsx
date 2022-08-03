@@ -8,8 +8,7 @@ import getImgUrl from '../utils/img-url';
 import CardProductVertical from '../components/card-item/card-product-vertical';
 import Card from '../components/card';
 import { Product } from '../models';
-import { setNavigationBarTitle } from '../services/navigation-bar';
-import { calcSalePercentage } from '../utils';
+import { calcSalePercentage, setHeader } from '../utils';
 
 const DetailSection = () => {
   const [vlData, setVlData] = useState<any>({
@@ -45,7 +44,7 @@ const DetailSection = () => {
     <Page
       onPageBeforeIn={() => {
         hideNavigationBar();
-        setNavigationBarTitle('Hè giảm giá sự kiện');
+        setHeader({title:'Hè giảm giá sự kiện', textColor: 'black', headerColor:'white' })
       }}
       onPageBeforeOut={showNavigationBar}
       name="search-product"
