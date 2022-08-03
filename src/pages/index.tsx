@@ -27,7 +27,7 @@ const CartLogoStore = ({ pathImg, nameStore, onClick }) => (
 
 const sectionProducts: SectionProductsProps[] = [
   {
-    id:1,
+    id: 1,
     title: 'CHÍNH HÃNG GIÁ TỐT',
     watchMore: false,
     pathBanner: 'banner-sale-75',
@@ -37,42 +37,36 @@ const sectionProducts: SectionProductsProps[] = [
       <CartLogoStore
         pathImg={item.pathImg}
         nameStore={item.nameStore}
-        onClick={() =>
-          zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`)
-        }
+        onClick={() => zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`)}
       />
     ),
   },
   {
-    id:2,
+    id: 2,
     title: 'CHÍNH HÃNG GIÁ TỐT',
     watchMore: false,
     data: store.state.store,
     children: (item: Store) => (
       <CartBannerStore
         pathImg={item.bannerStore}
-        onClick={() =>
-          zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`)
-        }
+        onClick={() => zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`)}
       />
     ),
   },
   {
-    id:3,
+    id: 3,
     title: 'KHUYẾN MÃI HOT',
     pathBanner: 'banner',
     data: store.state.products,
   },
   {
-    id:4,
+    id: 4,
     title: 'BÁN CHẠY NHẤT',
     pathBanner: 'flash-sale',
     data: store.state.products,
     direction: 'vertical',
   },
 ];
-
-
 
 const HomePage = ({ zmprouter }) => {
   const onHandleSubmitForm = (data) => {
@@ -84,13 +78,18 @@ const HomePage = ({ zmprouter }) => {
   };
 
   return (
-    <Page ptr name="home" className="bg-primary" onPageBeforeIn={()=>setHeader({hasLeftIcon:false})}>
+    <Page
+      ptr
+      name="home"
+      className="bg-primary"
+      onPageBeforeIn={() => setHeader({ hasLeftIcon: false })}
+    >
       <div className=" sticky top-0 bg-primary z-50 py-3 px-8">
         <SearchCustom onHandleSubmitForm={onHandleSubmitForm} />
       </div>
 
       <div className=" bg-primary">
-        <img src={getImgUrl('banner')} className="w-full object-cover" alt=""/>
+        <img src={getImgUrl('banner')} className="w-full object-cover" alt="" />
         <Categories />
       </div>
 

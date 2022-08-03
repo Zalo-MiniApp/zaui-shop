@@ -11,7 +11,13 @@ const MyOrder = ({ zmprouter }) => {
   const stores: Store[] = useStore('store');
 
   return (
-    <Page ptr name="my-order" onPageBeforeIn={()=>setHeader({ title: 'Đơn đặt hàng', headerColor: 'white', textColor:'black'})}>
+    <Page
+      ptr
+      name="my-order"
+      onPageBeforeIn={() =>
+        setHeader({ title: 'Đơn đặt hàng', headerColor: 'white', textColor: 'black' })
+      }
+    >
       <Box m={0} p={4} flex justifyContent="center" className="bg-white">
         Số lượng đơn hàng: {cart.length}
       </Box>
@@ -20,9 +26,7 @@ const MyOrder = ({ zmprouter }) => {
           <CardStore
             key={store.orderId}
             store={stores[store.storeId]}
-            handleOnClick={() =>
-              zmprouter.navigate(`/finish-order/?id=${store.orderId}`)
-            }
+            handleOnClick={() => zmprouter.navigate(`/finish-order/?id=${store.orderId}`)}
             type="order"
             className="p-3"
             customRightSide={

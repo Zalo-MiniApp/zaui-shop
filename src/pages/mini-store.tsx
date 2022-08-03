@@ -28,7 +28,7 @@ const MiniStore = ({ zmprouter }) => {
   const [activeCate, setActiveCate] = useState<number>(0);
   const [activeFilter, setActiveFilter] = useState<string>(filter[0].key);
   const cart: orderOfStore[] = useStore('cart');
-  console.log('cart ',cart);
+  console.log('cart ', cart);
 
   useEffect(() => {
     const { id } = zmp.views.main.router.currentRoute.query;

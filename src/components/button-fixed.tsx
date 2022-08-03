@@ -3,7 +3,7 @@ import Box from 'zmp-framework/react/box';
 import Button from 'zmp-framework/react/button';
 
 export type ButtonType = {
-  id:number;
+  id: number;
   content: string;
   onClick: (e?) => void;
   type: 'primary' | 'secondary';

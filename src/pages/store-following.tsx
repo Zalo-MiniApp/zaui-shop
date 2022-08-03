@@ -14,7 +14,13 @@ const StoreFollowing = ({ zmprouter }) => {
   const storeFollowing: Store[] = useStore('storeFollowing');
 
   return (
-    <Page ptr name="store-following" onPageBeforeIn={()=>setHeader({ title: 'OA đã theo dõi', headerColor: 'white', textColor:'black'})}>
+    <Page
+      ptr
+      name="store-following"
+      onPageBeforeIn={() =>
+        setHeader({ title: 'OA đã theo dõi', headerColor: 'white', textColor: 'black' })
+      }
+    >
       <Box m={0} pt={4} pb={0} px={4} className="bg-white">
         <Searchbar
           className="w-full rounded-xl"
@@ -26,9 +32,7 @@ const StoreFollowing = ({ zmprouter }) => {
             <CardStore
               key={store.key}
               store={store}
-              handleOnClick={() =>
-                zmprouter.navigate(`/mini-store/?id=${store.key}`)
-              }
+              handleOnClick={() => zmprouter.navigate(`/mini-store/?id=${store.key}`)}
             />
           ))}
         </div>

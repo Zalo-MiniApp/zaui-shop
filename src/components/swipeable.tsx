@@ -1,4 +1,3 @@
-
 import React, { FunctionComponent } from 'react';
 
 interface SwipeableType extends React.HTMLAttributes<HTMLDivElement> {

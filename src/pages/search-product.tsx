@@ -29,7 +29,7 @@ const SearchProduct = () => {
   const keyword = useStore('keyword');
 
   useEffect(() => {
-    setHeader({ title: keyword, headerColor: 'white', textColor:'black'});
+    setHeader({ title: keyword, headerColor: 'white', textColor: 'black' });
   }, [keyword]);
 
   return (

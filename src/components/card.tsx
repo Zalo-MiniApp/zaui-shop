@@ -8,12 +8,12 @@ type CardProps = {
   className?: string;
 };
 const Card = ({ title, className, children }: CardProps) => (
-    <div>
-      <Box m={0} p={4} className=" text-sm text-slate-600 bg-gray-100">
-        {title}
-      </Box>
-      <div className={cx('p-3', className)}>{children}</div>
-    </div>
-  );
+  <div>
+    <Box m={0} p={4} className=" text-sm text-slate-600 bg-gray-100">
+      {title}
+    </Box>
+    <div className={cx('p-3', className)}>{children}</div>
+  </div>
+);
 
 export default Card;

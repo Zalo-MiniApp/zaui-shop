@@ -1,4 +1,4 @@
-const  AddressForm = [
+const AddressForm = [
   {
     name: 'detail',
     label: 'Số nhà, tên đường',

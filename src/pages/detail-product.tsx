@@ -5,7 +5,13 @@ import Box from 'zmp-framework/react/box';
 import { useStore } from 'zmp-framework/react';
 import { hideNavigationBar, showNavigationBar } from '../components/navigation-bar';
 import { Product, Store, orderOfStore } from '../models';
-import { calcSalePercentage, calcTotalPriceOrder, convertPrice, getImgUrl, setHeader } from '../utils';
+import {
+  calcSalePercentage,
+  calcTotalPriceOrder,
+  convertPrice,
+  getImgUrl,
+  setHeader,
+} from '../utils';
 import ButtonFixed, { ButtonType } from '../components/button-fixed';
 
 const DetailProduct = ({ zmproute }) => {

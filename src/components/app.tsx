@@ -32,7 +32,7 @@ const MyApp = () => {
   return (
     <ErrorBoundary>
       <App {...zmpparams}>
-        <Header/>
+        <Header />
         <View
           main
           url="/"

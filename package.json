@@ -19,7 +19,7 @@
     "deploy": "zmp deploy",
     "build:css": "postcss src/css/tailwind.css -o src/css/styles.css",
     "lint:js": "eslint src/**/*.{ts,tsx}",
-    "format": "prettier --write src/**/*.{ts,tsx,css∂}"
+    "format": "prettier --write src/**/*.{ts,tsx,css}"
   },
   "dependencies": {
     "@tailwindcss/line-clamp": "^0.4.0",

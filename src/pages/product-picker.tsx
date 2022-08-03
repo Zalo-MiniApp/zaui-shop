@@ -46,15 +46,17 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
   const cart: orderOfStore[] = useStore('cart');
   const btnRef = useRef<HTMLDivElement | null>(null);
   const [sheetOpened, setSheetOpened] = useState(false);
-  const listStores:Store[] = useStore('store');
-  console.log('cart: ',cart);
+  const listStores: Store[] = useStore('store');
+  console.log('cart: ', cart);
   const product: Product | undefined = useMemo(() => {
     if (zmproute.query) {
       // eslint-disable-next-line @typescript-eslint/no-shadow
       const { productId, storeId } = zmproute.query;
       console.log(storeId);
       const currentStore = listStores.find((oa) => oa.key === Number(storeId));
-      const currentProduct = currentStore!.listProducts.find((item) => item.id === Number(productId));
+      const currentProduct = currentStore!.listProducts.find(
+        (item) => item.id === Number(productId)
+      );
       setStoreId(Number(storeId));
       return currentProduct;
     }
@@ -65,7 +67,7 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
     if (cart && storeId > -1) {
       const storeInCart = cart.find((oa) => oa.storeId === storeId);
       if (storeInCart) {
-        return {...storeInCart};
+        return { ...storeInCart };
       }
     }
     return undefined;
@@ -76,7 +78,7 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
       const currentProductOrder = cartStore.listOrder.find((ord) => ord.id === product.id);
 
       if (currentProductOrder) {
-        return {...currentProductOrder};
+        return { ...currentProductOrder };
       }
     }
     return undefined;

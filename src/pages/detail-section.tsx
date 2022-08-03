@@ -44,7 +44,7 @@ const DetailSection = () => {
     <Page
       onPageBeforeIn={() => {
         hideNavigationBar();
-        setHeader({title:'Hè giảm giá sự kiện', textColor: 'black', headerColor:'white' })
+        setHeader({ title: 'Hè giảm giá sự kiện', textColor: 'black', headerColor: 'white' });
       }}
       onPageBeforeOut={showNavigationBar}
       name="search-product"

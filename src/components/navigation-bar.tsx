@@ -40,6 +40,6 @@ const NavigationBar = () => {
       </Link>
     </Tabbar>
   );
-}
+};
 
 export default NavigationBar;

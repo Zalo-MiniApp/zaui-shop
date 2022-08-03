@@ -165,5 +165,4 @@ const categoriesProductsDummy = {
   ],
 };
 
-
 export default categoriesProductsDummy;

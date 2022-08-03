@@ -6,10 +6,10 @@ const setHeader = ({
   hasLeftIcon = true,
   title = 'ZMP Ecommerce',
   customTitle = null,
-  headerColor= '',
-  textColor='',
+  headerColor = '',
+  textColor = '',
 }: HeaderType) => {
-  store.dispatch('setHeader', { route, hasLeftIcon, title, customTitle, headerColor,textColor });
+  store.dispatch('setHeader', { route, hasLeftIcon, title, customTitle, headerColor, textColor });
 };
 
 export default setHeader;
