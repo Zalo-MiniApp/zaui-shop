@@ -2,8 +2,7 @@ import React, { ReactNode } from "react";
 import Icon from "zmp-framework/react/icon";
 import { StoreTypeRef } from "../../constants/referrence";
 import { Store } from "../../models";
-import { ImgUrl } from "../../utils";
-import cx from "../../utils/cx";
+import { cx, getImgUrl } from "../../utils";
 
 const CardStore = ({
   store,
@@ -35,7 +34,7 @@ const CardStore = ({
       <div className="flex flex-row items-center">
         <div className="w-auto flex-none">
           <img
-            src={ImgUrl(store.pathImg)}
+            src={getImgUrl(store.pathImg)}
             alt="product"
             className=" w-9 h-9 object-cover rounded-full bg-white"
           />

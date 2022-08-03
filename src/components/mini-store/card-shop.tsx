@@ -2,14 +2,14 @@ import React from 'react';
 import Icon from "zmp-framework/react/icon";
 import Button from "zmp-framework/react/button";
 import { Store } from '../../models';
-import { ImgUrl } from '../../utils';
+import { getImgUrl } from '../../utils';
 
 const CardShop = ({ storeInfo }: { storeInfo: Store }) => (
       <div className="flex flex-row justify-between items-center p-4 bg-white">
         {storeInfo && (
           <div className="flex flex-row items-center">
             <img
-              src={ImgUrl(storeInfo.pathImg)}
+              src={getImgUrl(storeInfo.pathImg)}
               alt="store-img"
               className=" rounded-full object-cover w-[60px] h-[60px]"
             />

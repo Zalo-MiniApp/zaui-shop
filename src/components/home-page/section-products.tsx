@@ -1,8 +1,6 @@
 import Box from 'zmp-framework/react/box';
 import { SectionProductsProps } from '../../models';
-import { CalcSalePercentage } from '../../utils';
-import cx from '../../utils/cx';
-import imgUrl from '../../utils/img-url';
+import { calcSalePercentage, cx, getImgUrl } from '../../utils';
 import CardProductVertical from '../card-item/card-product-vertical';
 
 const SectionProducts = ({
@@ -26,7 +24,7 @@ const SectionProducts = ({
         )}
       </div>
       {pathBanner && (
-        <img src={imgUrl(pathBanner!)} className="pb-[14px] w-full h-auto object-contain" alt="" />
+        <img src={getImgUrl(pathBanner!)} className="pb-[14px] w-full h-auto object-contain" alt="" />
       )}
       <div
         className={cx(
@@ -50,7 +48,7 @@ const SectionProducts = ({
                 pathImg={item.pathImg}
                 nameProduct={item.nameProduct}
                 salePrice={item.salePrice}
-                salePercentage={CalcSalePercentage(item.salePrice, item.retailPrice)}
+                salePercentage={calcSalePercentage(item.salePrice, item.retailPrice)}
                 productId={item.id}
                 storeId={item.storeId}
               />

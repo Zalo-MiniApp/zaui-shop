@@ -1,7 +1,6 @@
-import React from 'react';
 import { zmp } from 'zmp-framework/react';
 import listCategories from '../../constants/list-categories';
-import { ImgUrl } from '../../utils';
+import { getImgUrl } from '../../utils';
 
 const Categories = () => (
   <div className="grid grid-cols-4 gap-x-2  gap-y-4 p-6">
@@ -9,11 +8,11 @@ const Categories = () => (
       <div
         key={cate.id}
         className="flex flex-col items-center"
-        onClick={() => zmp.views.main.router.navigate('detail-section', { animate: false })}
+        onClick={() => zmp.views.main.router.navigate('detail-section')}
         role="button"
       >
         <div>
-          <img src={ImgUrl(cate.iconCate)} width="42px" height="42px" alt="" />
+          <img src={getImgUrl(cate.iconCate)} width="42px" height="42px" alt="" />
         </div>
         <div className="text-xs text-center text-white">{cate.nameCate}</div>
       </div>

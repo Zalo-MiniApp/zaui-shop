@@ -8,9 +8,9 @@ import CardProductHorizontal from '../components/card-item/card-product-horizont
 import store from '../store';
 import { hideNavigationBar, showNavigationBar } from '../components/navigation-bar';
 
-import { Product } from '../models';
+import { HeaderType, Product } from '../models';
 import Card from '../components/card';
-import { setNavigationBarTitle } from '../services/navigation-bar';
+import { setHeader } from '../utils';
 
 const SearchProduct = () => {
   const items = [];
@@ -29,7 +29,7 @@ const SearchProduct = () => {
   const keyword = useStore('keyword');
 
   useEffect(() => {
-    setNavigationBarTitle(keyword);
+    setHeader({ title: keyword, headerColor: 'white', textColor:'black'});
   }, [keyword]);
 
   return (

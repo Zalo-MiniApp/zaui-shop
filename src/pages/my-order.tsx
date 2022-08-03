@@ -1,18 +1,17 @@
 import { useStore } from 'zmp-framework/react';
 import Box from 'zmp-framework/react/box';
 import Page from 'zmp-framework/react/page';
-import { useEffect } from 'react';
 import { Store, orderOfStore } from '../models';
 import CardStore from '../components/card-item/card-store';
 import { OrderStatusRef } from '../constants/referrence';
-import { setNavigationBarTitle } from '../services/navigation-bar';
+import { setHeader } from '../utils';
 
 const MyOrder = ({ zmprouter }) => {
   const cart: orderOfStore[] = useStore('cart');
   const stores: Store[] = useStore('store');
 
   return (
-    <Page ptr name="my-order" onPageBeforeIn={()=>setNavigationBarTitle('Đơn đặt hàng')}>
+    <Page ptr name="my-order" onPageBeforeIn={()=>setHeader({ title: 'Đơn đặt hàng', headerColor: 'white', textColor:'black'})}>
       <Box m={0} p={4} flex justifyContent="center" className="bg-white">
         Số lượng đơn hàng: {cart.length}
       </Box>
@@ -22,7 +21,7 @@ const MyOrder = ({ zmprouter }) => {
             key={store.orderId}
             store={stores[store.storeId]}
             handleOnClick={() =>
-              zmprouter.navigate(`/finish-order/?id=${store.orderId}`, { animate: false })
+              zmprouter.navigate(`/finish-order/?id=${store.orderId}`)
             }
             type="order"
             className="p-3"

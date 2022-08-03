@@ -4,12 +4,12 @@ import List from 'zmp-framework/react/list';
 import ListItem from 'zmp-framework/react/list-item';
 import store from '../store';
 import { hideNavigationBar, showNavigationBar } from '../components/navigation-bar';
-import imgUrl from '../utils/img-url';
+import getImgUrl from '../utils/img-url';
 import CardProductVertical from '../components/card-item/card-product-vertical';
 import Card from '../components/card';
 import { Product } from '../models';
 import { setNavigationBarTitle } from '../services/navigation-bar';
-import { CalcSalePercentage } from '../utils';
+import { calcSalePercentage } from '../utils';
 
 const DetailSection = () => {
   const [vlData, setVlData] = useState<any>({
@@ -51,7 +51,7 @@ const DetailSection = () => {
       name="search-product"
       className="bg-white"
     >
-      <img src={imgUrl('banner')} className="w-full object-cover" alt="" />
+      <img src={getImgUrl('banner')} className="w-full object-cover" alt="" />
       <Card title="365 Sản phẩm">
         <List
           noHairlines
@@ -79,7 +79,7 @@ const DetailSection = () => {
                           pathImg={item.pathImg}
                           nameProduct={item.nameProduct}
                           salePrice={item.salePrice}
-                          salePercentage={CalcSalePercentage(item.salePrice, item.retailPrice)}
+                          salePercentage={calcSalePercentage(item.salePrice, item.retailPrice)}
                           productId={item.id}
                           storeId={item.storeId}
                         />

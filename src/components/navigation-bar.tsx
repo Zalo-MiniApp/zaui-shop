@@ -2,8 +2,8 @@ import Link from 'zmp-framework/react/link';
 import Tabbar from 'zmp-framework/react/tabbar';
 import { zmp } from 'zmp-framework/react/lite';
 import { useCurrentRoute } from '../hooks';
-import OAIcon from '../static/icons/OA-icon';
-import OrderIcon from '../static/icons/order-icon';
+import IconOA from './icons/icon-oa';
+import IconOrder from './icons/icon-order';
 
 export const hideNavigationBar = () => {
   zmp.toolbar.hide('#app-tab-bar');
@@ -27,7 +27,7 @@ const NavigationBar = () => {
         animate={false}
         tabLinkActive={currentRoute.path.startsWith('/my-order')}
       >
-        <OrderIcon />
+        <IconOrder />
         Đơn hàng
       </Link>
       <Link
@@ -35,7 +35,7 @@ const NavigationBar = () => {
         href="/store-following"
         tabLinkActive={currentRoute.path.startsWith('/store-following')}
       >
-        <OAIcon />
+        <IconOA />
         OA theo dõi
       </Link>
     </Tabbar>

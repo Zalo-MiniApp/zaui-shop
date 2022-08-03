@@ -9,7 +9,9 @@
   --zmp-searchbar-input-height: 32px;
   --zmp-button-padding-vertical: 8px;
   --zmp-button-bg-color-tertiary: white;
-  --zmp-appbar-app-offset: 66px;
+  --zmp-toolbar-border-color: white;
+  --zmp-bars-border-color: white;
+  --zmp-appbar-app-offset: 108px;
   --zmp-list-margin-vertical: 0;
   --zmp-button-min-width: 12px;
   --zmp-button-bg-color-secondary: #ffdadc;
@@ -134,6 +136,11 @@ input[type=search] {
   width: 0 !important;
   height: 0 !important;
   border-width: 0 !important ;
+}
+
+.item-input-info.item-input-info.item-input-info {
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
 select {

@@ -29,7 +29,7 @@ const SearchCustom = ({
       {createPortal(
         // eslint-disable-next-line jsx-a11y/control-has-associated-label
         <div
-          className="absolute left-0 bg-zinc-900/70 w-full h-screen top-[calc(2rem+0.75rem*2)]"
+          className="absolute left-0 bg-zinc-900/70 w-full h-screen top-[calc(42px+56px)]"
           onClick={() => setIsTyping(false)}
           style={{ zIndex: isTyping ? "9999999" : "-9999" }}
           role="button"

@@ -8,6 +8,7 @@ import ErrorBoundary from './error-boundary';
 import { getUser, requestLocation } from '../services/zalo';
 import appConfig from '../../app-config.json';
 import ProductPicker from '../pages/product-picker';
+import Header from './header';
 
 const MyApp = () => {
   const zmpparams = {
@@ -31,8 +32,7 @@ const MyApp = () => {
   return (
     <ErrorBoundary>
       <App {...zmpparams}>
-        {/* <Header /> */}
-
+        <Header/>
         <View
           main
           url="/"

@@ -5,7 +5,6 @@ import List from 'zmp-framework/react/list';
 import ListItem from 'zmp-framework/react/list-item';
 import Box from 'zmp-framework/react/box';
 import Searchbar from 'zmp-framework/react/searchbar';
-import Icon from 'zmp-framework/react/icon';
 import { zmp } from 'zmp-framework/react/lite';
 import { useStore } from 'zmp-framework/react';
 import { Product, Store, orderOfStore } from '../models';
@@ -15,8 +14,7 @@ import CardProductHorizontal from '../components/card-item/card-product-horizont
 import CategoriesStore from '../components/mini-store/categories-store';
 import CardShop from '../components/mini-store/card-shop';
 import ButtonFixed from '../components/button-fixed';
-import {CalcTotalPriceOrder } from '../utils';
-import convertPrice from '../utils/convert-price';
+import { calcTotalPriceOrder, convertPrice, setHeader } from '../utils';
 import { matchStatusBar } from '../services/navigation-bar';
 
 const filter = [
@@ -29,7 +27,8 @@ const MiniStore = ({ zmprouter }) => {
 
   const [activeCate, setActiveCate] = useState<number>(0);
   const [activeFilter, setActiveFilter] = useState<string>(filter[0].key);
-  const cart = useStore('cart');
+  const cart: orderOfStore[] = useStore('cart');
+  console.log('cart ',cart);
 
   useEffect(() => {
     const { id } = zmp.views.main.router.currentRoute.query;
@@ -45,15 +44,18 @@ const MiniStore = ({ zmprouter }) => {
     topPosition: 0,
   });
 
-  const cartStore: orderOfStore = useMemo(() => {
-    const indexStore = cart.findIndex((store) => store.storeId == storeInfo?.key);
-    if (indexStore >= 0) {
-      return { ...cart[indexStore] };
-    } return undefined;
+  const cartStore: orderOfStore | undefined = useMemo(() => {
+    if (storeInfo) {
+      const indexStore = cart.findIndex((store) => store.storeId === storeInfo.key);
+      if (indexStore >= 0) {
+        return { ...cart[indexStore] };
+      }
+    }
+    return undefined;
   }, [storeInfo, cart]);
 
   const totalPrice = useMemo(() => {
-    if (cartStore) return CalcTotalPriceOrder(cartStore.listOrder);
+    if (cartStore) return calcTotalPriceOrder(cartStore.listOrder);
     return 0;
   }, [cartStore]);
 
@@ -70,17 +72,26 @@ const MiniStore = ({ zmprouter }) => {
       name="MiniStore"
       onPageBeforeIn={() => {
         hideNavigationBar();
-        matchStatusBar(true);
+        setHeader({
+          customTitle: (
+            <Searchbar
+              className="w-full rounded-xl"
+              placeholder="Tìm kiếm sản phẩm"
+              onSubmit={handleInputSearch}
+            />
+          ),
+          headerColor: 'white',
+          textColor: 'black',
+        });
       }}
       onPageBeforeOut={() => {
         showNavigationBar();
-        matchStatusBar(false);
       }}
       className="w-full bg-white"
     >
       {storeInfo && (
         <>
-          <div className=" sticky top-0 z-50 w-full bg-white">
+          {/* <div className=" sticky top-0 z-50 w-full bg-white">
             <Box
               flex
               justifyContent="space-between"
@@ -102,7 +113,7 @@ const MiniStore = ({ zmprouter }) => {
                 onSubmit={handleInputSearch}
               />
             </Box>
-          </div>
+          </div> */}
 
           <div className=" bg-primary">
             <CardShop storeInfo={storeInfo} />
@@ -159,21 +170,19 @@ const MiniStore = ({ zmprouter }) => {
               >
                 <div>Đơn hàng</div>
                 <Box m={0} flex justifyContent="space-around" alignItems="center">
-                  <div>{cartStore.listOrder.length} món</div>
+                  <div>{cartStore!.listOrder.length} món</div>
                   <div className=" w-1 h-1 bg-black rounded-lg mx-3" />
                   <div>{convertPrice(totalPrice)}</div>
                 </Box>
               </Box>
+
               <ButtonFixed
                 listBtn={[
                   {
-                    id:1,
+                    id: 1,
                     content: 'Hoàn tất đơn hàng',
                     type: 'primary',
-                    onClick: () =>
-                      zmprouter.navigate(`/finish-order/?id=${cartStore.orderId}`, {
-                        animate: false,
-                      }),
+                    onClick: () => zmprouter.navigate(`/finish-order/?id=${cartStore!.orderId}`),
                   },
                 ]}
               />

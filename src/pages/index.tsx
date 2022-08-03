@@ -6,18 +6,18 @@ import SectionProducts from '../components/home-page/section-products';
 import ImageRatio from '../components/img-ratio';
 import { Store, SectionProductsProps } from '../models';
 import store from '../store';
-import { ImgUrl } from '../utils';
+import { getImgUrl, setHeader } from '../utils';
 
 const CartBannerStore = ({ pathImg, onClick }) => (
   <div onClick={onClick} role="button">
-    <ImageRatio src={ImgUrl(pathImg)} alt="store-img" ratio={120 / 150} />
+    <ImageRatio src={getImgUrl(pathImg)} alt="store-img" ratio={120 / 150} />
   </div>
 );
 
 const CartLogoStore = ({ pathImg, nameStore, onClick }) => (
   <div className="flex flex-col items-center" onClick={onClick} role="button">
     <img
-      src={ImgUrl(pathImg)}
+      src={getImgUrl(pathImg)}
       alt="store-img"
       className=" rounded-full object-cover w-[60px] h-[60px]"
     />
@@ -38,7 +38,7 @@ const sectionProducts: SectionProductsProps[] = [
         pathImg={item.pathImg}
         nameStore={item.nameStore}
         onClick={() =>
-          zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`, { animate: false })
+          zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`)
         }
       />
     ),
@@ -52,7 +52,7 @@ const sectionProducts: SectionProductsProps[] = [
       <CartBannerStore
         pathImg={item.bannerStore}
         onClick={() =>
-          zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`, { animate: false })
+          zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`)
         }
       />
     ),
@@ -79,18 +79,18 @@ const HomePage = ({ zmprouter }) => {
     const { search } = data;
     if (search) {
       store.dispatch('setKeyword', search);
-      zmprouter.navigate('search-product', { animate: false });
+      zmprouter.navigate('search-product');
     }
   };
 
   return (
-    <Page ptr name="home" className="bg-primary">
+    <Page ptr name="home" className="bg-primary" onPageBeforeIn={()=>setHeader({hasLeftIcon:false})}>
       <div className=" sticky top-0 bg-primary z-50 py-3 px-8">
         <SearchCustom onHandleSubmitForm={onHandleSubmitForm} />
       </div>
 
       <div className=" bg-primary">
-        <img src={ImgUrl('banner')} className="w-full object-cover" alt=""/>
+        <img src={getImgUrl('banner')} className="w-full object-cover" alt=""/>
         <Categories />
       </div>
 
@@ -103,7 +103,7 @@ const HomePage = ({ zmprouter }) => {
           data={section.data}
           colPercentage={section.colPercentage}
           direction={section.direction}
-          onChoose={() => zmprouter.navigate('detail-section', { animate: false })}
+          onChoose={() => zmprouter.navigate('detail-section')}
         >
           {section.children}
         </SectionProducts>

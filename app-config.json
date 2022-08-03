@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "ZMP Ecommerce",
-    "headerColor": "#EF1724",
+    "headerColor": "",
     "textColor": "white",
     "statusBarColor": "#EF1724",
     "leftButton": "back"

@@ -1,14 +1,12 @@
 import React from "react";
 
-function OAIcon(props) {
-  return (
-    <>
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 22 22"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+const IconOA = () => (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 22 22"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
       >
         <path
           fillRule="evenodd"
@@ -17,8 +15,6 @@ function OAIcon(props) {
           fill="currentColor"
         />
       </svg>
-    </>
-  );
-}
+  )
 
-export default OAIcon;
+export default IconOA;

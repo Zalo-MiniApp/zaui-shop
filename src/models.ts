@@ -75,3 +75,12 @@ export type Address = {
   ward: string,
   detail: string
 }
+
+export type HeaderType = {
+  headerColor?: string;
+  textColor?: string;
+  route?: string;
+  hasLeftIcon?: boolean;
+  title?: string;
+  customTitle?: ReactNode;
+};

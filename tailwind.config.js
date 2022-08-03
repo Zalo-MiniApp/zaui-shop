@@ -1,8 +1,5 @@
 module.exports = {
-  purge: {
-    enabled: true,
-    content: ['./src/**/*.{js,jsx,ts,tsx,vue}'],
-  },
+  content: ['./src/**/*.{js,jsx,ts,tsx,vue}'],
   plugins: [
     require('@tailwindcss/line-clamp'),
   ],

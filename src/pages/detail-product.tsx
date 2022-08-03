@@ -5,43 +5,42 @@ import Box from 'zmp-framework/react/box';
 import { useStore } from 'zmp-framework/react';
 import { hideNavigationBar, showNavigationBar } from '../components/navigation-bar';
 import { Product, Store, orderOfStore } from '../models';
-import imgUrl from '../utils/img-url';
-import { CalcSalePercentage, CalcTotalPriceOrder } from '../utils';
+import { calcSalePercentage, calcTotalPriceOrder, convertPrice, getImgUrl, setHeader } from '../utils';
 import ButtonFixed, { ButtonType } from '../components/button-fixed';
-import convertPrice from '../utils/convert-price';
-import { setNavigationBarTitle } from '../services/navigation-bar';
 
 const DetailProduct = ({ zmproute }) => {
   const [product, setProduct] = useState<Product>();
-  const [store, setStore] = useState<Store>();
-  const cart = useStore('cart');
-  const listStores = useStore('store');
+  const [storeInfo, setStoreInfo] = useState<Store>();
+  const cart: orderOfStore[] = useStore('cart');
+  const listStores: Store[] = useStore('store');
 
   useEffect(() => {
     const { productId, storeId } = zmproute.query;
-    if (storeId && productId && listStores) {
-      const currentStore = listStores.find((store) => store.key == storeId);
-      const currentProduct = currentStore.listProducts.find((product) => product.id == productId);
-      currentStore && setStore(currentStore);
+    if (listStores && storeId && productId && listStores) {
+      const currentStore = listStores.find((store) => store.key === Number(storeId));
+      const currentProduct = currentStore!.listProducts.find(
+        (product) => product.id === Number(productId)
+      );
+      currentStore && setStoreInfo(currentStore);
       currentProduct && setProduct(currentProduct);
     }
   }, [listStores]);
 
   const salePercentage = useMemo(
-    () => CalcSalePercentage(product?.salePrice!, product?.retailPrice!),
+    () => calcSalePercentage(product?.salePrice!, product?.retailPrice!),
     [product]
   );
 
-  const cartStore: orderOfStore = useMemo(() => {
-    if (store) {
-      const storeInCart = cart.find((currentStore) => currentStore.storeId == store?.key);
+  const cartStore: orderOfStore | undefined = useMemo(() => {
+    if (storeInfo) {
+      const storeInCart = cart.find((currentStore) => currentStore.storeId === storeInfo.key);
       if (storeInCart) return storeInCart;
     }
     return undefined;
-  }, [store, cart]);
+  }, [storeInfo, cart]);
 
   const totalPrice = useMemo(() => {
-    if (cartStore) return CalcTotalPriceOrder(cartStore.listOrder);
+    if (cartStore) return calcTotalPriceOrder(cartStore.listOrder);
     return 0;
   }, [cartStore, cart]);
 
@@ -55,12 +54,12 @@ const DetailProduct = ({ zmproute }) => {
           path: '/product-picker/',
           query: {
             productId: product?.id,
-            storeId: store?.key,
+            storeId: storeInfo?.key,
           },
         });
       },
     }),
-    [product, store]
+    [product, storeInfo]
   );
 
   const btnPayment: ButtonType = useMemo(
@@ -69,15 +68,12 @@ const DetailProduct = ({ zmproute }) => {
       content: 'Thanh toán',
       type: 'secondary',
       onClick: () => {
-        zmp.views.main.router.navigate(
-          {
-            path: '/finish-order/',
-            query: {
-              id: cartStore.orderId,
-            },
+        zmp.views.main.router.navigate({
+          path: '/finish-order/',
+          query: {
+            id: cartStore?.orderId,
           },
-          { animate: false }
-        );
+        });
       },
     }),
     [cartStore]
@@ -93,7 +89,7 @@ const DetailProduct = ({ zmproute }) => {
       name="Detail Product"
       onPageBeforeIn={() => {
         hideNavigationBar();
-        setNavigationBarTitle('');
+        setHeader({ title: '' });
       }}
       onPageBeforeOut={showNavigationBar}
       className=""
@@ -101,7 +97,7 @@ const DetailProduct = ({ zmproute }) => {
       <div className=" relative bg-white mb-[80px]">
         {product && (
           <>
-            <img src={imgUrl(product!.pathImg)} alt="" className="w-full h-auto" />
+            <img src={getImgUrl(product!.pathImg)} alt="" className="w-full h-auto" />
             {salePercentage && (
               <div className="absolute top-2.5 right-2.5 text-white font-medium text-sm px-2 py-1 bg-[#FF9743] w-auto h-auto rounded-lg">
                 -{salePercentage}%
@@ -135,7 +131,7 @@ const DetailProduct = ({ zmproute }) => {
         >
           <div>Đơn hàng</div>
           <Box m={0} flex justifyContent="space-around" alignItems="center">
-            <div>{cartStore.listOrder.length} món</div>
+            <div>{cartStore?.listOrder.length} món</div>
             <div className=" w-1 h-1 bg-black rounded-lg mx-3" />
             <div>{convertPrice(totalPrice)}</div>
           </Box>

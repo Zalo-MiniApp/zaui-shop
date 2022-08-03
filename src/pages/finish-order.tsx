@@ -5,24 +5,21 @@ import Box from 'zmp-framework/react/box';
 import Text from 'zmp-framework/react/text';
 import List from 'zmp-framework/react/list';
 import ListInput from 'zmp-framework/react/list-input';
-import { hideNavigationBar, showNavigationBar } from '../components/navigation-bar';
 import CardStore from '../components/card-item/card-store';
-import { Address, orderOfStore, Store } from '../models';
 import ImageRatio from '../components/img-ratio';
-import imgUrl from '../utils/img-url';
-import { CalcTotalPriceOrder } from '../utils';
-import  AddressForm  from '../constants/address-form';
+import AddressForm from '../constants/address-form';
 import ButtonFixed from '../components/button-fixed';
+import { hideNavigationBar, showNavigationBar } from '../components/navigation-bar';
+import { Address, orderOfStore, Store } from '../models';
+import { calcTotalPriceOrder, convertPrice, getImgUrl, setHeader } from '../utils';
 import { pay } from '../services/zalo';
-import convertPrice from '../utils/convert-price';
 import { locationVN, productResultDummy } from '../dummy';
-import { setNavigationBarTitle } from '../services/navigation-bar';
 
 const CardProduct = ({ pathImg, nameProduct, salePrice, quantity }) => (
   <div className="w-full flex flex-row items-center justify-between gap-1 border border-[#E4E8EC] rounded-lg overflow-hidden h-24 p-2 mt-2 bg-white">
     <div className="flex flex-row items-center gap-1">
       <div className="flex-none w-20 rounded-lg overflow-hidden">
-        <ImageRatio src={imgUrl(pathImg)} alt="image product" ratio={1} />
+        <ImageRatio src={getImgUrl(pathImg)} alt="image product" ratio={1} />
       </div>
       <Box p={0} m={0} className=" flex-none relative w-5 h-5 rounded-full bg-slate-100">
         <div className=" absolute top-1/2 -translate-y-1/2 w-full text-center text-xs text-blue-700 ">
@@ -44,7 +41,7 @@ const CardProduct = ({ pathImg, nameProduct, salePrice, quantity }) => (
 );
 
 const FinishOrder = () => {
-  const cart = useStore('cart');
+  const cart: orderOfStore[] = useStore('cart');
   const stores: Store[] = useStore('store');
   const address: Address = useStore('address');
   const latlong: Address = useStore('latlong');
@@ -57,7 +54,7 @@ const FinishOrder = () => {
 
   useEffect(() => {
     const { id } = zmp.views.main.router.currentRoute.query;
-    const indexOrder = cart.findIndex((order) => order.orderId == id);
+    const indexOrder = cart.findIndex((order) => order.orderId === Number(id));
     setOrderInfo(cart[indexOrder]);
     // if (!latlong) requestLocation();
   }, []);
@@ -70,11 +67,12 @@ const FinishOrder = () => {
   useEffect(() => {
     if (orderInfo) {
       let currentAddress: Address;
-      if(!changeForm) (currentAddress = address); else (currentAddress = changeForm);
+      if (!changeForm) currentAddress = address;
+      else currentAddress = changeForm;
       const { city, district } = currentAddress;
       const indexCity = Number(city) - 1 > -1 ? Number(city) - 1 : 0;
       const indexDistrict = locationVN[indexCity].districts.findIndex(
-        (currentDistrict) => currentDistrict.id == district
+        (currentDistrict) => currentDistrict.id === district
       );
       setCurrentDistricts(locationVN[indexCity]?.districts);
       setCurrentWards(
@@ -94,14 +92,13 @@ const FinishOrder = () => {
     }
   }, [currentDistricts, currentWards]);
 
-
   return (
     <Page
       ptr
       name="finish-order"
       onPageBeforeIn={() => {
         hideNavigationBar();
-        setNavigationBarTitle('Đơn đặt hàng');
+        setHeader({ title: 'Đơn đặt hàng', headerColor: 'white', textColor: 'black' });
       }}
       onPageBeforeOut={showNavigationBar}
     >
@@ -132,7 +129,7 @@ const FinishOrder = () => {
           <Box m={4} flex flexDirection="row" justifyContent="space-between">
             <span className=" text-base font-medium">Đơn hàng</span>
             <span className=" text-base font-medium text-primary">
-              {convertPrice(CalcTotalPriceOrder(orderInfo.listOrder).toString())}đ
+              {convertPrice(calcTotalPriceOrder(orderInfo.listOrder).toString())}đ
             </span>
           </Box>
           <Box m={0} p={4} className=" bg-white">
@@ -143,7 +140,7 @@ const FinishOrder = () => {
               noHairlines
               onSubmit={handleOnSubmitForm}
             >
-              {AddressForm.map((item, index) => {
+              {AddressForm.map((item) => {
                 let listOptions: any = locationVN;
                 switch (item.name) {
                   case 'city':
@@ -206,11 +203,7 @@ const FinishOrder = () => {
                       </ListInput>
                       {item.type === 'select' && (
                         <div className="center-absolute right-2">
-                          <Icon
-                            zmp="zi-chevron-down"
-                            className="pointer-events-none"
-                            size={20}
-                           />
+                          <Icon zmp="zi-chevron-down" className="pointer-events-none" size={20} />
                         </div>
                       )}
                     </Box>

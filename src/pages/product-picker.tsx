@@ -14,11 +14,10 @@ import { zmp } from 'zmp-framework/react/lite';
 import { useStore } from 'zmp-framework/react';
 import store from '../store';
 import ImageRatio from '../components/img-ratio';
-import { CartProduct, orderOfStore, Product } from '../models';
+import { CartProduct, orderOfStore, Product, Store } from '../models';
 import ButtonFixed from '../components/button-fixed';
 import cx from '../utils/cx';
-import convertPrice from '../utils/convert-price';
-import { ImgUrl } from '../utils';
+import { convertPrice, getImgUrl } from '../utils';
 
 const Note = () => (
   <Box m="4" mb="6">
@@ -47,25 +46,26 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
   const cart: orderOfStore[] = useStore('cart');
   const btnRef = useRef<HTMLDivElement | null>(null);
   const [sheetOpened, setSheetOpened] = useState(false);
-  const listStores = useStore('store');
-
+  const listStores:Store[] = useStore('store');
+  console.log('cart: ',cart);
   const product: Product | undefined = useMemo(() => {
     if (zmproute.query) {
       // eslint-disable-next-line @typescript-eslint/no-shadow
       const { productId, storeId } = zmproute.query;
-      const currentStore = listStores.find((oa) => oa.key == storeId);
-      const currentProduct = currentStore.listProducts.find((item) => item.id == productId);
-      setStoreId(storeId);
+      console.log(storeId);
+      const currentStore = listStores.find((oa) => oa.key === Number(storeId));
+      const currentProduct = currentStore!.listProducts.find((item) => item.id === Number(productId));
+      setStoreId(Number(storeId));
       return currentProduct;
     }
     return undefined;
   }, [listStores]);
 
   const cartStore: orderOfStore | undefined = useMemo(() => {
-    if (cart && storeId) {
-      const storeInCart = cart.find((oa) => oa.storeId == storeId);
+    if (cart && storeId > -1) {
+      const storeInCart = cart.find((oa) => oa.storeId === storeId);
       if (storeInCart) {
-        return storeInCart;
+        return {...storeInCart};
       }
     }
     return undefined;
@@ -73,10 +73,10 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
 
   const cartProduct: CartProduct | undefined = useMemo(() => {
     if (product && cartStore) {
-      const currentProductOrder = cartStore.listOrder.find((ord) => ord.id == product.id);
+      const currentProductOrder = cartStore.listOrder.find((ord) => ord.id === product.id);
 
       if (currentProductOrder) {
-        return currentProductOrder;
+        return {...currentProductOrder};
       }
     }
     return undefined;
@@ -86,6 +86,7 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
     if (cartProduct && sheetOpened) {
       const { quantity, ...data } = cartProduct.order;
       setQuantity(quantity);
+
       zmp.form.fillFromData('#product-picker-form', {
         ...data,
       });
@@ -98,7 +99,7 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
     store.dispatch('setCart', {
       storeId,
       productOrder: {
-        id: product?.id,
+        id: product!.id,
         order: data,
       } as CartProduct,
     });
@@ -125,7 +126,7 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
         <div className="w-full flex flex-row items-center justify-between overflow-hidden h-24 m-4 ">
           <div className="flex flex-row items-center">
             <div className="w-24 flex-none">
-              <ImageRatio src={ImgUrl(product.pathImg)} alt="image product" ratio={1} />
+              <ImageRatio src={getImgUrl(product.pathImg)} alt="image product" ratio={1} />
             </div>
             <div className=" p-3 pr-0">
               <div className="line-clamp-2 text-sm break-words">{product.nameProduct}</div>
@@ -201,7 +202,7 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
                 type: 'secondary',
                 onClick: () => {
                   addToStore();
-                  zmprouter.navigate(`/finish-order/?id=${cartStore?.orderId}`, { animate: false });
+                  zmprouter.navigate(`/finish-order/?id=${cartStore?.orderId}`);
                 },
               },
               {

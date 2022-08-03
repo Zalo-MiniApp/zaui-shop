@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createStore } from 'zmp-core/lite';
 import { userInfo } from 'zmp-sdk';
-import { productResultDummy , storeDummy } from './dummy';
-import { Store, Product, CartProduct, OrderStatus, Address, orderOfStore } from './models';
+import { productResultDummy, storeDummy } from './dummy';
+import { Store, Product, CartProduct, Address, orderOfStore, HeaderType } from './models';
 
 interface StoreState {
   user: userInfo;
@@ -14,6 +14,7 @@ interface StoreState {
   store: Store[];
   storeFollowing: Store[];
   cart: orderOfStore[];
+  header: HeaderType;
 }
 
 const store = createStore<StoreState>({
@@ -23,6 +24,7 @@ const store = createStore<StoreState>({
       avatar: '',
       name: '',
     },
+    header: {},
     products: productResultDummy.slice(0, 6),
     productResult: productResultDummy,
     store: storeDummy,
@@ -36,30 +38,30 @@ const store = createStore<StoreState>({
       detail: '',
     },
     cart: [
-      {
-        orderId: 0,
-        storeId: 0,
-        status: 'pending',
-        listOrder: [
-          {
-            id: 0,
-            order: { quantity: 3, size: 'm', color: 'cloud-blue', note: 'buy' },
-          },
-        ],
-        date: new Date(),
-      },
-      {
-        orderId: 1,
-        storeId: 1,
-        status: 'pending',
-        listOrder: [
-          {
-            id: 26,
-            order: { quantity: 3, note: '' },
-          },
-        ],
-        date: new Date(),
-      },
+      // {
+      //   orderId: 0,
+      //   storeId: 0,
+      //   status: 'pending',
+      //   listOrder: [
+      //     {
+      //       id: 0,
+      //       order: { quantity: 3, size: 'm', color: 'cloud-blue', note: 'buy' },
+      //     },
+      //   ],
+      //   date: new Date(),
+      // },
+      // {
+      //   orderId: 1,
+      //   storeId: 1,
+      //   status: 'pending',
+      //   listOrder: [
+      //     {
+      //       id: 26,
+      //       order: { quantity: 3, note: '' },
+      //     },
+      //   ],
+      //   date: new Date(),
+      // },
     ],
   },
   getters: {
@@ -68,6 +70,9 @@ const store = createStore<StoreState>({
     },
     latlong({ state }) {
       return state.latlong;
+    },
+    header({ state }) {
+      return state.header;
     },
     address({ state }) {
       return state.address;
@@ -95,11 +100,19 @@ const store = createStore<StoreState>({
       state.address = { city: '1', district: '19', ward: '258', detail: '' };
       // developer can parse address from the position state given by the user
     },
+    setHeader({ state }, data: HeaderType) {
+      // const cloneHeader: HeaderType = JSON.parse(JSON.stringify(state.header));
+      // Object.keys(data).forEach((i) => {
+      //   state.header[i] = data[i];
+      // });
+      console.log(data);
+      state.header = data;
+    },
     setKeyword({ state }, keyword: string) {
       state.keyword = keyword;
     },
     setCart({ state }, { storeId, productOrder }: { storeId: number; productOrder: CartProduct }) {
-      const indexStore = state.cart.findIndex((cart) => cart.storeId == storeId);
+      const indexStore = state.cart.findIndex((cart) => cart.storeId === storeId);
       if (indexStore < 0) {
         state.cart.push({
           orderId: state.cart.length,
@@ -112,7 +125,7 @@ const store = createStore<StoreState>({
       } else {
         const { cart } = state;
         const indexOrder = cart[indexStore]?.listOrder.findIndex(
-          (ord) => ord.id == productOrder.id
+          (ord) => ord.id === productOrder.id
         );
 
         if (indexOrder >= 0) cart[indexStore].listOrder[indexOrder].order = productOrder.order;

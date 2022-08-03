@@ -2,8 +2,7 @@ import React from "react";
 import Box from "zmp-framework/react/box";
 import Icon from "zmp-framework/react/icon";
 import { zmp } from "zmp-framework/react/lite";
-import convertPrice from "../../utils/convert-price";
-import imgUrl from "../../utils/img-url";
+import { convertPrice, getImgUrl } from "../../utils";
 import ImageRatio from "../img-ratio";
 
 type CardProductHorizontalProps = {
@@ -29,14 +28,13 @@ const CardProductHorizontal = ({
       onClick={() => {
         zmp.views.main.router.navigate(
           `/detail-product/?productId=${productId}&storeId=${storeId}`,
-          { animate: false }
         );
       }}
       role="button"
     >
       <div className="flex flex-row items-center">
         <div className="w-24 flex-none">
-          <ImageRatio src={imgUrl(pathImg)} alt="image product" ratio={1} />
+          <ImageRatio src={getImgUrl(pathImg)} alt="image product" ratio={1} />
         </div>
         <div className=" p-3 pr-0">
           <div className="line-clamp-2 text-sm break-words">{nameProduct}</div>
