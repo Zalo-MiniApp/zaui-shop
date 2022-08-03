@@ -1,27 +1,27 @@
-import React, { useRef, useState } from "react";
-import Input from "zmp-framework/react/input";
-import List from "zmp-framework/react/list";
-import ListInput from "zmp-framework/react/list-input";
-import Icon from "zmp-framework/react/icon";
-import { createPortal } from "react-dom";
-import { zmp } from "zmp-framework/react/lite";
+import React, { useRef, useState } from 'react';
+import Input from 'zmp-framework/react/input';
+import List from 'zmp-framework/react/list';
+import ListInput from 'zmp-framework/react/list-input';
+import Icon from 'zmp-framework/react/icon';
+import { createPortal } from 'react-dom';
+import { zmp } from 'zmp-framework/react/lite';
 
-const SearchCustom = ({
-  onHandleSubmitForm,
-}: {
-  onHandleSubmitForm: (e) => void;
-}) => {
+const SearchCustom = ({ onHandleSubmitForm }: { onHandleSubmitForm: (e) => void }) => {
   const [isTyping, setIsTyping] = useState<boolean>(false);
+
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+    e.target[0].blur();
+    setIsTyping(false);
+    onHandleSubmitForm(zmp.form.convertToData('#search-form'));
+  };
   return (
     <List
-      style={{ listStyle: "none" }}
+      style={{ listStyle: 'none' }}
       form
       id="search-form"
       onSubmit={(e) => {
-        e.preventDefault();
-        e.target[0].blur();
-        setIsTyping(false);
-        onHandleSubmitForm(zmp.form.convertToData("#search-form"));
+        handleSubmitForm(e);
       }}
       noHairlinesBetween
       className="custom-search flex items-center justify-between flex-row m-0"
@@ -31,10 +31,10 @@ const SearchCustom = ({
         <div
           className="absolute left-0 bg-zinc-900/70 w-full h-screen top-[calc(42px+56px)]"
           onClick={() => setIsTyping(false)}
-          style={{ zIndex: isTyping ? "9999999" : "-9999" }}
+          style={{ zIndex: isTyping ? '9999999' : '-9999' }}
           role="button"
         />,
-        document.getElementById("zmp-root")!
+        document.getElementById('zmp-root')!
       )}
       <div className="w-full">
         <ListInput
@@ -45,11 +45,11 @@ const SearchCustom = ({
           clearButton
           name="search"
           inputStyle={{
-            borderRadius: "0.75rem",
-            backgroundColor: "white",
-            width: "100%",
-            height: "2rem",
-            minHeight: "0",
+            borderRadius: '0.75rem',
+            backgroundColor: 'white',
+            width: '100%',
+            height: '2rem',
+            minHeight: '0',
           }}
           onFocus={() => setIsTyping(true)}
           onBlur={() => setIsTyping(false)}
