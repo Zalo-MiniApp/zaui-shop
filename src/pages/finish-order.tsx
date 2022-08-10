@@ -6,91 +6,121 @@ import Text from 'zmp-framework/react/text';
 import List from 'zmp-framework/react/list';
 import ListInput from 'zmp-framework/react/list-input';
 import CardStore from '../components/card-item/card-store';
-import ImageRatio from '../components/img-ratio';
 import AddressForm from '../constants/address-form';
-import ButtonFixed from '../components/button-fixed';
+import ButtonFixed from '../components/button-fixed/button-fixed';
 import { hideNavigationBar, showNavigationBar } from '../components/navigation-bar';
-import { Address, orderOfStore, Store } from '../models';
-import { calcTotalPriceOrder, convertPrice, getImgUrl, setHeader } from '../utils';
+import { Address, AddressFormType, orderOfStore, Store } from '../models';
+import { calcTotalPriceOrder, convertPrice, cx } from '../utils';
 import { pay } from '../services/zalo';
-import { locationVN, productResultDummy } from '../dummy';
-
-const CardProduct = ({ pathImg, nameProduct, salePrice, quantity }) => (
-  <div className="w-full flex flex-row items-center justify-between gap-1 border border-[#E4E8EC] rounded-lg overflow-hidden h-24 p-2 mt-2 bg-white">
-    <div className="flex flex-row items-center gap-1">
-      <div className="flex-none w-20 rounded-lg overflow-hidden">
-        <ImageRatio src={getImgUrl(pathImg)} alt="image product" ratio={1} />
-      </div>
-      <Box p={0} m={0} className=" flex-none relative w-5 h-5 rounded-full bg-slate-100">
-        <div className=" absolute top-1/2 -translate-y-1/2 w-full text-center text-xs text-blue-700 ">
-          {quantity}
-        </div>
-      </Box>
-      <Box m={0} className="flex-none text-slate-500">
-        x
-      </Box>
-      <div>
-        <div className="line-clamp-2 text-sm break-words">{nameProduct}</div>
-      </div>
-    </div>
-    <span className=" pt-1 font-semibold text-sm">
-      <span className=" font-normal text-xs">đ</span>
-      {convertPrice(salePrice)}
-    </span>
-  </div>
-);
+import { locationVN } from '../dummy';
+import store from '../store';
+import CardProductOrder from '../components/card-item/card-product-order';
+import { changeStatusBarColor } from '../services/navigation-bar';
+import setHeader from '../services/header';
 
 const FinishOrder = () => {
   const cart: orderOfStore[] = useStore('cart');
   const stores: Store[] = useStore('store');
   const address: Address = useStore('address');
-  const latlong: Address = useStore('latlong');
+  const [showAddress, setShowAddress] = useState<Address | null>(null);
   const [currentDistricts, setCurrentDistricts] = useState<any>();
   const [currentWards, setCurrentWards] = useState<any>();
   const [orderInfo, setOrderInfo] = useState<orderOfStore>();
-  const [changeForm, setChangeForm] = useState<Address | null>(null);
-
-  const checkInitialFillForm = useRef<boolean>(true);
+  const [changeAddress, setChangeAddress] = useState<Address | null>(null);
+  const [readOnly, setReadOnly] = useState<boolean>(false);
+  const initialFillForm = useRef<boolean>(false);
 
   useEffect(() => {
     const { id } = zmp.views.main.router.currentRoute.query;
     const indexOrder = cart.findIndex((order) => order.orderId === Number(id));
-    setOrderInfo(cart[indexOrder]);
-    // if (!latlong) requestLocation();
-  }, []);
+    if (indexOrder === -1) zmp.views.main.router.navigate('/my-order', { transition: 'zmp-fade' });
+    else {
+      setOrderInfo(cart[indexOrder]);
+      if (cart[indexOrder].status === 'finish') setReadOnly(true);
+    }
+  }, [cart]);
 
-  const handleOnSubmitForm = async (e: SyntheticEvent) => {
+  useEffect(() => {
+    if (readOnly && orderInfo) setChangeAddress(orderInfo.address!);
+    else setChangeAddress(address);
+  }, [readOnly, address, orderInfo]);
+
+  const handleSubmitForm = async (e: SyntheticEvent) => {
+    console.log(zmp.form.convertToData('#input-address-form') as Address);
     e.preventDefault();
     await pay(1000000);
   };
-
   useEffect(() => {
     if (orderInfo) {
-      let currentAddress: Address;
-      if (!changeForm) currentAddress = address;
-      else currentAddress = changeForm;
-      const { city, district } = currentAddress;
+      const { city, district, ward, detail } = changeAddress!;
       const indexCity = Number(city) - 1 > -1 ? Number(city) - 1 : 0;
-      const indexDistrict = locationVN[indexCity].districts.findIndex(
+      const findDistrict = locationVN[indexCity].districts.findIndex(
         (currentDistrict) => currentDistrict.id === district
       );
-      setCurrentDistricts(locationVN[indexCity]?.districts);
-      setCurrentWards(
-        locationVN[indexCity].districts[indexDistrict > -1 ? indexDistrict : 0].wards
+      const indexDistrict = findDistrict < 0 ? 0 : findDistrict;
+      const findWard = locationVN[indexCity].districts[indexDistrict].wards.findIndex(
+        (currentWard) => currentWard.id === ward
       );
+      const indexWard = findWard < 0 ? 0 : findWard;
+      setCurrentDistricts(locationVN[indexCity].districts);
+      setCurrentWards(locationVN[indexCity].districts[indexDistrict].wards);
+      setShowAddress({
+        city,
+        district: !district ? '' : locationVN[indexCity].districts[indexDistrict].id,
+        ward: !ward ? '' : locationVN[indexCity].districts[indexDistrict].wards[indexWard].id,
+        detail,
+      });
     }
-  }, [orderInfo, address, changeForm]);
+  }, [orderInfo, changeAddress]);
 
   useEffect(() => {
-    if (currentDistricts && currentWards && checkInitialFillForm.current) {
+    if (currentDistricts && currentWards && showAddress) {
+      initialFillForm.current = false;
       zmp.form.fillFromData('#input-address-form', {
-        district: address.district,
-        city: address.city,
-        ward: address.ward,
+        city: showAddress.city,
+        district: showAddress.district,
+        ward: showAddress.ward,
+        detail: showAddress.detail,
       });
-      checkInitialFillForm.current = false;
+      if (!initialFillForm.current) {
+        initialFillForm.current = true;
+      }
     }
-  }, [currentDistricts, currentWards]);
+  }, [currentDistricts, currentWards, showAddress]);
+
+  const handleChooseProduct = (productId: number) => {
+    zmp.views.main.router.navigate({
+      path: '/product-picker/',
+      query: {
+        productId,
+        storeId: orderInfo?.storeId,
+        isUpdate: 'true',
+      },
+    });
+  };
+
+  const filterListOptions = (item: AddressFormType) => {
+    let listOptions: any = locationVN;
+    switch (item.name) {
+      case 'city':
+        listOptions = locationVN;
+        break;
+      case 'district':
+        listOptions = currentDistricts;
+        break;
+      case 'ward':
+        listOptions = currentWards;
+        break;
+      default:
+        listOptions = locationVN;
+        break;
+    }
+    return listOptions;
+  };
+  const getStore = (cart: orderOfStore) => {
+    const store: Store | undefined = stores.find((store) => store.id === cart.storeId);
+    return store;
+  };
 
   return (
     <Page
@@ -98,15 +128,18 @@ const FinishOrder = () => {
       name="finish-order"
       onPageBeforeIn={() => {
         hideNavigationBar();
-        setHeader({ title: 'Đơn đặt hàng', headerColor: 'white', textColor: 'black' });
+        setHeader({ title: 'Đơn đặt hàng', type: 'secondary' });
+        changeStatusBarColor('secondary');
       }}
-      onPageBeforeOut={showNavigationBar}
+      onPageBeforeOut={() => {
+        showNavigationBar();
+      }}
     >
       {orderInfo && address && (
         <div className=" mb-[80px]">
           <Box m={0} p={4} className=" bg-white">
             <CardStore
-              store={stores[orderInfo.storeId]}
+              store={getStore(orderInfo)!}
               hasRightSide={false}
               hasBorderBottom={false}
               type="order"
@@ -114,14 +147,16 @@ const FinishOrder = () => {
           </Box>
           <Box mx={3} mb={2}>
             {orderInfo.listOrder.map((product) => {
-              const productInfo = productResultDummy[product.id];
+              const productInfo = store.state.product.find((prod) => prod.id === product.id);
               return (
-                <CardProduct
-                  pathImg={productInfo.pathImg}
-                  nameProduct={productInfo.nameProduct}
-                  salePrice={productInfo.salePrice}
-                  quantity={product.order.quantity}
-                  key={productInfo.id}
+                <CardProductOrder
+                  pathImg={productInfo!.imgProduct}
+                  nameProduct={productInfo!.nameProduct}
+                  salePrice={productInfo!.salePrice}
+                  quantity={product!.order.quantity}
+                  key={productInfo!.id}
+                  id={product.id}
+                  handleOnClick={(productId) => !readOnly && handleChooseProduct(productId)}
                 />
               );
             })}
@@ -132,36 +167,27 @@ const FinishOrder = () => {
               {convertPrice(calcTotalPriceOrder(orderInfo.listOrder).toString())}đ
             </span>
           </Box>
-          <Box m={0} p={4} className=" bg-white">
+          <Box m={0} px={4} className=" bg-white">
+            <Text size="large" bold className=" border-b py-3 mb-0">
+              Địa chỉ giao hàng
+            </Text>
             <List
               style={{ listStyle: 'none' }}
               form
               id="input-address-form"
               noHairlines
-              onSubmit={handleOnSubmitForm}
+              onSubmit={handleSubmitForm}
             >
-              {AddressForm.map((item) => {
-                let listOptions: any = locationVN;
-                switch (item.name) {
-                  case 'city':
-                    listOptions = locationVN;
-                    break;
-                  case 'district':
-                    listOptions = currentDistricts;
-                    break;
-                  case 'ward':
-                    listOptions = currentWards;
-                    break;
-                  default:
-                    listOptions = locationVN;
-                    break;
-                }
+              {AddressForm.map((item: AddressFormType) => {
+                const listOptions = filterListOptions(item);
                 return (
-                  <div key={item.name}>
+                  <div key={item.name} className={cx('py-3', item.name !== 'ward' && 'border-b')}>
                     <Text
                       size="large"
                       bold
-                      className=" after:content-['_*'] after:text-primary after:align-middle"
+                      className={cx(
+                        !readOnly && "after:content-['_*'] after:text-primary after:align-middle"
+                      )}
                     >
                       {item.label}
                     </Text>
@@ -171,56 +197,74 @@ const FinishOrder = () => {
                         wrap={false}
                         type={item.type}
                         placeholder="Nhập ghi chú (VD. Ít đá, nhiều đường...)"
-                        clearButton={item.type === 'text'}
+                        clearButton={item.type === 'text' && !readOnly}
                         name={item.name}
-                        validate={item.isValidate}
                         required
-                        errorMessage={item.errorMessage || ''}
                         inputStyle={{
                           width: '100%',
                           lineHeight: '20px',
                           height: 'fit-content',
-                          padding: '8px',
                           border: 'unset',
-                          transform: 'translateX(-8px)',
+                          padding: 0,
+                          boxShadow: 'none',
+                          pointerEvents: readOnly ? 'none' : 'auto',
                         }}
                         onChange={() => {
-                          if (item.type !== 'text' && !checkInitialFillForm.current)
-                            setChangeForm(zmp.form.convertToData('#input-address-form') as Address);
+                          if (
+                            item.name !== 'detail' &&
+                            item.name !== 'ward' &&
+                            initialFillForm.current
+                          ) {
+                            setChangeAddress(
+                              zmp.form.convertToData('#input-address-form') as Address
+                            );
+                          }
                         }}
                       >
                         {item.type === 'select' && (
-                          <option value="" disabled hidden className=" text-gray-50">
-                            {item.placeholder}
-                          </option>
-                        )}
-                        {item.type === 'select' &&
-                          listOptions?.map((option) => (
-                            <option key={option.id} value={option.id}>
-                              {option.name}
+                          <>
+                            <option value="" disabled hidden style={{ display: 'none' }}>
+                              {item.placeholder}
                             </option>
-                          ))}
+                            {listOptions?.map((option) => (
+                              <option key={option.id} value={option.id}>
+                                {option.name}
+                              </option>
+                            ))}
+                            <div className="center-absolute right-2">
+                              <Icon
+                                zmp="zi-chevron-down"
+                                className="pointer-events-none"
+                                size={20}
+                              />
+                            </div>
+                          </>
+                        )}
                       </ListInput>
-                      {item.type === 'select' && (
+                      {item.type === 'select' && !readOnly && (
                         <div className="center-absolute right-2">
                           <Icon zmp="zi-chevron-down" className="pointer-events-none" size={20} />
                         </div>
                       )}
                     </Box>
+                    {!readOnly && (
+                      <ButtonFixed>
+                        <button type="submit" className=" bg-primary text-white rounded-lg h-12">
+                          Đặt hàng
+                        </button>
+                      </ButtonFixed>
+                    )}
                   </div>
                 );
               })}
-
-              <ButtonFixed>
-                <button type="submit" className=" bg-primary text-white rounded-lg h-12">
-                  Đặt hàng
-                </button>
-              </ButtonFixed>
             </List>
           </Box>
-          <Text className=" p-4 text-center">
-            Đặt hàng đồng nghĩa với việc bạn đồng ý quan tâm Big C Việt Nam để nhận tin tức mới
-          </Text>
+          {!readOnly && (
+            <Text className=" p-4 text-center">
+              Đặt hàng đồng nghĩa với việc bạn đồng ý quan tâm {stores[orderInfo.storeId].nameStore}{' '}
+              để nhận tin tức mới
+            </Text>
+          )}
         </div>
       )}
     </Page>

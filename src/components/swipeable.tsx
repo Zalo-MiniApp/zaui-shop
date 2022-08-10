@@ -12,6 +12,7 @@ const Swipeable: FunctionComponent<SwipeableType> = ({
   ...props
 }) => {
   const handleTouch = (e: React.TouchEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     const { clientX } = e.touches[0];
     const { clientWidth } = e.currentTarget;
     if (clientX < clientWidth / 2) {

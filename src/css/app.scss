@@ -3,10 +3,9 @@
 /* Your app custom styles here */
 :root {
   --zmp-theme-color: #EF1724;
-  --zmp-theme-color-rgb: 239, 23, 36;
-  --zmp-secondary-color: #ff8a00;
   --zmp-page-bg-color: #f4f5f6;
   --zmp-searchbar-input-height: 32px;
+  --zmp-theme-color-rgb: 239, 23, 36;
   --zmp-button-padding-vertical: 8px;
   --zmp-button-bg-color-tertiary: white;
   --zmp-toolbar-border-color: white;
@@ -22,6 +21,7 @@
   --zmp-searchbar-in-page-content-input-border-radius: 12px;
   --zmp-searchbar-in-page-content-border-radius: 12px;
   --zmp-list-item-padding-vertical: 0px;
+  --custom-header: 44px;
 }
 
 html {
@@ -43,6 +43,7 @@ body {
 i.icon {
   vertical-align: baseline;
 }
+
 .searchbar:not(.searchbar-inline).searchbar:not(.searchbar-inline) {
   width: 100%;
 }
@@ -64,7 +65,7 @@ i.icon {
 }
 
 .view-main.hidden-nav {
-  height: 100%;
+  height: calc(100% - var(--custom-header));
 }
 
 .header {
@@ -87,7 +88,7 @@ i.icon {
 }
 
 .shadow-theme {
-  box-shadow: 0px -80px 18px -20px rgba(var(--zmp-theme-color-rgb), 0.78);
+  box-shadow: 0px -80px 18px -20px var(--zmp-theme-color);
 }
 
 .list .item-content {
@@ -120,6 +121,11 @@ input[type="text"] {
 input[type=search] {
   min-height: unset !important
 }
+
+input[type="text"]::placeholder {
+  color: #99A3AD;
+}
+
 .list .item-content.item-input .item-inner.item-inner {
   padding-right: 0;
   padding-top: 0px;
@@ -128,14 +134,20 @@ input[type=search] {
 .item-input-successful select {
   border-color: var(--zmp-theme-color);
 }
+
 .list .item-content.item-input .item-inner {
-    padding-right: 0;
-    padding-top: 4px;
+  padding-right: 0;
+  padding-top: 4px;
 }
+
+.list .item-content {
+  height: 100%;
+}
+
 .input-dropdown::before {
   width: 0 !important;
   height: 0 !important;
-  border-width: 0 !important ;
+  border-width: 0 !important;
 }
 
 .item-input-info.item-input-info.item-input-info {
@@ -145,6 +157,14 @@ input[type=search] {
 
 select {
   min-height: unset !important;
+}
+
+select:required:invalid {
+  color: #99A3AD;
+}
+
+option[value=""][disabled] {
+  display: none;
 }
 
 // .list .item-content:after {
@@ -189,5 +209,51 @@ select {
     -webkit-box-shadow: -1px -12px 24px -5px rgb(202 202 202 / 19%);
     -moz-box-shadow: -1px -12px 24px -5px rgb(202 202 202 / 19%);
     box-shadow: -1px -12px 24px -5px rgb(202 202 202 / 19%);
+  }
+}
+
+.anime-fade {
+  opacity: 0;
+  animation: fade 0.5s linear;
+  animation-fill-mode: forwards;
+}
+
+.anime-move-down {
+  animation: move-down 0.3s linear;
+  animation-fill-mode: forwards;
+}
+
+.anime-move-up {
+  transform: translateY(120px);
+  animation: move-up 0.3s linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+@keyframes move-down {
+  0% {
+    transform: translateY(0),
+  }
+
+  100% {
+    transform: translateY(120px),
+  }
+}
+
+@keyframes move-up {
+  0% {
+    transform: translateY(120px),
+  }
+
+  100% {
+    transform: translateY(0),
   }
 }

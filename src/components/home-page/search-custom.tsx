@@ -26,12 +26,11 @@ const SearchCustom = ({ onHandleSubmitForm }: { onHandleSubmitForm: (data) => vo
       className="custom-search flex items-center justify-between flex-row m-0"
     >
       {createPortal(
-        // eslint-disable-next-line jsx-a11y/control-has-associated-label
         <div
           className="absolute left-0 bg-zinc-900/70 w-full h-screen top-[calc(42px+56px)]"
           onClick={() => setIsTyping(false)}
           style={{ zIndex: isTyping ? '9999999' : '-9999' }}
-          role="button"
+          role="presentation"
         />,
         document.getElementById('zmp-root')!
       )}

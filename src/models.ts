@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-export type OrderStatus = "pending" | "shipping";
+export type OrderStatus = 'pending' | 'shipping' | 'finish';
 
-type Options = {
+export type Options = {
   name: string;
   title: string;
   option: {
@@ -24,7 +24,7 @@ export type CartProduct = {
 export type Product = {
   id: number;
   storeId: number;
-  pathImg: string;
+  imgProduct: string;
   nameProduct: string;
   salePrice: number | string;
   retailPrice: number | string;
@@ -33,15 +33,15 @@ export type Product = {
 };
 
 export type Store = {
-  key: number;
-  pathImg: string;
+  id: number;
+  logoStore: string;
   bannerStore: string;
   nameStore: string;
   followers: number;
   address: string;
+  type: string;
   categories: string[];
-  type: "personal" | "business",
-  listProducts: Product[]
+  listProducts: Product[];
 };
 
 export type orderOfStore = {
@@ -50,6 +50,7 @@ export type orderOfStore = {
   status: OrderStatus;
   listOrder: CartProduct[];
   date: Date;
+  address?: Address;
 };
 
 export type SectionProductsProps = {
@@ -57,7 +58,7 @@ export type SectionProductsProps = {
   title: string;
   watchMore?: boolean;
   pathBanner?: string;
-  direction?: "vertical" | "horizontal";
+  direction?: 'vertical' | 'horizontal';
   colPercentage?: number;
   children?: (data: Product | Store) => ReactNode;
   data: any;
@@ -70,17 +71,25 @@ export type OrderStoreProps = {
 };
 
 export type Address = {
-  city: string,
-  district: string,
-  ward: string,
-  detail: string
-}
+  city: string;
+  district: string;
+  ward: string;
+  detail: string;
+};
 
 export type HeaderType = {
-  headerColor?: string;
-  textColor?: string;
   route?: string;
   hasLeftIcon?: boolean;
   title?: string;
   customTitle?: ReactNode;
+  type?: 'primary' | 'secondary';
+};
+
+export type AddressFormType = {
+  name: 'detail' | 'city' | 'district' | 'ward';
+  label: string;
+  type: 'text' | 'select';
+  placeholder: string;
+  isValidate: boolean;
+  errorMessage?: string;
 };

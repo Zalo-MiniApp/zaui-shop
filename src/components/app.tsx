@@ -21,6 +21,7 @@ const MyApp = () => {
     await api.login();
     getUser();
     requestLocation();
+    store.dispatch('initDummyData');
   };
 
   useEffect(() => {

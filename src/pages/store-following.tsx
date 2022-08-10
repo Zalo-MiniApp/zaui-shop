@@ -5,7 +5,8 @@ import Searchbar from 'zmp-framework/react/searchbar';
 import { SyntheticEvent } from 'react';
 import { Store } from '../models';
 import CardStore from '../components/card-item/card-store';
-import { setHeader } from '../utils';
+import { changeStatusBarColor } from '../services/navigation-bar';
+import setHeader from '../services/header';
 
 const StoreFollowing = ({ zmprouter }) => {
   const handleSearchOA = (e: SyntheticEvent) => {
@@ -17,9 +18,14 @@ const StoreFollowing = ({ zmprouter }) => {
     <Page
       ptr
       name="store-following"
-      onPageBeforeIn={() =>
-        setHeader({ title: 'OA đã theo dõi', headerColor: 'white', textColor: 'black' })
-      }
+      onPageBeforeIn={() => {
+        setHeader({
+          title: 'OA đã theo dõi',
+          hasLeftIcon: false,
+          type: 'secondary',
+        });
+        changeStatusBarColor('secondary');
+      }}
     >
       <Box m={0} pt={4} pb={0} px={4} className="bg-white">
         <Searchbar
@@ -30,9 +36,11 @@ const StoreFollowing = ({ zmprouter }) => {
         <div className="mt-4">
           {storeFollowing.map((store) => (
             <CardStore
-              key={store.key}
+              key={store.id}
               store={store}
-              handleOnClick={() => zmprouter.navigate(`/mini-store/?id=${store.key}`)}
+              handleOnClick={() =>
+                zmprouter.navigate(`/mini-store/?id=${store.id}`, { transition: 'zmp-fade' })
+              }
             />
           ))}
         </div>

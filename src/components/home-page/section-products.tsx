@@ -13,7 +13,7 @@ const SectionProducts = ({
   data = [],
   onChoose,
 }: SectionProductsProps) => (
-  <div className="pt-4 bg-gray-100">
+  <div className="pt-4">
     <Box m="0" className="bg-white" p="4">
       <div className="flex flex-row justify-between items-center pb-3.5">
         <span className="text-base text-primary font-semibold">{title}</span>
@@ -24,7 +24,13 @@ const SectionProducts = ({
         )}
       </div>
       {pathBanner && (
-        <img src={getImgUrl(pathBanner!)} className="pb-[14px] w-full h-auto object-contain" alt="" />
+        <div onClick={onChoose} role="button">
+          <img
+            src={getImgUrl(pathBanner!)}
+            className="pb-[14px] w-full h-auto object-contain"
+            alt=""
+          />
+        </div>
       )}
       <div
         className={cx(
@@ -45,7 +51,7 @@ const SectionProducts = ({
               children(item)
             ) : (
               <CardProductVertical
-                pathImg={item.pathImg}
+                pathImg={item.imgProduct}
                 nameProduct={item.nameProduct}
                 salePrice={item.salePrice}
                 salePercentage={calcSalePercentage(item.salePrice, item.retailPrice)}

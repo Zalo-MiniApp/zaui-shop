@@ -26,11 +26,11 @@ import App from './components/app';
 import appConfig from '../app-config.json';
 
 if (!(window as any).APP_CONFIG) {
-  (window as any).APP_CONFIG = appConfig
+  (window as any).APP_CONFIG = appConfig;
 }
 
 // Init ZMP React Plugin
-ZMP.use([ZMPReact, Input, Form, View, List, VirtualList,Sheet, Searchbar])
+ZMP.use([ZMPReact, Input, Form, View, List, VirtualList, Sheet, Searchbar]);
 
 // Mount React App
 createRoot(document.getElementById('app')!).render(React.createElement(App));

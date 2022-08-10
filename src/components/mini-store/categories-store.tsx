@@ -1,8 +1,9 @@
-import React, { SyntheticEvent, useRef } from "react";
-import Icon from "zmp-framework/react/icon";
-import Box from "zmp-framework/react/box";
-import categoriesProductsDummy from "../../dummy/category-products";
-import cx from "../../utils/cx";
+import React, { SyntheticEvent, useRef } from 'react';
+import Icon from 'zmp-framework/react/icon';
+import Box from 'zmp-framework/react/box';
+// import categoriesProductsDummy from '../../dummy/category-products';
+import cx from '../../utils/cx';
+import store from '../../store';
 
 type CategoryStoreProps = {
   categories: string[];
@@ -11,6 +12,8 @@ type CategoryStoreProps = {
   activeFilter: string;
   setActiveFilter: (index) => void;
   filter: { key: string; name: string }[];
+  quantity: number;
+  storeId: number;
 };
 
 const CategoriesStore = ({
@@ -20,6 +23,8 @@ const CategoriesStore = ({
   activeFilter,
   setActiveFilter,
   filter,
+  quantity,
+  storeId,
 }: CategoryStoreProps) => {
   const selectRef = useRef<HTMLSelectElement>(null);
   return (
@@ -29,12 +34,15 @@ const CategoriesStore = ({
           <div
             key={category}
             className={cx(
-              "mr-4 flex-none pb-2",
+              'mr-4 flex-none pb-2',
               activeCate === index
-                ? "text-primary font-semibold border-b-2 border-primary"
-                : "text-gray-500"
+                ? 'text-primary font-semibold border-b-2 border-primary'
+                : 'text-gray-500'
             )}
-            onClick={() => setActiveCate(index)}
+            onClick={() => {
+              setActiveCate(index);
+              store.dispatch('setStoreProductResult', storeId);
+            }}
             role="button"
           >
             {category}
@@ -42,9 +50,7 @@ const CategoriesStore = ({
         ))}
       </div>
       <Box className=" flex justify-between items-center" m={4}>
-        <div className=" text-base font-normal text-gray-500">
-          {categoriesProductsDummy[activeCate].length} Sản phẩm
-        </div>
+        <div className=" text-base font-normal text-gray-500">{quantity} Sản phẩm</div>
         <div className="relative">
           <select
             className=" min-h-0 rounded-md bg-white h-8 w-28 flex items-center justify-between px-2"
@@ -59,11 +65,7 @@ const CategoriesStore = ({
             ))}
           </select>
           <div className="center-absolute right-0">
-            <Icon
-              zmp="zi-chevron-down"
-              className="pointer-events-none"
-              size={24}
-             />
+            <Icon zmp="zi-chevron-down" className="pointer-events-none" size={24} />
           </div>
         </div>
       </Box>

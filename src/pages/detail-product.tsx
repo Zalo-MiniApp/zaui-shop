@@ -5,16 +5,13 @@ import Box from 'zmp-framework/react/box';
 import { useStore } from 'zmp-framework/react';
 import { hideNavigationBar, showNavigationBar } from '../components/navigation-bar';
 import { Product, Store, orderOfStore } from '../models';
-import {
-  calcSalePercentage,
-  calcTotalPriceOrder,
-  convertPrice,
-  getImgUrl,
-  setHeader,
-} from '../utils';
-import ButtonFixed, { ButtonType } from '../components/button-fixed';
+import { calcSalePercentage, calcTotalPriceOrder, convertPrice, getImgUrl } from '../utils';
+import ButtonFixed, { ButtonType } from '../components/button-fixed/button-fixed';
+import ButtonPriceFixed from '../components/button-fixed/button-price-fixed';
+import { changeStatusBarColor } from '../services/navigation-bar';
+import setHeader from '../services/header';
 
-const DetailProduct = ({ zmproute }) => {
+const DetailProduct = ({ zmproute, zmprouter }) => {
   const [product, setProduct] = useState<Product>();
   const [storeInfo, setStoreInfo] = useState<Store>();
   const cart: orderOfStore[] = useStore('cart');
@@ -23,7 +20,7 @@ const DetailProduct = ({ zmproute }) => {
   useEffect(() => {
     const { productId, storeId } = zmproute.query;
     if (listStores && storeId && productId && listStores) {
-      const currentStore = listStores.find((store) => store.key === Number(storeId));
+      const currentStore = listStores.find((store) => store.id === Number(storeId));
       const currentProduct = currentStore!.listProducts.find(
         (product) => product.id === Number(productId)
       );
@@ -39,7 +36,7 @@ const DetailProduct = ({ zmproute }) => {
 
   const cartStore: orderOfStore | undefined = useMemo(() => {
     if (storeInfo) {
-      const storeInCart = cart.find((currentStore) => currentStore.storeId === storeInfo.key);
+      const storeInCart = cart.find((currentStore) => currentStore.storeId === storeInfo.id);
       if (storeInCart) return storeInCart;
     }
     return undefined;
@@ -60,7 +57,7 @@ const DetailProduct = ({ zmproute }) => {
           path: '/product-picker/',
           query: {
             productId: product?.id,
-            storeId: storeInfo?.key,
+            storeId: storeInfo?.id,
           },
         });
       },
@@ -74,12 +71,15 @@ const DetailProduct = ({ zmproute }) => {
       content: 'Thanh toán',
       type: 'secondary',
       onClick: () => {
-        zmp.views.main.router.navigate({
-          path: '/finish-order/',
-          query: {
-            id: cartStore?.orderId,
+        zmp.views.main.router.navigate(
+          {
+            path: '/finish-order/',
+            query: {
+              id: cartStore?.orderId,
+            },
           },
-        });
+          { transition: 'zmp-fade' }
+        );
       },
     }),
     [cartStore]
@@ -96,14 +96,18 @@ const DetailProduct = ({ zmproute }) => {
       onPageBeforeIn={() => {
         hideNavigationBar();
         setHeader({ title: '' });
+        changeStatusBarColor();
       }}
       onPageBeforeOut={showNavigationBar}
       className=""
     >
-      <div className=" relative bg-white mb-[80px]">
+      <div
+        className=" relative bg-white"
+        style={{ paddingBottom: totalPrice > 0 ? '120px' : '80px' }}
+      >
         {product && (
           <>
-            <img src={getImgUrl(product!.pathImg)} alt="" className="w-full h-auto" />
+            <img src={getImgUrl(product!.imgProduct)} alt="" className="w-full h-auto" />
             {salePercentage && (
               <div className="absolute top-2.5 right-2.5 text-white font-medium text-sm px-2 py-1 bg-[#FF9743] w-auto h-auto rounded-lg">
                 -{salePercentage}%
@@ -127,23 +131,16 @@ const DetailProduct = ({ zmproute }) => {
       </div>
 
       {totalPrice && (
-        <Box
-          px={4}
-          py={3}
-          flex
-          justifyContent="space-between"
-          alignItems="center"
-          className=" bg-gray-300 rounded-primary fixed bottom-20 left-0 right-0 z-50"
-        >
-          <div>Đơn hàng</div>
-          <Box m={0} flex justifyContent="space-around" alignItems="center">
-            <div>{cartStore?.listOrder.length} món</div>
-            <div className=" w-1 h-1 bg-black rounded-lg mx-3" />
-            <div>{convertPrice(totalPrice)}</div>
-          </Box>
-        </Box>
+        <ButtonPriceFixed
+          quantity={cartStore!.listOrder.length}
+          totalPrice={totalPrice}
+          handleOnClick={() =>
+            zmprouter.navigate(`/finish-order/?id=${cartStore!.orderId}`, {
+              transition: 'zmp-fade',
+            })
+          }
+        />
       )}
-
       <ButtonFixed listBtn={listBtn} />
     </Page>
   );

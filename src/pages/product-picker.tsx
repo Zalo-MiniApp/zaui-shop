@@ -9,13 +9,13 @@ import List from 'zmp-framework/react/list';
 import Radio from 'zmp-framework/react/radio';
 import ListInput from 'zmp-framework/react/list-input';
 
-import { createPortal } from 'react-dom';
 import { zmp } from 'zmp-framework/react/lite';
 import { useStore } from 'zmp-framework/react';
+import { createPortal } from 'react-dom';
 import store from '../store';
 import ImageRatio from '../components/img-ratio';
 import { CartProduct, orderOfStore, Product, Store } from '../models';
-import ButtonFixed from '../components/button-fixed';
+import ButtonFixed from '../components/button-fixed/button-fixed';
 import cx from '../utils/cx';
 import { convertPrice, getImgUrl } from '../utils';
 
@@ -41,19 +41,22 @@ const Note = () => (
 );
 
 const ProductPicker = ({ zmproute, zmprouter }) => {
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [quantity, setQuantity] = useState(1);
   const [storeId, setStoreId] = useState<number>(-1);
   const cart: orderOfStore[] = useStore('cart');
   const btnRef = useRef<HTMLDivElement | null>(null);
   const [sheetOpened, setSheetOpened] = useState(false);
   const listStores: Store[] = useStore('store');
-  console.log('cart: ', cart);
+  const moveToPayment = useRef<boolean>(false);
+  const sheet = useRef<any>(null);
+  const [isHidden, setIsHidden] = useState<boolean>(false);
+
   const product: Product | undefined = useMemo(() => {
     if (zmproute.query) {
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      const { productId, storeId } = zmproute.query;
-      console.log(storeId);
-      const currentStore = listStores.find((oa) => oa.key === Number(storeId));
+      const { productId, storeId, isUpdate } = zmproute.query;
+      if (isUpdate) setIsUpdate(true);
+      const currentStore = listStores.find((oa) => oa.id === Number(storeId));
       const currentProduct = currentStore!.listProducts.find(
         (item) => item.id === Number(productId)
       );
@@ -95,7 +98,7 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
     }
   }, [cartProduct, sheetOpened]);
 
-  const addToStore = () => {
+  const addToStore = async () => {
     const data = zmp.form.convertToData('#product-picker-form') as { quantity: number };
     data.quantity = quantity;
     store.dispatch('setCart', {
@@ -107,14 +110,19 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
     });
   };
 
-  const sheet = useRef<any>(null);
-
+  useEffect(() => {
+    if (moveToPayment.current)
+      zmprouter.navigate(`/finish-order/?id=${cartStore?.orderId}`, {
+        transition: 'zmp-fade',
+      });
+  }, [cartStore]);
   return (
     product && (
       <Sheet
         onSheetOpen={() => {
           setSheetOpened(true);
         }}
+        onSheetClose={() => setIsHidden(true)}
         ref={sheet}
         backdrop
         closeButton
@@ -128,7 +136,7 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
         <div className="w-full flex flex-row items-center justify-between overflow-hidden h-24 m-4 ">
           <div className="flex flex-row items-center">
             <div className="w-24 flex-none">
-              <ImageRatio src={getImgUrl(product.pathImg)} alt="image product" ratio={1} />
+              <ImageRatio src={getImgUrl(product.imgProduct)} alt="image product" ratio={1} />
             </div>
             <div className=" p-3 pr-0">
               <div className="line-clamp-2 text-sm break-words">{product.nameProduct}</div>
@@ -155,7 +163,7 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
                 typeName="tertiary"
                 className="w-10 rounded-full"
                 onClick={() => {
-                  if (quantity > 1) setQuantity((q) => q - 1);
+                  if (quantity > 0) setQuantity((q) => q - 1);
                 }}
               >
                 <div className="border-t border-[#667685] w-4" />
@@ -193,23 +201,42 @@ const ProductPicker = ({ zmproute, zmprouter }) => {
 
           <Note />
         </List>
-
         {createPortal(
           <ButtonFixed
             ref={btnRef}
+            hidden={isHidden}
             listBtn={[
               {
                 id: 1,
-                content: 'Thanh toán',
+                content: isUpdate ? 'Xoá sản phẩm' : 'Thanh toán',
                 type: 'secondary',
                 onClick: () => {
-                  addToStore();
-                  zmprouter.navigate(`/finish-order/?id=${cartStore?.orderId}`);
+                  if (isUpdate) {
+                    const data = zmp.form.convertToData('#product-picker-form') as {
+                      quantity: number;
+                    };
+                    data.quantity = 0;
+                    store.dispatch('setCart', {
+                      storeId,
+                      productOrder: {
+                        id: product!.id,
+                        order: data,
+                      } as CartProduct,
+                    });
+                    sheet?.current?.zmpSheet().close();
+                    setIsHidden(true);
+                  } else {
+                    moveToPayment.current = true;
+                    addToStore();
+                    sheet?.current?.zmpSheet().close();
+                    setIsHidden(true);
+                  }
                 },
               },
               {
                 id: 2,
-                content: 'Thêm vào giỏ',
+                content:
+                  isUpdate || cartProduct?.order?.quantity! >= 1 ? 'Cập nhật' : 'Thêm vào giỏ',
                 type: 'primary',
                 onClick: () => {
                   addToStore();

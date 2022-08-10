@@ -1,12 +1,16 @@
-import { Page } from 'zmp-framework/react';
+/* eslint-disable react/no-unstable-nested-components */
+import { useMemo } from 'react';
+import { Page, useStore } from 'zmp-framework/react';
 import { zmp } from 'zmp-framework/react/lite';
 import Categories from '../components/home-page/categories';
 import SearchCustom from '../components/home-page/search-custom';
 import SectionProducts from '../components/home-page/section-products';
 import ImageRatio from '../components/img-ratio';
 import { Store, SectionProductsProps } from '../models';
+import setHeader from '../services/header';
+import { changeStatusBarColor } from '../services/navigation-bar';
 import store from '../store';
-import { getImgUrl, setHeader } from '../utils';
+import { getImgUrl } from '../utils';
 
 const CartBannerStore = ({ pathImg, onClick }) => (
   <div onClick={onClick} role="button">
@@ -25,71 +29,84 @@ const CartLogoStore = ({ pathImg, nameStore, onClick }) => (
   </div>
 );
 
-const sectionProducts: SectionProductsProps[] = [
-  {
-    id: 1,
-    title: 'CHÍNH HÃNG GIÁ TỐT',
-    watchMore: false,
-    pathBanner: 'banner-sale-75',
-    data: store.state.store,
-    colPercentage: 27,
-    children: (item: Store) => (
-      <CartLogoStore
-        pathImg={item.pathImg}
-        nameStore={item.nameStore}
-        onClick={() => zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`)}
-      />
-    ),
-  },
-  {
-    id: 2,
-    title: 'CHÍNH HÃNG GIÁ TỐT',
-    watchMore: false,
-    data: store.state.store,
-    children: (item: Store) => (
-      <CartBannerStore
-        pathImg={item.bannerStore}
-        onClick={() => zmp.views.main.router.navigate(`/mini-store/?id=${item.key}`)}
-      />
-    ),
-  },
-  {
-    id: 3,
-    title: 'KHUYẾN MÃI HOT',
-    pathBanner: 'banner',
-    data: store.state.products,
-  },
-  {
-    id: 4,
-    title: 'BÁN CHẠY NHẤT',
-    pathBanner: 'flash-sale',
-    data: store.state.products,
-    direction: 'vertical',
-  },
-];
-
 const HomePage = ({ zmprouter }) => {
-  const onHandleSubmitForm = (data) => {
+  const handleSubmitForm = (data) => {
     const { search } = data;
     if (search) {
       store.dispatch('setKeyword', search);
-      zmprouter.navigate('search-product');
+      zmprouter.navigate(`/search-product/?title=${search}`, { transition: 'zmp-fade' });
     }
   };
+  const stores = useStore('store').slice(0, 7);
+  const sectionProducts = useMemo<SectionProductsProps[]>(
+    () => [
+      {
+        id: 1,
+        title: 'CHÍNH HÃNG GIÁ TỐT',
+        watchMore: false,
+        pathBanner: 'banner-4',
+        data: stores,
+        colPercentage: 27,
+        children: (item: Store) => (
+          <CartLogoStore
+            pathImg={item.logoStore}
+            nameStore={item.nameStore}
+            onClick={() =>
+              zmp.views.main.router.navigate(`/mini-store/?id=${item.id}`, {
+                transition: 'zmp-fade',
+              })
+            }
+          />
+        ),
+      },
+      {
+        id: 2,
+        title: 'CHÍNH HÃNG GIÁ TỐT',
+        watchMore: false,
+        data: stores,
+        children: (item: Store) => (
+          <CartBannerStore
+            pathImg={item.bannerStore}
+            onClick={() =>
+              zmp.views.main.router.navigate(`/mini-store/?id=${item.id}`, {
+                transition: 'zmp-fade',
+              })
+            }
+          />
+        ),
+      },
+      {
+        id: 3,
+        title: 'KHUYẾN MÃI HOT',
+        pathBanner: 'banner-2',
+        data: store.state.product.slice(0, 6),
+      },
+      {
+        id: 4,
+        title: 'BÁN CHẠY NHẤT',
+        pathBanner: 'banner-3',
+        data: store.state.product.slice(0, 6),
+        direction: 'vertical',
+      },
+    ],
+    [stores]
+  );
 
   return (
     <Page
       ptr
       name="home"
-      className="bg-primary"
-      onPageBeforeIn={() => setHeader({ hasLeftIcon: false })}
+      onPageBeforeIn={() => {
+        setHeader({ hasLeftIcon: false });
+        changeStatusBarColor();
+      }}
     >
       <div className=" sticky top-0 bg-primary z-50 py-3 px-8">
-        <SearchCustom onHandleSubmitForm={onHandleSubmitForm} />
+        <SearchCustom onHandleSubmitForm={handleSubmitForm} />
       </div>
 
       <div className=" bg-primary">
-        <img src={getImgUrl('banner')} className="w-full object-cover" alt="" />
+        <img src={getImgUrl('banner-1-cut')} className="w-full object-cover" alt="" />
         <Categories />
       </div>
 
@@ -102,7 +119,18 @@ const HomePage = ({ zmprouter }) => {
           data={section.data}
           colPercentage={section.colPercentage}
           direction={section.direction}
-          onChoose={() => zmprouter.navigate('detail-section')}
+          onChoose={() =>
+            zmprouter.navigate(
+              {
+                path: '/detail-section',
+                query: {
+                  title: section.title,
+                  pathBanner: section.pathBanner,
+                },
+              },
+              { transition: 'zmp-fade' }
+            )
+          }
         >
           {section.children}
         </SectionProducts>

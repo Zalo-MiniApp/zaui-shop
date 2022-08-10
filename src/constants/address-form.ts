@@ -1,4 +1,6 @@
-const AddressForm = [
+import { AddressFormType } from '../models';
+
+const AddressForm: AddressFormType[] = [
   {
     name: 'detail',
     label: 'Số nhà, tên đường',

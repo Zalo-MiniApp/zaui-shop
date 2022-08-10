@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Page from 'zmp-framework/react/page';
 
 import List from 'zmp-framework/react/list';
@@ -13,9 +13,11 @@ import { hideNavigationBar, showNavigationBar } from '../components/navigation-b
 import CardProductHorizontal from '../components/card-item/card-product-horizontal';
 import CategoriesStore from '../components/mini-store/categories-store';
 import CardShop from '../components/mini-store/card-shop';
-import ButtonFixed from '../components/button-fixed';
-import { calcTotalPriceOrder, convertPrice, setHeader } from '../utils';
-import { matchStatusBar } from '../services/navigation-bar';
+import ButtonFixed from '../components/button-fixed/button-fixed';
+import { calcTotalPriceOrder } from '../utils';
+import ButtonPriceFixed from '../components/button-fixed/button-price-fixed';
+import { changeStatusBarColor } from '../services/navigation-bar';
+import setHeader from '../services/header';
 
 const filter = [
   { key: 'az', name: 'A-Z' },
@@ -24,17 +26,18 @@ const filter = [
 
 const MiniStore = ({ zmprouter }) => {
   const [storeInfo, setStoreInfo] = useState<Store>();
-
   const [activeCate, setActiveCate] = useState<number>(0);
   const [activeFilter, setActiveFilter] = useState<string>(filter[0].key);
   const cart: orderOfStore[] = useStore('cart');
-  console.log('cart ', cart);
+  const storeProductResult = useStore('storeProductResult');
+  const vlInstance = useRef<any>();
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const { id } = zmp.views.main.router.currentRoute.query;
     setStoreInfo(store.state.store[Number(id!)]);
-    matchStatusBar(true);
-  }, []);
+    store.dispatch('setStoreProductResult', Number(id!));
+  }, [isVisible]);
 
   const [vlData, setVlData] = useState<{
     items: Product[];
@@ -46,7 +49,7 @@ const MiniStore = ({ zmprouter }) => {
 
   const cartStore: orderOfStore | undefined = useMemo(() => {
     if (storeInfo) {
-      const indexStore = cart.findIndex((store) => store.storeId === storeInfo.key);
+      const indexStore = cart.findIndex((store) => store.storeId === storeInfo.id);
       if (indexStore >= 0) {
         return { ...cart[indexStore] };
       }
@@ -54,7 +57,7 @@ const MiniStore = ({ zmprouter }) => {
     return undefined;
   }, [storeInfo, cart]);
 
-  const totalPrice = useMemo(() => {
+  const totalPrice = useMemo<Number>(() => {
     if (cartStore) return calcTotalPriceOrder(cartStore.listOrder);
     return 0;
   }, [cartStore]);
@@ -63,59 +66,62 @@ const MiniStore = ({ zmprouter }) => {
     setVlData({ ...newData });
   };
 
-  const handleInputSearch = (e: SyntheticEvent) => {
-    console.log(e.target[0].value);
+  const handleInputSearch = useCallback(
+    (e: SyntheticEvent) => {
+      e.preventDefault();
+      e.target[0].blur();
+      store.dispatch('setStoreProductResult', storeInfo!.id);
+    },
+    [storeInfo]
+  );
+
+  const searchBar = useMemo(
+    () => (
+      <Searchbar
+        className="w-full rounded-xl"
+        placeholder="Tìm kiếm sản phẩm"
+        onSubmit={handleInputSearch}
+      />
+    ),
+    [storeInfo]
+  );
+
+  const initialHeader = () => {
+    setHeader({
+      customTitle: searchBar,
+      type: 'secondary',
+    });
+    changeStatusBarColor('secondary');
   };
+
+  useEffect(() => {
+    if (isVisible) initialHeader();
+  }, [storeInfo, isVisible]);
+
+  useEffect(() => {
+    // update new list items for virtual list
+    if (vlInstance.current) {
+      const virtualList = vlInstance.current.zmpVirtualList();
+      virtualList.replaceAllItems(storeProductResult);
+    }
+  }, [storeProductResult]);
 
   return (
     <Page
       name="MiniStore"
       onPageBeforeIn={() => {
         hideNavigationBar();
-        setHeader({
-          customTitle: (
-            <Searchbar
-              className="w-full rounded-xl"
-              placeholder="Tìm kiếm sản phẩm"
-              onSubmit={handleInputSearch}
-            />
-          ),
-          headerColor: 'white',
-          textColor: 'black',
-        });
+        setIsVisible(true);
       }}
       onPageBeforeOut={() => {
         showNavigationBar();
+        setIsVisible(false);
       }}
       className="w-full bg-white"
     >
-      {storeInfo && (
+      {storeInfo && storeProductResult && (
         <>
-          {/* <div className=" sticky top-0 z-50 w-full bg-white">
-            <Box
-              flex
-              justifyContent="space-between"
-              alignItems="center"
-              className=" bg-white gap-2 p-2"
-              m={0}
-              style={{
-                width: 'calc(100vw - 110px)',
-              }}
-            >
-              <Icon
-                zmp="zi-arrow-left"
-                className=" text-gray-500"
-                onClick={() => zmprouter.navigate('/', { animate: false })}
-              />
-              <Searchbar
-                className="w-full rounded-xl"
-                placeholder="Tìm kiếm sản phẩm"
-                onSubmit={handleInputSearch}
-              />
-            </Box>
-          </div> */}
-
-          <div className=" bg-primary">
+          <div className="bg-primary">
             <CardShop storeInfo={storeInfo} />
             <CategoriesStore
               categories={storeInfo.categories!}
@@ -124,16 +130,22 @@ const MiniStore = ({ zmprouter }) => {
               activeFilter={activeFilter}
               setActiveFilter={setActiveFilter}
               filter={filter}
+              quantity={storeProductResult.length}
+              storeId={storeInfo.id}
             />
           </div>
           <Box m={0} className="bg-gray-100 h-3" />
-          <div className="bg-white p-3 mb-[120px]">
+          <div
+            className="bg-white p-3 mt-3"
+            style={{ marginBottom: totalPrice > 0 ? '120px' : '0px' }}
+          >
             <List
+              ref={vlInstance}
               noHairlines
               noHairlinesBetween
               virtualList
               virtualListParams={{
-                items: storeInfo?.listProducts,
+                items: storeProductResult,
                 renderExternal,
                 height: 104,
               }}
@@ -143,7 +155,7 @@ const MiniStore = ({ zmprouter }) => {
                   <ListItem key={item.id} link="#" style={{ top: `${vlData.topPosition}px` }}>
                     <div className=" mb-2 w-full">
                       <CardProductHorizontal
-                        pathImg={item.pathImg}
+                        pathImg={item.imgProduct}
                         nameProduct={item.nameProduct}
                         salePrice={item.salePrice}
                         retailPrice={item.retailPrice}
@@ -160,22 +172,11 @@ const MiniStore = ({ zmprouter }) => {
           </div>
           {totalPrice > 0 && (
             <>
-              <Box
-                px={4}
-                py={3}
-                flex
-                justifyContent="space-between"
-                alignItems="center"
-                className=" bg-gray-300 rounded-primary fixed bottom-20 left-0 right-0 z-50"
-              >
-                <div>Đơn hàng</div>
-                <Box m={0} flex justifyContent="space-around" alignItems="center">
-                  <div>{cartStore!.listOrder.length} món</div>
-                  <div className=" w-1 h-1 bg-black rounded-lg mx-3" />
-                  <div>{convertPrice(totalPrice)}</div>
-                </Box>
-              </Box>
-
+              <ButtonPriceFixed
+                quantity={cartStore!.listOrder.length}
+                totalPrice={totalPrice}
+                handleOnClick={() => zmprouter.navigate(`/finish-order/?id=${cartStore!.orderId}`)}
+              />
               <ButtonFixed
                 listBtn={[
                   {

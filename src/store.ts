@@ -1,7 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createStore } from 'zmp-core/lite';
 import { userInfo } from 'zmp-sdk';
-import { productResultDummy, storeDummy } from './dummy';
+import { getRandomInt } from './utils/math';
+import { createStoreDummy, productsDummy } from './dummy/utils';
 import { Store, Product, CartProduct, Address, orderOfStore, HeaderType } from './models';
 
 interface StoreState {
@@ -9,8 +10,9 @@ interface StoreState {
   keyword: string;
   latlong: Location | null;
   address: Address;
-  products: Product[];
+  product: Product[];
   productResult: Product[];
+  storeProductResult: Product[];
   store: Store[];
   storeFollowing: Store[];
   cart: orderOfStore[];
@@ -25,10 +27,11 @@ const store = createStore<StoreState>({
       name: '',
     },
     header: {},
-    products: productResultDummy.slice(0, 6),
-    productResult: productResultDummy,
-    store: storeDummy,
-    storeFollowing: storeDummy.slice(0, 2),
+    product: [],
+    productResult: [],
+    storeProductResult: [],
+    store: [],
+    storeFollowing: [],
     keyword: '',
     latlong: null,
     address: {
@@ -38,30 +41,24 @@ const store = createStore<StoreState>({
       detail: '',
     },
     cart: [
-      // {
-      //   orderId: 0,
-      //   storeId: 0,
-      //   status: 'pending',
-      //   listOrder: [
-      //     {
-      //       id: 0,
-      //       order: { quantity: 3, size: 'm', color: 'cloud-blue', note: 'buy' },
-      //     },
-      //   ],
-      //   date: new Date(),
-      // },
-      // {
-      //   orderId: 1,
-      //   storeId: 1,
-      //   status: 'pending',
-      //   listOrder: [
-      //     {
-      //       id: 26,
-      //       order: { quantity: 3, note: '' },
-      //     },
-      //   ],
-      //   date: new Date(),
-      // },
+      {
+        orderId: 0,
+        storeId: 9999,
+        status: 'finish',
+        listOrder: [
+          {
+            id: 9999,
+            order: { quantity: 3, size: 'm', color: 'cloud-blue', note: 'buy' },
+          },
+        ],
+        date: new Date(),
+        address: {
+          city: '1',
+          district: '19',
+          ward: '258',
+          detail: 'Khu chế xuất Tân Thuận, Z06, Số 13',
+        },
+      },
     ],
   },
   getters: {
@@ -89,11 +86,37 @@ const store = createStore<StoreState>({
     storeFollowing({ state }) {
       return state.storeFollowing;
     },
+    product({ state }) {
+      return state.product;
+    },
+    productResult({ state }) {
+      return state.productResult;
+    },
+    storeProductResult({ state }) {
+      return state.storeProductResult;
+    },
   },
   actions: {
+    async initDummyData({ state }) {
+      const res = createStoreDummy(8);
+      const resProducts = productsDummy;
+      state.store = res;
+      state.storeFollowing = res.slice(0, 3);
+      state.product = resProducts;
+    },
+    setProductResult({ state }) {
+      const pos = getRandomInt(state.product.length - 122, 0);
+      const num = getRandomInt(120, 50);
+      state.productResult = [...state.product.slice(pos, pos + num)];
+    },
+    setStoreProductResult({ state }, storeId: number) {
+      const indexStore = state.store.findIndex((store) => store.id === storeId);
+      const pos = getRandomInt(state.store[indexStore].listProducts.length - 122, 0);
+      const num = getRandomInt(120, 50);
+      state.storeProductResult = [...state.store[indexStore].listProducts.slice(pos, pos + num)];
+    },
     setUser({ state }, data: userInfo) {
       state.user = { ...state.user, ...data };
-      // mock booking
     },
     setPosition({ state }, data: Location) {
       state.latlong = data;
@@ -101,11 +124,6 @@ const store = createStore<StoreState>({
       // developer can parse address from the position state given by the user
     },
     setHeader({ state }, data: HeaderType) {
-      // const cloneHeader: HeaderType = JSON.parse(JSON.stringify(state.header));
-      // Object.keys(data).forEach((i) => {
-      //   state.header[i] = data[i];
-      // });
-      console.log(data);
       state.header = data;
     },
     setKeyword({ state }, keyword: string) {
@@ -114,26 +132,42 @@ const store = createStore<StoreState>({
     setCart({ state }, { storeId, productOrder }: { storeId: number; productOrder: CartProduct }) {
       const indexStore = state.cart.findIndex((cart) => cart.storeId === storeId);
       if (indexStore < 0) {
-        state.cart.push({
-          orderId: state.cart.length,
-          date: new Date(),
-          storeId,
-          status: 'pending',
-          listOrder: [{ ...productOrder } as CartProduct],
-        });
-        state.cart = [...state.cart];
+        if (productOrder.order.quantity > 0) {
+          state.cart.push({
+            orderId: state.cart.length,
+            date: new Date(),
+            storeId,
+            status: 'pending',
+            listOrder: [{ ...productOrder } as CartProduct],
+          });
+          state.cart = [...state.cart];
+        }
       } else {
-        const { cart } = state;
-        const indexOrder = cart[indexStore]?.listOrder.findIndex(
-          (ord) => ord.id === productOrder.id
-        );
+        const { listOrder } = state.cart[indexStore];
+        const indexOrder = listOrder.findIndex((prod) => prod.id === productOrder.id);
 
-        if (indexOrder >= 0) cart[indexStore].listOrder[indexOrder].order = productOrder.order;
-        else cart[indexStore].listOrder.push({ ...productOrder });
+        if (indexOrder >= 0) {
+          // available in cart
+          if (productOrder.order.quantity === 0) {
+            // delete product in cart
+            const filtered = listOrder.filter((product) => product.id !== productOrder.id);
+            state.cart[indexStore].listOrder = filtered;
+            if (filtered.length === 0) {
+              // delete cart item
+              state.cart.splice(indexStore, 1);
+            }
+          } else listOrder[indexOrder].order = productOrder.order;
+        } else if (productOrder.order.quantity > 0) {
+          listOrder.push({ ...productOrder });
+        }
 
-        cart[indexStore].date = new Date();
-        state.cart = [...cart];
+        if (state.cart[indexStore]) state.cart[indexStore].date = new Date();
+        state.cart = [...state.cart];
       }
+    },
+    deleteCart({ state }, orderId: number) {
+      const deleted = state.cart.filter((cart) => cart.orderId !== orderId);
+      state.cart = deleted;
     },
   },
 });
