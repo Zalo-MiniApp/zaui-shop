@@ -56,7 +56,7 @@ export const listNameProducts = [
   'Dell Computer Monitor',
   'Coach Tabby 26 for sale',
   'Gaming Chair, local pickup only',
-  'Playstation 4 Limited Edition (with games)',
+  'Playstation 4 Blue Exclusive Limited Edition (with games)',
   'Heimer Miller Sofa (Mint Condition)',
   'Gopro hero 7 (with receipt)',
   'Lego StarWar edition',

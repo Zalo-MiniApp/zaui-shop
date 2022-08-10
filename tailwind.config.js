@@ -1,8 +1,5 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx,vue}'],
-  plugins: [
-    require('@tailwindcss/line-clamp'),
-  ],
   theme: {
     extend: {
       aspectRatio: {

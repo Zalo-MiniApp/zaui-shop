@@ -22,7 +22,6 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\""
   },
   "dependencies": {
-    "@tailwindcss/line-clamp": "^0.4.0",
     "@types/react": "^18.0.12",
     "@types/react-dom": "^18.0.5",
     "@vitejs/plugin-react": "^1.3.2",

@@ -167,18 +167,6 @@ option[value=""][disabled] {
   display: none;
 }
 
-// .list .item-content:after {
-//   height: 0;
-// }
-
-// .list ul:before {
-//   height: 0;
-// }
-
-// .list ul:after {
-//   height: 0;
-// }
-
 .list .item-content {
   padding: 0;
 }
@@ -205,11 +193,18 @@ option[value=""][disabled] {
     @apply p-4 bg-[#FAFCFF] text-base font-medium
   }
 
-  .shadow-btn-fixed {
-    -webkit-box-shadow: -1px -12px 24px -5px rgb(202 202 202 / 19%);
-    -moz-box-shadow: -1px -12px 24px -5px rgb(202 202 202 / 19%);
-    box-shadow: -1px -12px 24px -5px rgb(202 202 202 / 19%);
-  }
+}
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.shadow-btn-fixed {
+  -webkit-box-shadow: -1px -12px 24px -5px rgb(202 202 202 / 19%);
+  -moz-box-shadow: -1px -12px 24px -5px rgb(202 202 202 / 19%);
+  box-shadow: -1px -12px 24px -5px rgb(202 202 202 / 19%);
 }
 
 .anime-fade {
@@ -238,6 +233,7 @@ option[value=""][disabled] {
     opacity: 1
   }
 }
+
 @keyframes move-down {
   0% {
     transform: translateY(0),
