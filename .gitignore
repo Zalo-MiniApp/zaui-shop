@@ -40,4 +40,4 @@ yarn-error.log*
 #Code styles
 .eslintrc.js
 .eslintignore
-.prettier.config.js
+prettier.config.js
