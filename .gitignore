@@ -36,3 +36,8 @@ yarn-error.log*
 
 # Yarn Integrity file
 .yarn-integrity
+
+#Code styles
+.eslintrc.js
+.eslintignore
+.prettier.config.js
