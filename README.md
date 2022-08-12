@@ -1,12 +1,12 @@
 # ZMP Ecommerce
 
-Starter template for building a restaurant's mini program. Main features:
+Starter template for building a ecommerce's mini app. Main features:
 
--View the products available at each event, category, and store
-—View product details
-—Add and edit items in your shopping cart
--Purchase the items you want and enter your shipping address
--Managing the stores(OA) you are following
+- View the products available at each event, category, and store  
+- View product details  
+- Add and edit items in your shopping cart  
+- Purchase the items you want and enter your shipping address  
+- Managing the stores(OA) you are following
 
 |                         Preview                         |               Open Zalo and scan this QR                |
 | :-----------------------------------------------------: | :-----------------------------------------------------: |
@@ -26,7 +26,7 @@ Starter template for building a restaurant's mini program. Main features:
    npm install
    ```
 
-1. Start dev server using `zmp-cli`
+1. Start dev server using [zmp-cli](https://mini.zalo.me/docs/dev-tools/)
 
    ```bash
    zmp start
@@ -36,19 +36,19 @@ Starter template for building a restaurant's mini program. Main features:
 
 ## Deployment
 
-1. Create a mini program. For instruction on how to create a mini program, please refer to [Coffee Shop Tutorial](https://mini.zalo.me/docs/tutorial/step-1/#1-tạo-một-ứng-dụng-zalo-mini-program-mới-trên-trang-chủ-của-zalo-mini-program)
+1. Create a mini app. For instruction on how to create a mini app, please refer to [Coffee Shop Tutorial](https://mini.zalo.me/docs/tutorial/step-1/#1-tạo-một-ứng-dụng-zalo-mini-program-mới-trên-trang-chủ-của-zalo-mini-program). (If you use this source code for development and deployment, you can skip from `zmp init` to the end.)
 
 1. Setup payment methods if you want to accept online payments
    ![](./docs/payment.png 'Payment method')
 
-1. Deploy your mini program to Zalo using the mini app ID created in step 1.
+1. Deploy your mini app to Zalo using the mini app ID created in step 1.
 
    ```bash
    zmp login
    zmp deploy
    ```
 
-1. Open Zalo and scan the QR code to preview your mini program
+1. Open Zalo and scan the QR code to preview your mini app
 
 ## Usage:
 
@@ -105,7 +105,7 @@ In the 'Changing color theme' category, you can see a custom header with a searc
 
 ### Changing your's logo
 
-Visit [Zalo Mini Program](https://mini.zalo.me/) and go to your mini program's settings to change the logo.
+Visit [Zalo Mini App](https://mini.zalo.me/) and go to your mini app's settings to change the logo.
 
 ### Changing color theme
 
