@@ -5,11 +5,12 @@ import appConfig from '../../app-config.json';
 export const setHeader = ({
   route = '',
   hasLeftIcon = true,
+  rightIcon = null,
   title = appConfig.app.title,
   customTitle = null,
   type = 'primary',
 }: HeaderType) => {
-  store.dispatch('setHeader', { route, hasLeftIcon, title, customTitle, type });
+  store.dispatch('setHeader', { route, hasLeftIcon, rightIcon, title, customTitle, type });
 };
 
 export default setHeader;

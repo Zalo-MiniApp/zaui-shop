@@ -188,12 +188,11 @@ option[value=""][disabled] {
   right: 16px;
 }
 
-@layer components {
-  .title-type-picker {
-    @apply p-4 bg-[#FAFCFF] text-base font-medium
-  }
-
+.title-type-picker {
+  @apply p-4 bg-[#FAFCFF] text-base font-medium
 }
+
+
 .line-clamp-2 {
   overflow: hidden;
   display: -webkit-box;

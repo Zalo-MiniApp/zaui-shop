@@ -44,7 +44,7 @@ const HomePage = ({ zmprouter }) => {
         id: 1,
         title: 'CHÍNH HÃNG GIÁ TỐT',
         watchMore: false,
-        pathBanner: 'banner-4',
+        pathBanner: 'banner-5',
         data: stores,
         colPercentage: 27,
         children: (item: Store) => (

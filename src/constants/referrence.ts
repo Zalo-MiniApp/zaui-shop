@@ -13,5 +13,10 @@ export const OrderStatusRef = {
 
 export const statusBarColor = {
   primary: appConfig.app.statusBarColor,
-  secondary: '#ffffff',
+  secondary: '#FFFFFF',
+};
+
+export const textStatusBarColor = {
+  primary: appConfig.app.textColor,
+  secondary: 'black',
 };

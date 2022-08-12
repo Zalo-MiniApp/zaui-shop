@@ -83,6 +83,7 @@ export type HeaderType = {
   title?: string;
   customTitle?: ReactNode;
   type?: 'primary' | 'secondary';
+  rightIcon?: ReactNode;
 };
 
 export type AddressFormType = {

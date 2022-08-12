@@ -2,14 +2,14 @@
 
 Starter template for building a restaurant's mini program. Main features:
 
--View the products available at each event, category, and store. 
+-View the products available at each event, category, and store
 —View product details
-—Add and edit items in your shopping cart. 
--Purchase the items you want and enter your shipping address.
+—Add and edit items in your shopping cart
+-Purchase the items you want and enter your shipping address
 -Managing the stores(OA) you are following
 
-|                          Preview                           |               Open Zalo and scan this QR                |
-| :--------------------------------------------------------: | :-----------------------------------------------------: |
+|                         Preview                         |               Open Zalo and scan this QR                |
+| :-----------------------------------------------------: | :-----------------------------------------------------: |
 | <img src="./docs/home.png" alt="Home page" width="250"> | <img src="./docs/qr.png" alt="Entry point" width="250"> |
 
 ## Pre-requisites
@@ -88,17 +88,19 @@ Just change the `app.title` and `app/statusBarColor` property in `app-config.jso
   }
 }
 ```
+
 Because the default navigation bar does not support custom a ReactNode title, we must use a custom header. And we could change header props (such as title, leftIcon, type, etc...) reactively on each page using services `setHeader` in `services/header`.
 
 Besides that, we can change the color of the status bar on devices using the utility function `changeStatusBarColor`.
 
 ```tsx
 setHeader({
-      customTitle: searchBar,
-      type: 'secondary',
-    });
+  customTitle: searchBar,
+  type: 'secondary',
+});
 changeStatusBarColor('secondary');
 ```
+
 In the 'Changing color theme' category, you can see a custom header with a search bar.
 
 ### Changing your's logo
@@ -115,8 +117,8 @@ You can change the primary color theme by setting the variable in `src/css/app.s
 }
 ```
 
-| Default                                                                     | Green                                                           | Blue                                                     |
-| --------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Default                                                                        | Green                                                                      | Blue                                                                     |
+| ------------------------------------------------------------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 | <img src="./docs/mini-store-default.PNG" alt="Default mini store" width="200"> | <img src="./docs/mini-store-green.PNG" alt="Green mini store" width="200"> | <img src="./docs/mini-store-blue.PNG" alt="Blue mini store" width="200"> |
 
 The theme color will affect most of the application components. To make a deeper color change, override the other colors in `src/css/app.scss`. For the list of available colors, please visit [Color Theme](https://mini.zalo.me/docs/framework/components/color-themes/).

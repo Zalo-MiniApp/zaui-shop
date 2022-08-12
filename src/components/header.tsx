@@ -16,28 +16,36 @@ const typeColor = {
     iconColor: 'text-gray-400',
   },
 };
+
 const Header = () => {
-  const { route, hasLeftIcon, title, customTitle, type }: HeaderType = useStore('header');
+  const { route, hasLeftIcon, rightIcon, title, customTitle, type }: HeaderType =
+    useStore('header');
 
   const { headerColor, textColor, iconColor } = typeColor[type! || 'primary'];
   return (
-    <div
-      className={cx('sticky top-0 z-50 w-ful', headerColor, textColor)}
-      // style={{ backgroundColor: headerColor, color: textColor }}
-    >
-      <Box flex alignItems="center" className="h-[44px] pl-5 pr-[110px] gap-3 w-full" m={0}>
-        {hasLeftIcon && (
-          <Icon
-            zmp="zi-arrow-left"
-            className={iconColor}
-            onClick={() =>
-              route
-                ? zmp.views.main.router.navigate('/', { transition: 'zmp-fade' })
-                : zmp.views.main.router.back('', { transition: 'zmp-fade' })
-            }
-          />
-        )}
-        {customTitle || <div className={cx('text-lg font-medium')}>{title}</div>}
+    <div className={cx('sticky top-0 z-50 w-ful', headerColor, textColor)}>
+      <Box
+        flex
+        alignItems="center"
+        justifyContent="space-between"
+        className="h-[44px] pl-5 pr-[110px] gap-3 w-full"
+        m={0}
+      >
+        <>
+          {hasLeftIcon && (
+            <Icon
+              zmp="zi-arrow-left"
+              className={iconColor}
+              onClick={() =>
+                route
+                  ? zmp.views.main.router.navigate(route, { transition: 'zmp-fade' })
+                  : zmp.views.main.router.back('', { transition: 'zmp-fade' })
+              }
+            />
+          )}
+          {customTitle || <div className={cx('text-lg font-medium')}>{title}</div>}
+        </>
+        {rightIcon || <div />}
       </Box>
     </div>
   );
