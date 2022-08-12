@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { zmp } from 'zmp-framework/react/lite';
 import Page from 'zmp-framework/react/page';
+import Icon from 'zmp-framework/react/icon';
 import Box from 'zmp-framework/react/box';
 import { useStore } from 'zmp-framework/react';
 import { hideNavigationBar, showNavigationBar } from '../components/navigation-bar';
@@ -95,7 +96,10 @@ const DetailProduct = ({ zmproute, zmprouter }) => {
       name="Detail Product"
       onPageBeforeIn={() => {
         hideNavigationBar();
-        setHeader({ title: '' });
+        setHeader({
+          title: '',
+          rightIcon: <Icon zmp="zi-share-external-1" onClick={() => {}} />,
+        });
         changeStatusBarColor();
       }}
       onPageBeforeOut={showNavigationBar}
