@@ -35,14 +35,16 @@ const SectionProducts = ({
       <div
         className={cx(
           'gap-2',
-          direction === 'vertical' ? 'grid grid-cols-2' : 'flex flex-row overflow-x-auto'
+          direction === 'vertical'
+            ? 'grid grid-cols-2'
+            : 'flex flex-row overflow-x-auto snap-mandatory snap-x'
         )}
       >
         {data.map((item, index) => (
           <div
             // eslint-disable-next-line react/no-array-index-key
             key={index}
-            className={direction === 'horizontal' ? 'flex-none' : ''}
+            className={direction === 'horizontal' ? 'flex-none snap-start' : ''}
             style={{
               width: `${direction === 'vertical' ? 100 : colPercentage}%`,
             }}

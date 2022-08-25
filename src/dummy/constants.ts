@@ -1,7 +1,7 @@
 import { Options } from '../models';
 
 export const numBanner = 4;
-export const numLogo = 10;
+export const numLogo = 11;
 export const numStoreBanner = 6;
 export const numProduct = 12;
 

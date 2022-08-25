@@ -261,7 +261,7 @@ const FinishOrder = () => {
           </Box>
           {!readOnly && (
             <Text className=" p-4 text-center">
-              Đặt hàng đồng nghĩa với việc bạn đồng ý quan tâm {stores[orderInfo.storeId].nameStore}{' '}
+              Đặt hàng đồng nghĩa với việc bạn đồng ý quan tâm {stores[orderInfo.storeId].nameStore}
               để nhận tin tức mới
             </Text>
           )}

@@ -47,7 +47,7 @@ export const createStoreDummy = (num: number) => {
   for (let i = 0; i < num; i += 1) {
     storesDummy.push({
       id: i,
-      logoStore: `logo-${getRandomInt(numLogo)}`,
+      logoStore: `logo-${getRandomInt(numLogo)}-new`,
       bannerStore: `store-banner-${getRandomInt(numStoreBanner)}`,
       nameStore: listNameStore[getRandomInt(listNameStore.length) - 1],
       followers: getRandomInt(9999, 10),
@@ -63,7 +63,7 @@ export const createStoreDummy = (num: number) => {
   productsDummy.push(readOnlyProduct);
   storesDummy.push({
     id: 9999,
-    logoStore: `logo-${getRandomInt(numLogo)}`,
+    logoStore: `logo-${getRandomInt(numLogo)}-new`,
     bannerStore: `store-banner-${getRandomInt(numStoreBanner)}`,
     nameStore: listNameStore[getRandomInt(listNameStore.length) - 1],
     followers: getRandomInt(9999, 10),
