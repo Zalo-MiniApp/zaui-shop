@@ -1,0 +1,19 @@
+{
+  "app": {
+    "title": "ZMP ECOMMERCE STORE",
+    "headerColor": "",
+    "textColor": "white",
+    "statusBarColor": "#EF1724",
+    "leftButton": "none"
+  },
+  "debug": false,
+  "listCSS": [],
+  "listSyncJS": [],
+  "listAsyncJS": [],
+  "pages": [],
+  "template": {
+    "primaryColor": "",
+    "searchBar": true,
+    "orderValue": "500000"
+  }
+}

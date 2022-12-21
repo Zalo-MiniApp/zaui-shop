@@ -1,0 +1,17 @@
+{
+  "cwd": "/Users/lap14888-local/Desktop/Zalo/zmp-ecommerce-store-zaui",
+  "newProject": true,
+  "name": "zmp-ecommerce-store-zaui",
+  "package": "zmp-ui",
+  "framework": "react-typescript",
+  "cssPreProcessor": "scss",
+  "template": "blank",
+  "includeTailwind": true,
+  "theming": {
+    "color": "#007aff",
+    "darkTheme": false,
+    "fillBars": false
+  },
+  "customBuild": false,
+  "stateManagement": "recoil"
+}
