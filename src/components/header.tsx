@@ -27,16 +27,16 @@ const Header = () => {
     <div
       className={cx('fixed top-0 z-50 w-screen h-header flex items-center', headerColor, textColor)}
     >
-      <div className="flex items-center h-[44px] pl-5 pr-[105px] gap-3 w-full">
-        <>
+      <div className=" flex items-center h-[44px] pl-5 pr-[105px] gap-3 w-full justify-between">
+        <div className="flex flex-row items-center">
           {hasLeftIcon && (
             <span onClick={() => (route ? navigate(route) : navigate(-1))}>
               <Icon icon="zi-arrow-left" className={iconColor} />
             </span>
           )}
-          {customTitle || <div className={cx('text-lg font-medium')}>{title}</div>}
-        </>
-        {rightIcon || <div />}
+          {customTitle || <div className="pl-2 text-lg font-medium">{title}</div>}
+        </div>
+        <div className="">{rightIcon || ' '}</div>
       </div>
     </div>
   );

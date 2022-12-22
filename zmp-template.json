@@ -3,7 +3,7 @@
   "options": {
     "primaryColor": {
       "title": "Primary Color",
-      "description": "Buttons, links, icons, highlited items color,...",
+      "description": "Header, Buttons, links, icons, highlited items color,...",
       "type": "color",
       "optional": true
     },

@@ -3314,10 +3314,10 @@ zmp-sdk@^2.23.2:
     raven-js "^3.27.2"
     reflect-metadata "^0.1.13"
 
-zmp-ui@^1.5.1-rc.5:
-  version "1.5.1-rc.5"
-  resolved "https://registry.yarnpkg.com/zmp-ui/-/zmp-ui-1.5.1-rc.5.tgz#354ec9f06297e8a736388a54b449701e02c3bfd7"
-  integrity sha512-n3CVmo6iLi5n6LBZ8C0EniGXA2IP0fM4Ol/Eg0Msi5Dvzp/UgHVruUCqC4q9AVL+zIEjiAuFiGqiarCzAFEpOQ==
+zmp-ui@^1.5.1-rc.6:
+  version "1.5.1-rc.6"
+  resolved "https://registry.yarnpkg.com/zmp-ui/-/zmp-ui-1.5.1-rc.6.tgz#020d53687e140c88a528b7054a6b38afe466e48f"
+  integrity sha512-MY80WZIDTJT1K0vfRIYwJus/kGHMtVF1oAPP0eMnqQ7Y40ds06vWLwUOpYXLl8ZUTwi494mB7dnuOQ9uvHhMvA==
   dependencies:
     "@babel/runtime" "^7.18.9"
     "@react-spring/web" "^9.5.5"

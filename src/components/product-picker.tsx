@@ -233,6 +233,7 @@ const ProductPicker = () => {
               ))}
 
             {noteComponent}
+            <div className="title-type-picker h-5" />
             {createPortal(
               <ButtonFixed
                 ref={btnRef}

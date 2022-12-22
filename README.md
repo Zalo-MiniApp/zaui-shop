@@ -1,16 +1,24 @@
 # ZMP Ecommerce
 
+<p style="display: flex; flex-wrap: wrap; gap: 4px">
+  <img alt="react" src="https://badgen.net/badge/react/18.2.0/?icon=npm" />
+  <img alt="zmp-ui" src="https://badgen.net/badge/zmp-ui/1.5.0/purple?icon=npm" />
+  <img alt="zmp-sdk" src="https://badgen.net/badge/zmp-sdk/2.23.2/green?icon=npm" />
+  <img alt="recoil" src="https://badgen.net/badge/recoil/0.7.6/black?icon=npm" />
+  <img alt="tailwindcss" src="https://badgen.net/badge/tailwindcss/3.2.4/cyan?icon=npm" />
+  <img alt="scss" src="https://badgen.net/badge/scss/1.56.2/pink?icon=npm" />
+</p>
+
 Starter template for building a ecommerce's mini app. Main features:
 
-- View the products available at each event, category, and store
+- View the products available at each category, and store
 - View product details
 - Add and edit items in your shopping cart
 - Purchase the items you want and enter your shipping address
-- Managing the stores(OA) you are following
 
-|                                Preview                                |               Open Zalo and scan this QR                |
-| :-------------------------------------------------------------------: | :-----------------------------------------------------: |
-| <img src="./docs/mini-store-default.PNG" alt="Home page" width="250"> | <img src="./docs/qr.png" alt="Entry point" width="250"> |
+|                                Preview                                |                                     Open Zalo and scan this QR                                      |
+| :-------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------: |
+| <img src="./docs/mini-store-default.PNG" alt="Home page" width="250"> | <img src="https://logo-mapps.zdn.vn/qrcode/ffbf8f842bc1c29f9bd0.png" alt="Entry point" width="250"> |
 
 ## Pre-requisites
 
@@ -89,9 +97,9 @@ Just change the `app.title` and `app/statusBarColor` property in `app-config.jso
 }
 ```
 
-Because the default navigation bar does not support custom a ReactNode title, we must use a custom header. And we could change header props (such as title, leftIcon, type, etc...) reactively on each page using services `setHeader` in `services/header`.
+Because the default navigation bar does not support custom a ReactNode title, we must use a custom header. And we could change header props (such as title, leftIcon, type, etc...) reactively on each page using a custom hook named `useSetHeader` in `hooks/useSetHeader`.
 
-Besides that, we can change the color of the status bar on devices using the utility function `changeStatusBarColor`.
+Besides that, we can change the color of the status bar on devices using the service function `changeStatusBarColor`.
 
 ```tsx
 setHeader({
@@ -109,19 +117,48 @@ Visit [Zalo Mini App](https://mini.zalo.me/) and go to your mini app's settings 
 
 ### Changing color theme
 
-You can change the primary color theme by setting the variable in `src/css/app.scss`:
+- Using Zalo Mini App Studio
+  - At the top left of the IDE, click the Configuration button. Then, at "Primary Color," you can select a primary color theme.
+    > You can also set other fields here)
+- Not using Zalo Mini App Studio
 
-```scss
-:root {
-  --zmp-theme-color: #ef1724;
-}
-```
+  - Solution 1:
 
-| Default                                                                        | Green                                                                      | Blue                                                                     |
-| ------------------------------------------------------------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| <img src="./docs/mini-store-default.PNG" alt="Default mini store" width="200"> | <img src="./docs/mini-store-green.PNG" alt="Green mini store" width="200"> | <img src="./docs/mini-store-blue.PNG" alt="Blue mini store" width="200"> |
+    - Set all template fields (including the primary color theme field) in `app-config.json`(see more details for template fields in `zmp-config.json`):
+      ```json
+      {
+        "template": {
+          "primaryColor": "#625ff7",
+          "searchBar": false,
+          "orderValue": "500000"
+        }
+      }
+      ```
 
-The theme color will affect most of the application components. To make a deeper color change, override the other colors in `src/css/app.scss`. For the list of available colors, please visit [Color Theme](https://mini.zalo.me/docs/framework/components/color-themes/).
+  - Solution 2:
+
+    - Set the primary color theme by setting the variable in `src/css/app.scss`:
+
+      ```scss
+      :root {
+        --zmp-primary-color: #ef1724;
+        --zmp-primary-color-rgb: 239, 23, 36;
+      }
+      ```
+
+    - Set the default color of the header bar in `app-config.json`:
+
+      ```json
+      {
+        "app": {
+          "statusBarColor": "#EF1724"
+        }
+      }
+      ```
+
+| Default                                                                     | Green                                                                      | Blue                                                                     |
+| --------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| <img src="./docs/mini-store-pink.PNG" alt="Default mini store" width="200"> | <img src="./docs/mini-store-green.PNG" alt="Green mini store" width="200"> | <img src="./docs/mini-store-blue.PNG" alt="Blue mini store" width="200"> |
 
 ## License
 
@@ -129,3 +166,7 @@ Copyright (c) Zalo Group. and its affiliates. All rights reserved.
 
 The examples provided by Zalo Group are for non-commercial testing and evaluation
 purposes only. Zalo Group reserves all rights not expressly granted.
+
+```
+
+```

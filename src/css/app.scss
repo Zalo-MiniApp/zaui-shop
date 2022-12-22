@@ -64,12 +64,19 @@
 }
 
 .cus-input-search {
-  height: 40px;
+  height: 32px;
+
+  .zaui-input.zaui-input-search.cus-input-search {
+    height: 26px;
+  }
+
+  .zaui-btn-icon {
+    width: 16px;
+    height: 16px;
+  }
 }
 
-.zaui-input.zaui-input-search.cus-input-search {
-  height: 38px;
-}
+
 
 .zaui-btn-tertiary {
   color: black;

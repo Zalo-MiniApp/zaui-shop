@@ -12,8 +12,8 @@
   "listAsyncJS": [],
   "pages": [],
   "template": {
-    "primaryColor": "",
-    "searchBar": true,
+    "primaryColor": "#625ff7",
+    "searchBar": false,
     "orderValue": "500000"
   }
 }

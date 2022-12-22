@@ -19,9 +19,9 @@ const CardShop = ({ storeInfo }: { storeInfo: Store }) => (
           </div>
           <div className=" flex flex-row text-sm font-normal  text-gray-500">
             <div className="flex items-center justify-center">
-              <Icon icon="zi-location" size={12} />
+              <Icon icon="zi-location-solid" size={12} />
             </div>
-            <div>{storeInfo.address}</div>
+            <div className=" pl-1">{storeInfo.address}</div>
           </div>
         </div>
       </div>

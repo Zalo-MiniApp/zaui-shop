@@ -116,7 +116,7 @@ const DetailProduct = () => {
         )}
       </div>
 
-      {totalPrice && (
+      {!!totalPrice && (
         <ButtonPriceFixed
           quantity={cartStore!.listOrder.length}
           totalPrice={totalPrice}

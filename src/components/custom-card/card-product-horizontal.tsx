@@ -45,12 +45,9 @@ const CardProductHorizontal = ({
         }}
       >
         <div className="line-clamp-2 text-sm break-words">{nameProduct}</div>
-        <span className=" pt-1 font-semibold text-sm text-primary">
-          <span className=" font-normal text-xs text-primary">đ</span>
+        <span className=" pt-2 font-semibold text-sm text-primary">
+          <span className=" font-normal text-xs text-primary">đ </span>
           {convertPrice(salePrice)}
-        </span>
-        <span className=" pl-2 pt-1 font-medium text-xs text-zinc-400">
-          đ{convertPrice(retailPrice)}
         </span>
       </div>
       <>
