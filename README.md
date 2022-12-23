@@ -68,7 +68,7 @@ Folder structure:
 
   - **`components`**: reusable components written in React.JS
   - **`css`**: Stylesheets, pre-processors also supported
-  - **`pages`**: a Page is also a component but will act as an entire view and must be registered inside `app-config.json` (https://mini.zalo.me/docs/framework/getting-started/app-config/#pages).
+  - **`pages`**: a Page is also a component but will act as an entire view and must be registered inside `app.tsx` (https://mini.zalo.me/docs/zaui/components/router/ZMPRouter/).
   - **`services`**: reusable logic for complex tasks that should be separated from your component, such as fetching API, getting location from Zalo or caching stuff,...
   - **`utils`**: reusable utility functions, such as math function, get image url, etc,...
   - **`dummy`**: create dummy data for this template such as stores and products data,...
@@ -76,7 +76,7 @@ Folder structure:
   - **`hooks.ts`**: building your own Hooks lets you extract component logic into reusable functions, such as adding product to cart, resetting product picked.
   - **`model.ts`**: contain TypeScript type and interface declarations
   - **`modules.d.ts`**: contain TypeScript declarations for third party modules
-  - **`store.ts`**: centralized state management (https://mini.zalo.me/docs/framework/getting-started/store/)
+  - **`state.ts`**: centralized state management (https://recoiljs.org/docs/introduction/installation)
 
 - **`app-config.json`**: Global configuration for your Mini App (https://mini.zalo.me/docs/framework/getting-started/app-config)
 
