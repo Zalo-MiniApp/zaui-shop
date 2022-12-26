@@ -13,7 +13,8 @@
   "pages": [],
   "template": {
     "primaryColor": "#625ff7",
-    "searchBar": false,
-    "orderValue": "500000"
+    "searchBar": true,
+    "orderValue": "500000",
+    "oaIDtoOpenChat": ""
   }
 }

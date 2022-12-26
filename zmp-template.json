@@ -15,6 +15,10 @@
     "searchBar": {
       "title": "Enable search bar",
       "type": "boolean"
+    },
+    "oaIDtoOpenChat": {
+      "title": "OA ID To Open Chat",
+      "type": "string"
     }
   }
 }
