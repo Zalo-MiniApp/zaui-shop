@@ -1,4 +1,4 @@
-# ZMP Ecommerce
+# ZaUI Shop
 
 <p style="display: flex; flex-wrap: wrap; gap: 4px">
   <img alt="react" src="https://badgen.net/badge/react/18.2.0/?icon=npm" />
@@ -9,7 +9,7 @@
   <img alt="scss" src="https://badgen.net/badge/scss/1.56.2/pink?icon=npm" />
 </p>
 
-Starter template for building a ecommerce's mini app. Main features:
+Starter template for building a shop's mini app. Main features:
 
 - View the products available at each category, and store
 - View product details
@@ -91,7 +91,7 @@ Just change the `app.title` and `app/statusBarColor` property in `app-config.jso
 ```json
 {
   "app": {
-    "title": "ZMP Ecommerce",
+    "title": "ZaUI Shop",
     "statusBarColor": "#EF1724"
   }
 }
@@ -130,7 +130,8 @@ Visit [Zalo Mini App](https://mini.zalo.me/) and go to your mini app's settings 
         "template": {
           "primaryColor": "#625ff7",
           "searchBar": false,
-          "orderValue": "500000"
+          "orderValue": "500000",
+          "oaIDtoOpenChat": "4318657068771012646"
         }
       }
       ```
