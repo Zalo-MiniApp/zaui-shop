@@ -167,7 +167,3 @@ Copyright (c) Zalo Group. and its affiliates. All rights reserved.
 
 The examples provided by Zalo Group are for non-commercial testing and evaluation
 purposes only. Zalo Group reserves all rights not expressly granted.
-
-```
-
-```

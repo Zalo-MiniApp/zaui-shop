@@ -12,7 +12,7 @@
   "listAsyncJS": [],
   "pages": [],
   "template": {
-    "primaryColor": "#625ff7",
+    "primaryColor": "",
     "searchBar": true,
     "orderValue": "500000",
     "oaIDtoOpenChat": ""

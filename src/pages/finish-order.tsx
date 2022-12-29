@@ -160,7 +160,6 @@ const FinishOrder = () => {
 
             {AddressForm.map((item: AddressFormType) => {
               const { listOptions, value, handleOnSelect } = filterSelectionInput(item);
-              console.log('value: ', item.name, value);
 
               return (
                 <div key={item.name} className={cx('py-3', item.name !== 'ward' && 'border-b')}>
@@ -180,7 +179,6 @@ const FinishOrder = () => {
                         name={item.name}
                         value={value}
                         onChange={(value) => {
-                          console.log('value: ', value);
                           handleOnSelect(value as string);
                         }}
                       >

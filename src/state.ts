@@ -1,57 +1,49 @@
-import { createStoreDummy, productsDummy } from "./dummy/utils";
-import { atom, atomFamily, selector } from "recoil";
-import { userInfo } from "zmp-sdk";
-import {
-  Address,
-  HeaderType,
-  orderOfStore,
-  Product,
-  ProductInfoPicked,
-  Store,
-} from "./models";
-import { getRandomInt } from "./utils";
-import { filter } from "./constants/referrence";
+import { createStoreDummy, productsDummy } from './dummy/utils';
+import { atom, atomFamily, selector } from 'recoil';
+import { userInfo } from 'zmp-sdk';
+import { Address, HeaderType, orderOfStore, Product, ProductInfoPicked, Store } from './models';
+import { getRandomInt } from './utils';
+import { filter } from './constants/referrence';
 
 export const storeState = atom<Store>({
-  key: "user",
+  key: 'user',
   default: createStoreDummy(1)[0],
 });
 
 export const productState = atom<Product[]>({
-  key: "product",
+  key: 'product',
   default: productsDummy,
 });
 
 export const cartState = atom<orderOfStore[]>({
-  key: "cart",
+  key: 'cart',
   default: [],
 });
 
 export const headerState = atom<HeaderType>({
-  key: "header",
+  key: 'header',
   default: {},
 });
 
 export const searchProductState = atom<string>({
-  key: "searchProduct",
-  default: "",
+  key: 'searchProduct',
+  default: '',
 });
 
 export const activeCateState = atom<number>({
-  key: "activeCate",
+  key: 'activeCate',
   default: 0,
 });
 
 export const activeFilterState = atom<string>({
-  key: "activeFilter",
+  key: 'activeFilter',
   default: filter[0].key,
 });
 
 export const storeProductResultState = selector<Product[]>({
-  key: "storeProductResult",
+  key: 'storeProductResult',
   get: ({ get }) => {
     const store = get(storeState);
-    console.log("store: ", store);
 
     const activeCate = get(activeCateState);
     const searchProduct = get(searchProductState);
@@ -63,17 +55,17 @@ export const storeProductResultState = selector<Product[]>({
 });
 
 export const addressState = atom<Address>({
-  key: "address",
+  key: 'address',
   default: {
-    city: "",
-    district: "",
-    ward: "",
-    detail: "",
+    city: '',
+    district: '',
+    ward: '',
+    detail: '',
   },
 });
 
 export const openProductPickerState = atom<boolean>({
-  key: "openProductPicker",
+  key: 'openProductPicker',
   default: false,
 });
 
@@ -83,6 +75,6 @@ export const initialProductInfoPickedState = {
 };
 
 export const productInfoPickedState = atom<ProductInfoPicked>({
-  key: "productInfoPicked",
+  key: 'productInfoPicked',
   default: initialProductInfoPickedState,
 });

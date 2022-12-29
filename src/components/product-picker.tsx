@@ -37,8 +37,6 @@ const ProductPicker = () => {
     setSelectedOptions(undefined);
   };
 
-  console.log('cart: ', cart);
-
   const product: Product | undefined = useMemo(() => {
     if (store) {
       const currentProduct = store.listProducts.find((item) => item.id === Number(productId));
@@ -51,8 +49,6 @@ const ProductPicker = () => {
     return cart?.[0] || undefined;
   }, [cart]);
 
-  console.log('cartStore: ', cartStore);
-
   const cartProduct: CartProduct | undefined = useMemo(() => {
     if (product && cartStore) {
       const currentProductOrder = cartStore.listOrder.find((ord) => ord.id === product.id);
@@ -63,7 +59,6 @@ const ProductPicker = () => {
     }
     return undefined;
   }, [product, cartStore]);
-  console.log('cartProduct: ', cartProduct);
 
   useEffect(() => {
     if (product && product.options && !cartProduct) {
@@ -210,7 +205,6 @@ const ProductPicker = () => {
                   <div className={cx('title-type-picker')}>{option.title}</div>
                   <Radio.Group
                     onChange={(val) => {
-                      console.log(option.name, val);
                       setSelectedOptions((prev) => ({
                         ...prev,
                         [option.name]: val,
