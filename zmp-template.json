@@ -17,7 +17,8 @@
       "type": "boolean"
     },
     "oaIDtoOpenChat": {
-      "title": "OA ID To Open Chat",
+      "title": "OA ID",
+      "description": "When a user clicks the chat button, the OA account's ID is used to open the chat",
       "type": "string"
     }
   }
