@@ -15,6 +15,7 @@
     "primaryColor": "",
     "searchBar": true,
     "orderValue": "500000",
-    "oaIDtoOpenChat": ""
+    "oaIDtoOpenChat": "",
+    "shippingFee": "30000"
   }
 }

@@ -1,24 +1,46 @@
-import { createStoreDummy, productsDummy } from './dummy/utils';
-import { atom, atomFamily, selector } from 'recoil';
-import { userInfo } from 'zmp-sdk';
-import { Address, HeaderType, orderOfStore, Product, ProductInfoPicked, Store } from './models';
+import { createDummyStore } from './dummy/utils';
+import { atom, selector } from 'recoil';
+import { Address, HeaderType, StoreOrder, Product, ProductInfoPicked, Store } from './models';
 import { getRandomInt } from './utils';
 import { filter } from './constants/referrence';
 
-export const storeState = atom<Store>({
-  key: 'user',
-  default: createStoreDummy(1)[0],
+export const storeState = selector<Store>({
+  key: 'store',
+  get: () => createDummyStore(),
 });
 
-export const productState = atom<Product[]>({
+export const productState = selector<Product[]>({
   key: 'product',
-  default: productsDummy,
+  get: ({ get }) => {
+    const store = get(storeState);
+    return store.listProducts;
+  },
 });
 
-export const cartState = atom<orderOfStore[]>({
+export const cartState = atom<StoreOrder>({
   key: 'cart',
-  default: [],
+  default: {
+    status: 'pending',
+    listOrder: [],
+    date: new Date(),
+  },
 });
+
+export const cartTotalPriceState = selector<number>({
+  key: 'cartTotalPrice',
+  get: ({ get }) => {
+    const cart = get(cartState);
+    const products = get(productState);
+    const result = cart.listOrder.reduce(
+      (total, item) =>
+        total +
+        Number(item.order.quantity) *
+        Number(products.find((product) => product.id === item.id)?.salePrice),
+      0
+    );
+    return result;
+  }
+})
 
 export const headerState = atom<HeaderType>({
   key: 'header',
@@ -43,11 +65,10 @@ export const activeFilterState = atom<string>({
 export const storeProductResultState = selector<Product[]>({
   key: 'storeProductResult',
   get: ({ get }) => {
+    get(activeCateState);
+    get(searchProductState);
+
     const store = get(storeState);
-
-    const activeCate = get(activeCateState);
-    const searchProduct = get(searchProductState);
-
     const pos = getRandomInt(store.listProducts.length - 122, 0);
     const num = getRandomInt(120, 50);
     return [...store.listProducts.slice(pos, pos + num)];

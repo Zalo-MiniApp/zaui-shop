@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { createPortal } from 'react-dom';
 import ImageRatio from '../components/img-ratio';
-import { CartProduct, orderOfStore, Product, Store } from '../models';
+import { CartProduct, Product } from '../models';
 import ButtonFixed from '../components/button-fixed/button-fixed';
 import cx from '../utils/cx';
 import { convertPrice, getImgUrl } from '../utils';
@@ -24,7 +24,6 @@ const ProductPicker = () => {
   const cart = useRecoilValue(cartState);
   const btnRef = useRef<HTMLDivElement | null>(null);
   const store = useRecoilValue(storeState);
-  const moveToPayment = useRef<boolean>(false);
   const sheet = useRef<any>(null);
 
   const resetProductPicker = useResetProductPicked();
@@ -45,20 +44,16 @@ const ProductPicker = () => {
     return undefined;
   }, [productId]);
 
-  const cartStore: orderOfStore | undefined = useMemo(() => {
-    return cart?.[0] || undefined;
-  }, [cart]);
-
   const cartProduct: CartProduct | undefined = useMemo(() => {
-    if (product && cartStore) {
-      const currentProductOrder = cartStore.listOrder.find((ord) => ord.id === product.id);
+    if (product && cart) {
+      const currentProductOrder = cart.listOrder.find((ord) => ord.id === product.id);
 
       if (currentProductOrder) {
         return { ...currentProductOrder };
       }
     }
     return undefined;
-  }, [product, cartStore]);
+  }, [product, cart]);
 
   useEffect(() => {
     if (product && product.options && !cartProduct) {
@@ -89,7 +84,6 @@ const ProductPicker = () => {
     };
 
     addProductToCart({
-      storeId: store.id,
       productOrder: {
         id: product!.id,
         order: productOrder,
@@ -107,7 +101,6 @@ const ProductPicker = () => {
       ...selectedOptions,
     };
     addProductToCart({
-      storeId: store.id,
       productOrder: {
         id: product!.id,
         order: productOrder,

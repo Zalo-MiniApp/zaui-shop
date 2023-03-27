@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo } from 'react';
-import { Product, orderOfStore } from '../models';
-import { calcSalePercentage, calcTotalPriceOrder, convertPrice, getImgUrl } from '../utils';
+import { Product, StoreOrder } from '../models';
+import { calcSalePercentage, convertPrice, getImgUrl } from '../utils';
 import ButtonFixed, { ButtonType } from '../components/button-fixed/button-fixed';
 import ButtonPriceFixed from '../components/button-fixed/button-price-fixed';
 import { Box, Icon, Page } from 'zmp-ui';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { cartState, openProductPickerState, productInfoPickedState, storeState } from '../state';
+import { cartState, cartTotalPriceState, openProductPickerState, productInfoPickedState, storeState } from '../state';
 
 import { useParams, useNavigate } from 'react-router-dom';
 import { changeStatusBarColor } from '../services';
@@ -14,6 +14,8 @@ import useSetHeader from '../hooks/useSetHeader';
 const DetailProduct = () => {
   const storeInfo = useRecoilValue(storeState);
   const cart = useRecoilValue(cartState);
+  const totalPrice = useRecoilValue(cartTotalPriceState);
+
   let { productId } = useParams();
 
   const setOpenSheet = useSetRecoilState(openProductPickerState);
@@ -35,18 +37,6 @@ const DetailProduct = () => {
     [product]
   );
 
-  const cartStore: orderOfStore | undefined = useMemo(() => {
-    if (storeInfo) {
-      const storeInCart = cart.find((currentStore) => currentStore.storeId === storeInfo.id);
-      if (storeInCart) return storeInCart;
-    }
-    return undefined;
-  }, [storeInfo, cart]);
-
-  const totalPrice = useMemo(() => {
-    if (cartStore) return calcTotalPriceOrder(cartStore.listOrder);
-    return 0;
-  }, [cartStore, cart]);
 
   const btnCart: ButtonType = useMemo(
     () => ({
@@ -70,7 +60,7 @@ const DetailProduct = () => {
         navigate('/finish-order');
       },
     }),
-    [cartStore]
+    [cart]
   );
 
   const listBtn = useMemo<ButtonType[]>(
@@ -93,7 +83,7 @@ const DetailProduct = () => {
       >
         {product && (
           <>
-            <img src={getImgUrl(product!.imgProduct)} alt="" className="w-full h-auto" />
+            <img src={getImgUrl(product.imgProduct)} alt="" className="w-full h-auto" />
             {salePercentage && (
               <div className="absolute top-2.5 right-2.5 text-white font-medium text-sm px-2 py-1 bg-[#FF9743] w-auto h-auto rounded-lg">
                 -{salePercentage}%
@@ -118,7 +108,7 @@ const DetailProduct = () => {
 
       {!!totalPrice && (
         <ButtonPriceFixed
-          quantity={cartStore!.listOrder.length}
+          quantity={cart.listOrder.length}
           totalPrice={totalPrice}
           handleOnClick={() => navigate('/finish-order')}
         />

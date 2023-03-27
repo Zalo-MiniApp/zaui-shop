@@ -44,9 +44,7 @@ export type Store = {
   listProducts: Product[];
 };
 
-export type orderOfStore = {
-  orderId: number;
-  storeId: number;
+export type StoreOrder = {
   status: OrderStatus;
   listOrder: CartProduct[];
   date: Date;

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { Input, Page, Spinner } from 'zmp-ui';
+import { Input, Page } from 'zmp-ui';
 import ButtonFixed from '../components/button-fixed/button-fixed';
 import ButtonPriceFixed from '../components/button-fixed/button-price-fixed';
 import CategoriesStore from '../components/categories-store';
@@ -13,11 +13,11 @@ import {
   activeCateState,
   activeFilterState,
   cartState,
+  cartTotalPriceState,
   searchProductState,
   storeProductResultState,
   storeState,
 } from '../state';
-import { calcTotalPriceOrder } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import useSetHeader from '../hooks/useSetHeader';
 import { changeStatusBarColor } from '../services';
@@ -26,6 +26,7 @@ import { getConfig } from '../components/config-provider';
 const HomePage: React.FunctionComponent = () => {
   const store = useRecoilValue(storeState);
   const cart = useRecoilValue(cartState);
+  const totalPrice = useRecoilValue(cartTotalPriceState);
 
   const [activeCate, setActiveCate] = useRecoilState<number>(activeCateState);
   const [activeFilter, setActiveFilter] = useRecoilState<string>(activeFilterState);
@@ -34,10 +35,6 @@ const HomePage: React.FunctionComponent = () => {
   const navigate = useNavigate();
   const setHeader = useSetHeader();
 
-  const totalPrice = useMemo<Number>(() => {
-    if (cart.length > 0) return calcTotalPriceOrder(cart[0].listOrder);
-    return 0;
-  }, [cart]);
 
   const handleInputSearch = useCallback((text: string) => {
     setSearchProduct(text);
@@ -98,7 +95,7 @@ const HomePage: React.FunctionComponent = () => {
           {totalPrice > 0 && (
             <>
               <ButtonPriceFixed
-                quantity={cart[0].listOrder.length}
+                quantity={cart.listOrder.length}
                 totalPrice={totalPrice}
                 handleOnClick={() => {
                   navigate('/finish-order');

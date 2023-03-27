@@ -130,7 +130,7 @@ Visit [Zalo Mini App](https://mini.zalo.me/) and go to your mini app's settings 
         "template": {
           "primaryColor": "#625ff7",
           "searchBar": false,
-          "orderValue": "500000",
+          "shippingFee": "500000",
           "oaIDtoOpenChat": "4318657068771012646"
         }
       }

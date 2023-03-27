@@ -7,9 +7,9 @@
       "type": "color",
       "optional": true
     },
-    "orderValue": {
-      "title": "Order Value",
-      "description": "Fixed amount needed to be paid on each order",
+    "shippingFee": {
+      "title": "Shipping Fee",
+      "description": "Fixed amount needed to be paid on each order, set to 0 if you want to free ship",
       "type": "number"
     },
     "searchBar": {
