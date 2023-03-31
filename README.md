@@ -1,12 +1,12 @@
 # ZaUI Shop
 
 <p style="display: flex; flex-wrap: wrap; gap: 4px">
-  <img alt="react" src="https://badgen.net/badge/react/18.2.0/?icon=npm" />
-  <img alt="zmp-ui" src="https://badgen.net/badge/zmp-ui/1.5.0/purple?icon=npm" />
-  <img alt="zmp-sdk" src="https://badgen.net/badge/zmp-sdk/2.23.2/green?icon=npm" />
-  <img alt="recoil" src="https://badgen.net/badge/recoil/0.7.6/black?icon=npm" />
-  <img alt="tailwindcss" src="https://badgen.net/badge/tailwindcss/3.2.4/cyan?icon=npm" />
-  <img alt="scss" src="https://badgen.net/badge/scss/1.56.2/pink?icon=npm" />
+  <img alt="react" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-shop/react" />
+  <img alt="zmp-ui" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-shop/zmp-ui" />
+  <img alt="zmp-sdk" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-shop/zmp-sdk" />
+  <img alt="recoil" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-shop/recoil" />
+  <img alt="tailwindcss" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-shop/dev/tailwindcss" />
+  <img alt="scss" src="https://img.shields.io/github/package-json/dependency-version/Zalo-MiniApp/zaui-shop/dev/sass" />
 </p>
 
 Starter template for building a shop's mini app. Main features:
