@@ -23,7 +23,6 @@ export type CartProduct = {
 
 export type Product = {
   id: number;
-  storeId: number;
   imgProduct: string;
   nameProduct: string;
   salePrice: number | string;
@@ -39,7 +38,7 @@ export type Store = {
   nameStore: string;
   followers: number;
   address: string;
-  type: string;
+  type: "personal" | "business";
   categories: string[];
   listProducts: Product[];
 };

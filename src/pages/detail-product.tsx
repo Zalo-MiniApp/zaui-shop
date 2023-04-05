@@ -92,11 +92,7 @@ const DetailProduct = () => {
       >
         {product && (
           <>
-            <img
-              src={product.imgProduct}
-              alt=""
-              className="w-full h-auto"
-            />
+            <img src={product.imgProduct} alt="" className="w-full h-auto" />
             {salePercentage && (
               <div className="absolute top-2.5 right-2.5 text-white font-medium text-sm px-2 py-1 bg-[#FF9743] w-auto h-auto rounded-lg">
                 -{salePercentage}%

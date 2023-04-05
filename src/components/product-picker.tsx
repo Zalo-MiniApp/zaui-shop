@@ -229,8 +229,8 @@ const ProductPicker = () => {
                         key={type.value}
                         className={cx(
                           indexType === 0 &&
-                          index === 1 &&
-                          "sheet-modal-swipe-step"
+                            index === 1 &&
+                            "sheet-modal-swipe-step"
                         )}
                       >
                         <Radio

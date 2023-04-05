@@ -17,17 +17,10 @@ import {
 const getImgUrl = (filename: string) =>
   `https://stc-zmp.zadn.vn/zmp-ecommerce/img/${filename}.png`;
 
-export const createProductDummy = ({
-  id,
-  storeId,
-}: {
-  id: number;
-  storeId: number;
-}) => {
+export const createProductDummy = ({ id }: { id: number }) => {
   const randomPrice = listPrices[getRandomInt(listPrices.length) - 1];
   const product: Product = {
     id,
-    storeId,
     imgProduct: getImgUrl(`product-large-${getRandomInt(numProduct)}`),
     nameProduct: listNameProducts[getRandomInt(listNameProducts.length) - 1],
     salePrice: randomPrice.salePrice,
@@ -38,26 +31,18 @@ export const createProductDummy = ({
   return product;
 };
 
-export const createDummyProductCategories = ({
-  storeId,
-}: {
-  storeId: number;
-}) => {
+export const createDummyProductCategories = () => {
   const dummyProducts: Product[] = [];
   const num = 150;
   for (let x = 0; x < num; x += 1) {
-    dummyProducts.push(
-      createProductDummy({ id: dummyProducts.length, storeId })
-    );
+    dummyProducts.push(createProductDummy({ id: dummyProducts.length }));
   }
   return dummyProducts;
 };
 
 export const createDummyStore = () => {
   const storeId = +new Date();
-  const listDummyProducts = createDummyProductCategories({
-    storeId,
-  });
+  const listDummyProducts = createDummyProductCategories();
   const listType = Object.keys(StoreTypeRef);
   const dummyStore = {
     id: storeId,

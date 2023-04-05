@@ -74,7 +74,6 @@ const HomePage: React.FunctionComponent = () => {
               setActiveFilter={setActiveFilter}
               filter={filter}
               quantity={storeProductResult.length}
-              storeId={store.id}
             />
           </div>
           <div className="bg-gray-100 h-3" />
@@ -90,7 +89,6 @@ const HomePage: React.FunctionComponent = () => {
                   salePrice={product.salePrice}
                   retailPrice={product.retailPrice}
                   productId={product.id}
-                  storeId={product.storeId}
                 />
               </div>
             ))}

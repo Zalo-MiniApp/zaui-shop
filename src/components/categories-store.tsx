@@ -13,7 +13,6 @@ type CategoryStoreProps = {
   setActiveFilter: (index) => void;
   filter: { key: string; name: string }[];
   quantity: number;
-  storeId: number;
 };
 
 const CategoriesStore = ({

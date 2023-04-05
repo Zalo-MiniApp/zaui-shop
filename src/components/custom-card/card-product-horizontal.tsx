@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 type CardProductHorizontalProps = {
   productId: number;
-  storeId: number;
   pathImg: string;
   nameProduct: string;
   salePrice: number | string;
@@ -16,7 +15,6 @@ type CardProductHorizontalProps = {
 };
 const CardProductHorizontal = ({
   productId,
-  storeId,
   pathImg,
   nameProduct,
   salePrice,

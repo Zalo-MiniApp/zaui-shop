@@ -7,7 +7,7 @@ import { cx } from "../../utils";
 const CardStore = ({
   store,
   type = "standard",
-  handleOnClick = () => { },
+  handleOnClick = () => {},
   hasRightSide = true,
   hasBorderBottom = true,
   customRightSide,
