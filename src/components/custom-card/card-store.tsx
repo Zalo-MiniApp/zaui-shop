@@ -2,12 +2,12 @@ import React, { ReactNode } from "react";
 import { Icon } from "zmp-ui";
 import { StoreTypeRef } from "../../constants/referrence";
 import { Store } from "../../models";
-import { cx, getImgUrl } from "../../utils";
+import { cx } from "../../utils";
 
 const CardStore = ({
   store,
   type = "standard",
-  handleOnClick = () => {},
+  handleOnClick = () => { },
   hasRightSide = true,
   hasBorderBottom = true,
   customRightSide,
@@ -34,7 +34,7 @@ const CardStore = ({
     <div className="flex flex-row items-center">
       <div className="w-auto flex-none">
         <img
-          src={getImgUrl(store.logoStore)}
+          src={store.logoStore}
           alt="product"
           className=" w-9 h-9 object-cover rounded-full bg-white"
         />

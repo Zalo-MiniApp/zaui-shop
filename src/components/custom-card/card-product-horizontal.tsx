@@ -2,7 +2,7 @@ import React from "react";
 import { useSetRecoilState } from "recoil";
 import { Box, Icon } from "zmp-ui";
 import { openProductPickerState, productInfoPickedState } from "../../state";
-import { convertPrice, getImgUrl } from "../../utils";
+import { convertPrice } from "../../utils";
 import ImageRatio from "../img-ratio";
 import { useNavigate } from "react-router-dom";
 
@@ -36,7 +36,7 @@ const CardProductHorizontal = ({
           navigate(`/detail-product/${productId}`);
         }}
       >
-        <ImageRatio src={getImgUrl(pathImg)} alt="image product" ratio={1} />
+        <ImageRatio src={pathImg} alt="image product" ratio={1} />
       </div>
       <div
         className=" p-3 pr-0 flex-1"

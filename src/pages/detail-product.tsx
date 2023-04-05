@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
-import { Product, StoreOrder } from "../models";
-import { calcSalePercentage, convertPrice, getImgUrl } from "../utils";
+import { Product } from "../models";
+import { calcSalePercentage, convertPrice } from "../utils";
 import ButtonFixed, {
   ButtonType,
 } from "../components/button-fixed/button-fixed";
@@ -93,7 +93,7 @@ const DetailProduct = () => {
         {product && (
           <>
             <img
-              src={getImgUrl(product.imgProduct)}
+              src={product.imgProduct}
               alt=""
               className="w-full h-auto"
             />

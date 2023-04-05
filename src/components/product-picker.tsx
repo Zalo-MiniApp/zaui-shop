@@ -5,7 +5,7 @@ import ImageRatio from "../components/img-ratio";
 import { CartProduct, Product } from "../models";
 import ButtonFixed from "../components/button-fixed/button-fixed";
 import cx from "../utils/cx";
-import { convertPrice, getImgUrl } from "../utils";
+import { convertPrice } from "../utils";
 import { Box, Button, Icon, Input, Radio, Sheet, Text } from "zmp-ui";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -165,7 +165,7 @@ const ProductPicker = () => {
               <div className="flex flex-row items-center">
                 <div className="w-24 flex-none">
                   <ImageRatio
-                    src={getImgUrl(product.imgProduct)}
+                    src={product.imgProduct}
                     alt="image product"
                     ratio={1}
                   />
@@ -229,8 +229,8 @@ const ProductPicker = () => {
                         key={type.value}
                         className={cx(
                           indexType === 0 &&
-                            index === 1 &&
-                            "sheet-modal-swipe-step"
+                          index === 1 &&
+                          "sheet-modal-swipe-step"
                         )}
                       >
                         <Radio

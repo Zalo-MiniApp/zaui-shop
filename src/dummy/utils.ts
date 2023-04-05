@@ -14,6 +14,9 @@ import {
   numStoreBanner,
 } from "./constants";
 
+const getImgUrl = (filename: string) =>
+  `https://stc-zmp.zadn.vn/zmp-ecommerce/img/${filename}.png`;
+
 export const createProductDummy = ({
   id,
   storeId,
@@ -25,7 +28,7 @@ export const createProductDummy = ({
   const product: Product = {
     id,
     storeId,
-    imgProduct: `product-large-${getRandomInt(numProduct)}`,
+    imgProduct: getImgUrl(`product-large-${getRandomInt(numProduct)}`),
     nameProduct: listNameProducts[getRandomInt(listNameProducts.length) - 1],
     salePrice: randomPrice.salePrice,
     retailPrice: randomPrice.retailPrice,
@@ -58,8 +61,8 @@ export const createDummyStore = () => {
   const listType = Object.keys(StoreTypeRef);
   const dummyStore = {
     id: storeId,
-    logoStore: `logo-${getRandomInt(numLogo)}-new`,
-    bannerStore: `store-banner-${getRandomInt(numStoreBanner)}`,
+    logoStore: getImgUrl(`logo-${getRandomInt(numLogo)}-new`),
+    bannerStore: getImgUrl(`store-banner-${getRandomInt(numStoreBanner)}`),
     nameStore: listNameStore[getRandomInt(listNameStore.length) - 1],
     followers: getRandomInt(9999, 10),
     address: listAddress[getRandomInt(listAddress.length) - 1],
