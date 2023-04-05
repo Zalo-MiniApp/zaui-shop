@@ -17,7 +17,7 @@ import {
 const getImgUrl = (filename: string) =>
   `https://stc-zmp.zadn.vn/zmp-ecommerce/img/${filename}.png`;
 
-export const createProductDummy = ({ id }: { id: number }) => {
+export const createProductDummy = ({ id }: { id: number }): Product => {
   const randomPrice = listPrices[getRandomInt(listPrices.length) - 1];
   const product: Product = {
     id,
@@ -40,10 +40,10 @@ export const createDummyProductCategories = () => {
   return dummyProducts;
 };
 
-export const createDummyStore = () => {
+export const createDummyStore = (): Store => {
   const storeId = +new Date();
   const listDummyProducts = createDummyProductCategories();
-  const listType = Object.keys(StoreTypeRef);
+  const listType = Object.keys(StoreTypeRef) as (keyof typeof StoreTypeRef)[];
   const dummyStore = {
     id: storeId,
     logoStore: getImgUrl(`logo-${getRandomInt(numLogo)}-new`),

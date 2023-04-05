@@ -13,7 +13,9 @@ import { filter } from "./constants/referrence";
 
 export const storeState = selector<Store>({
   key: "store",
-  get: () => createDummyStore(),
+  get: () => {
+    return createDummyStore();
+  },
 });
 
 export const productState = selector<Product[]>({

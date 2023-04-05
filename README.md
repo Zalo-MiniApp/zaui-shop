@@ -18,7 +18,7 @@ Starter template for building a shop's mini app. Main features:
 
 |                                Preview                                |                                     Open Zalo and scan this QR                                      |
 | :-------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------: |
-| <img src="./docs/mini-store-default.PNG" alt="Home page" width="250"> | <img src="https://logo-mapps.zdn.vn/qrcode/ffbf8f842bc1c29f9bd0.png" alt="Entry point" width="250"> |
+| <img src="./docs/mini-store-default.png" alt="Home page" width="250"> | <img src="https://logo-mapps.zdn.vn/qrcode/ffbf8f842bc1c29f9bd0.png" alt="Entry point" width="250"> |
 
 ## Pre-requisites
 
@@ -47,7 +47,7 @@ Starter template for building a shop's mini app. Main features:
 1. Create a mini app. For instruction on how to create a mini app, please refer to [Coffee Shop Tutorial](https://mini.zalo.me/docs/tutorial/step-1/#1-tạo-một-ứng-dụng-zalo-mini-program-mới-trên-trang-chủ-của-zalo-mini-program). (If you use this source code for development and deployment, you can skip from `zmp init` to the end.)
 
 1. Setup payment methods if you want to accept online payments
-   ![](./docs/payment.png 'Payment method')
+   ![](./docs/payment.png "Payment method")
 
 1. Deploy your mini app to Zalo using the mini app ID created in step 1.
 
@@ -60,7 +60,7 @@ Starter template for building a shop's mini app. Main features:
 
 ## Usage:
 
-The repository contains sample UI components for building your application. You might wish to integrate internal APIs to fetch products, cart, stores, address... or modify the code to suit your business needs.
+The repository contains sample UI components for building your own application. You might wish to integrate internal APIs to fetch products, cart, stores and addresses or modify the code to suit your business needs.
 
 Folder structure:
 
@@ -84,6 +84,47 @@ The other files (such as `tailwind.config.js`, `vite.config.ts`, `tsconfig.json`
 
 ## Recipes
 
+### Loading products
+
+The template comes with dummy products inside, you can update `src/state.ts` to modify how your products load:
+
+![Load Product Static](./docs/load-product-static.png)
+
+You can use `fetch` to load products from your Server API and map the response to match the template's `Product` interface like below. Notice the `async` keyword:
+
+```ts
+export const storeState = selector<Store>({
+  key: "store",
+  get: async () => {
+    const response = await fetch("https://dummyjson.com/products");
+    const data = await response.json();
+    return {
+      id: 1,
+      nameStore: "🧸 Store",
+      address: "Quận 7, TP. Hồ Chí Minh",
+      logoStore:
+        "https://cdn.shopify.com/s/files/1/0452/9497/7192/products/3f52d36b79ac2ef9c55a84ed4c043dac.jpg",
+      bannerStore:
+        "https://cdn.shopify.com/s/files/1/0452/9497/7192/products/3f52d36b79ac2ef9c55a84ed4c043dac.jpg",
+      categories: ["Áo thun", "Quần jean"],
+      followers: 9999,
+      type: "personal",
+      listProducts: data.products.map((product) => ({
+        id: product.id,
+        nameProduct: product.title,
+        description: product.description,
+        options: [],
+        imgProduct: product.images[0],
+        retailPrice: product.price,
+        salePrice: (product.price * (100 - product.discountPercentage)) / 100,
+      })),
+    };
+  },
+});
+```
+
+![Load Product Server](./docs/load-product-server.png)
+
 ### Changing Header bar
 
 Just change the `app.title` and `app/statusBarColor` property in `app-config.json` to set default name and default primary color of app:
@@ -99,14 +140,14 @@ Just change the `app.title` and `app/statusBarColor` property in `app-config.jso
 
 Because the default navigation bar does not support custom a ReactNode title, we must use a custom header. And we could change header props (such as title, leftIcon, type, etc...) reactively on each page using a custom hook named `useSetHeader` in `hooks/useSetHeader`.
 
-Besides that, we can change the color of the status bar on devices using the service function `changeStatusBarColor`.
+Moreover, we can change the color of the status bar on devices by using the SDK API `changeStatusBarColor`.
 
 ```tsx
 setHeader({
   customTitle: searchBar,
-  type: 'secondary',
+  type: "secondary",
 });
-changeStatusBarColor('secondary');
+changeStatusBarColor("secondary");
 ```
 
 In the 'Changing color theme' category, you can see a custom header with a search bar.
@@ -159,7 +200,7 @@ Visit [Zalo Mini App](https://mini.zalo.me/) and go to your mini app's settings 
 
 | Default                                                                     | Green                                                                      | Blue                                                                     |
 | --------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| <img src="./docs/mini-store-pink.PNG" alt="Default mini store" width="200"> | <img src="./docs/mini-store-green.PNG" alt="Green mini store" width="200"> | <img src="./docs/mini-store-blue.PNG" alt="Blue mini store" width="200"> |
+| <img src="./docs/mini-store-pink.png" alt="Default mini store" width="200"> | <img src="./docs/mini-store-green.png" alt="Green mini store" width="200"> | <img src="./docs/mini-store-blue.png" alt="Blue mini store" width="200"> |
 
 ## License
 
