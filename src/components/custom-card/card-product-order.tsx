@@ -1,7 +1,7 @@
-import React from 'react';
-import { Box } from 'zmp-ui';
-import { convertPrice, getImgUrl } from '../../utils';
-import ImageRatio from '../img-ratio';
+import React from "react";
+import { Box } from "zmp-ui";
+import { convertPrice, getImgUrl } from "../../utils";
+import ImageRatio from "../img-ratio";
 
 type CardProductProps = {
   id: number;
@@ -29,7 +29,11 @@ const CardProductOrder = ({
       <div className="flex-none w-20 rounded-lg overflow-hidden">
         <ImageRatio src={getImgUrl(pathImg)} alt="image product" ratio={1} />
       </div>
-      <Box p={0} m={0} className=" flex-none relative w-5 h-5 rounded-full bg-slate-100">
+      <Box
+        p={0}
+        m={0}
+        className=" flex-none relative w-5 h-5 rounded-full bg-slate-100"
+      >
         <div className=" absolute top-1/2 -translate-y-1/2 w-full text-center text-xs text-blue-700 ">
           {quantity}
         </div>

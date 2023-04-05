@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box } from 'zmp-ui';
-import { convertPrice } from '../../utils';
+import React from "react";
+import { Box } from "zmp-ui";
+import { convertPrice } from "../../utils";
 
 const ButtonPriceFixed = ({
   quantity,

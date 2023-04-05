@@ -1,15 +1,23 @@
-import React, { useEffect, useMemo } from 'react';
-import { Product, StoreOrder } from '../models';
-import { calcSalePercentage, convertPrice, getImgUrl } from '../utils';
-import ButtonFixed, { ButtonType } from '../components/button-fixed/button-fixed';
-import ButtonPriceFixed from '../components/button-fixed/button-price-fixed';
-import { Box, Icon, Page } from 'zmp-ui';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { cartState, cartTotalPriceState, openProductPickerState, productInfoPickedState, storeState } from '../state';
+import React, { useEffect, useMemo } from "react";
+import { Product, StoreOrder } from "../models";
+import { calcSalePercentage, convertPrice, getImgUrl } from "../utils";
+import ButtonFixed, {
+  ButtonType,
+} from "../components/button-fixed/button-fixed";
+import ButtonPriceFixed from "../components/button-fixed/button-price-fixed";
+import { Box, Icon, Page } from "zmp-ui";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  cartState,
+  cartTotalPriceState,
+  openProductPickerState,
+  productInfoPickedState,
+  storeState,
+} from "../state";
 
-import { useParams, useNavigate } from 'react-router-dom';
-import { changeStatusBarColor } from '../services';
-import useSetHeader from '../hooks/useSetHeader';
+import { useParams, useNavigate } from "react-router-dom";
+import { changeStatusBarColor } from "../services";
+import useSetHeader from "../hooks/useSetHeader";
 
 const DetailProduct = () => {
   const storeInfo = useRecoilValue(storeState);
@@ -26,7 +34,9 @@ const DetailProduct = () => {
 
   const product: Product | undefined = useMemo(() => {
     if (storeInfo) {
-      const currentProduct = storeInfo.listProducts.find((item) => item.id === Number(productId));
+      const currentProduct = storeInfo.listProducts.find(
+        (item) => item.id === Number(productId)
+      );
       return currentProduct;
     }
     return undefined;
@@ -37,12 +47,11 @@ const DetailProduct = () => {
     [product]
   );
 
-
   const btnCart: ButtonType = useMemo(
     () => ({
       id: 1,
-      content: 'Thêm vào giỏ',
-      type: 'primary',
+      content: "Thêm vào giỏ",
+      type: "primary",
       onClick: () => {
         setOpenSheet(true);
         setProductInfoPicked({ productId: Number(productId), isUpdate: true });
@@ -54,10 +63,10 @@ const DetailProduct = () => {
   const btnPayment: ButtonType = useMemo(
     () => ({
       id: 2,
-      content: 'Thanh toán',
-      type: 'secondary',
+      content: "Thanh toán",
+      type: "secondary",
       onClick: () => {
-        navigate('/finish-order');
+        navigate("/finish-order");
       },
     }),
     [cart]
@@ -70,7 +79,7 @@ const DetailProduct = () => {
 
   useEffect(() => {
     setHeader({
-      title: '',
+      title: "",
       rightIcon: <Icon icon="zi-share-external-1" />,
     });
     changeStatusBarColor();
@@ -79,11 +88,15 @@ const DetailProduct = () => {
     <Page>
       <div
         className=" relative bg-white w-full"
-        style={{ paddingBottom: totalPrice > 0 ? '120px' : '80px' }}
+        style={{ paddingBottom: totalPrice > 0 ? "120px" : "80px" }}
       >
         {product && (
           <>
-            <img src={getImgUrl(product.imgProduct)} alt="" className="w-full h-auto" />
+            <img
+              src={getImgUrl(product.imgProduct)}
+              alt=""
+              className="w-full h-auto"
+            />
             {salePercentage && (
               <div className="absolute top-2.5 right-2.5 text-white font-medium text-sm px-2 py-1 bg-[#FF9743] w-auto h-auto rounded-lg">
                 -{salePercentage}%
@@ -99,7 +112,12 @@ const DetailProduct = () => {
                 đ{convertPrice(product.retailPrice)}
               </span>
             </Box>
-            <Box m={0} px={4} py={5} className=" text-justify break-words whitespace-pre-line">
+            <Box
+              m={0}
+              px={4}
+              py={5}
+              className=" text-justify break-words whitespace-pre-line"
+            >
               {product.description}
             </Box>
           </>
@@ -110,7 +128,7 @@ const DetailProduct = () => {
         <ButtonPriceFixed
           quantity={cart.listOrder.length}
           totalPrice={totalPrice}
-          handleOnClick={() => navigate('/finish-order')}
+          handleOnClick={() => navigate("/finish-order")}
         />
       )}
       <ButtonFixed listBtn={listBtn} />

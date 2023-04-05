@@ -1,5 +1,5 @@
 :root {
-  --zmp-primary-color: #EF1724;
+  --zmp-primary-color: #ef1724;
   --zmp-page-bg-color: #f4f5f6;
   --zmp-primary-color-rgb: 239, 23, 36;
   --zmp-appbar-app-offset: 108px;
@@ -34,7 +34,15 @@
 }
 
 .zaui-spinner-ring {
-  background: conic-gradient(from 90deg at 50% 50%, rgba(255, 255, 255, 0.0001) -89.96deg, rgba(255, 255, 255, 0.0001) 180.44deg, var(--zmp-primary-color) 258.75deg, var(--zmp-primary-color) 270deg, rgba(255, 255, 255, 0.0001) 270.04deg, rgba(255, 255, 255, 0.0001) 540.44deg)
+  background: conic-gradient(
+    from 90deg at 50% 50%,
+    rgba(255, 255, 255, 0.0001) -89.96deg,
+    rgba(255, 255, 255, 0.0001) 180.44deg,
+    var(--zmp-primary-color) 258.75deg,
+    var(--zmp-primary-color) 270deg,
+    rgba(255, 255, 255, 0.0001) 270.04deg,
+    rgba(255, 255, 255, 0.0001) 540.44deg
+  );
 }
 
 .zaui-spinner-dot::after {
@@ -45,11 +53,9 @@
   background-color: var(--zmp-primary-color);
 }
 
-
 .zaui-select-option-selected {
   color: var(--zmp-primary-color);
 }
-
 
 .zaui-input:hover,
 .zaui-input:focus,
@@ -76,8 +82,6 @@
   }
 }
 
-
-
 .zaui-btn-tertiary {
   color: black;
 
@@ -85,7 +89,6 @@
     background: rgba(var(--zmp-primary-color-rgb), 0.1);
   }
 }
-
 
 .filter-selection {
   .zaui-select {
@@ -134,9 +137,8 @@ i.icon {
 }
 
 .title-type-picker {
-  @apply p-4 bg-[#FAFCFF] text-base font-medium
+  @apply p-4 bg-[#FAFCFF] text-base font-medium;
 }
-
 
 .line-clamp-2 {
   overflow: hidden;
@@ -170,30 +172,30 @@ i.icon {
 
 @keyframes fade {
   0% {
-    opacity: 0
+    opacity: 0;
   }
 
   100% {
-    opacity: 1
+    opacity: 1;
   }
 }
 
 @keyframes move-down {
   0% {
-    transform: translateY(0),
+    transform: translateY(0);
   }
 
   100% {
-    transform: translateY(120px),
+    transform: translateY(120px);
   }
 }
 
 @keyframes move-up {
   0% {
-    transform: translateY(120px),
+    transform: translateY(120px);
   }
 
   100% {
-    transform: translateY(0),
+    transform: translateY(0);
   }
 }

@@ -1,15 +1,21 @@
-import React, { lazy, Suspense, useEffect } from 'react';
-import { Route } from 'react-router-dom';
-import { App, ZMPRouter, AnimationRoutes, SnackbarProvider, Spinner } from 'zmp-ui';
-import { RecoilRoot } from 'recoil';
-import HomePage from '../pages';
-import ProductPicker from './product-picker';
-import DetailProduct from '../pages/detail-product';
-import api from 'zmp-sdk';
-import Header from './header';
-import { ConfigProvider, getConfig } from './config-provider';
-import { hexToRgb } from '../utils';
-const FinishOrder = React.lazy(() => import('../pages/finish-order'));
+import React, { lazy, Suspense, useEffect } from "react";
+import { Route } from "react-router-dom";
+import {
+  App,
+  ZMPRouter,
+  AnimationRoutes,
+  SnackbarProvider,
+  Spinner,
+} from "zmp-ui";
+import { RecoilRoot } from "recoil";
+import HomePage from "../pages";
+import ProductPicker from "./product-picker";
+import DetailProduct from "../pages/detail-product";
+import api from "zmp-sdk";
+import Header from "./header";
+import { ConfigProvider, getConfig } from "./config-provider";
+import { hexToRgb } from "../utils";
+const FinishOrder = React.lazy(() => import("../pages/finish-order"));
 
 const MyApp = () => {
   useEffect(() => {
@@ -20,8 +26,10 @@ const MyApp = () => {
     <RecoilRoot>
       <ConfigProvider
         cssVariables={{
-          '--zmp-primary-color': getConfig((c) => c.template.primaryColor),
-          '--zmp-primary-color-rgb': hexToRgb(getConfig((c) => c.template.primaryColor)),
+          "--zmp-primary-color": getConfig((c) => c.template.primaryColor),
+          "--zmp-primary-color-rgb": hexToRgb(
+            getConfig((c) => c.template.primaryColor)
+          ),
         }}
       >
         <App>
@@ -37,7 +45,10 @@ const MyApp = () => {
                 <Header />
                 <AnimationRoutes>
                   <Route path="/" element={<HomePage></HomePage>}></Route>
-                  <Route path="/finish-order" element={<FinishOrder></FinishOrder>}></Route>
+                  <Route
+                    path="/finish-order"
+                    element={<FinishOrder></FinishOrder>}
+                  ></Route>
                   <Route
                     path="/detail-product/:productId"
                     element={<DetailProduct></DetailProduct>}

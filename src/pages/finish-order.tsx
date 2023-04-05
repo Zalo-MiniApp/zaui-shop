@@ -1,14 +1,14 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
-import AddressForm from '../constants/address-form';
-import ButtonFixed from '../components/button-fixed/button-fixed';
+import React, { SyntheticEvent, useEffect, useState } from "react";
+import AddressForm from "../constants/address-form";
+import ButtonFixed from "../components/button-fixed/button-fixed";
 
-import { AddressFormType } from '../models';
-import { convertPrice, cx } from '../utils';
-import { locationVN } from '../dummy';
+import { AddressFormType } from "../models";
+import { convertPrice, cx } from "../utils";
+import { locationVN } from "../dummy";
 
-import CardStore from '../components/custom-card/card-store';
-import { Box, Button, Input, Page, Select, Text } from 'zmp-ui';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import CardStore from "../components/custom-card/card-store";
+import { Box, Button, Input, Page, Select, Text } from "zmp-ui";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   cartState,
   cartTotalPriceState,
@@ -16,11 +16,11 @@ import {
   productInfoPickedState,
   productState,
   storeState,
-} from '../state';
-import CardProductOrder from '../components/custom-card/card-product-order';
-import { changeStatusBarColor, pay } from '../services';
-import useSetHeader from '../hooks/useSetHeader';
-import { getConfig } from '../components/config-provider';
+} from "../state";
+import CardProductOrder from "../components/custom-card/card-product-order";
+import { changeStatusBarColor, pay } from "../services";
+import useSetHeader from "../hooks/useSetHeader";
+import { getConfig } from "../components/config-provider";
 
 const { Option } = Select;
 const FinishOrder = () => {
@@ -28,15 +28,21 @@ const FinishOrder = () => {
   const totalPrice = useRecoilValue(cartTotalPriceState);
   const listProducts = useRecoilValue(productState);
   const storeInfo = useRecoilValue(storeState);
-  const shippingFee = Number(getConfig(config => config.template.shippingFee));
+  const shippingFee = Number(
+    getConfig((config) => config.template.shippingFee)
+  );
 
   const setOpenSheet = useSetRecoilState(openProductPickerState);
   const setProductInfoPicked = useSetRecoilState(productInfoPickedState);
   const setHeader = useSetHeader();
 
   const [currentCity, setCurrentCity] = useState<any>(locationVN[0]);
-  const [currentDistrict, setCurrentDistrict] = useState<any>(locationVN[0].districts[0]);
-  const [currentWard, setCurrentWard] = useState<any>(locationVN[0].districts[0].wards[0]);
+  const [currentDistrict, setCurrentDistrict] = useState<any>(
+    locationVN[0].districts[0]
+  );
+  const [currentWard, setCurrentWard] = useState<any>(
+    locationVN[0].districts[0].wards[0]
+  );
 
   const [selectedDistrictId, setSelectedDistrictId] = useState<string | null>(
     locationVN[0].districts[0].id
@@ -61,7 +67,7 @@ const FinishOrder = () => {
     let handleOnSelect: (id: string) => void;
 
     switch (item.name) {
-      case 'city':
+      case "city":
         listOptions = locationVN;
         value = currentCity.id;
         handleOnSelect = (cityId) => {
@@ -75,7 +81,7 @@ const FinishOrder = () => {
           setSelectedWardId(firstWard.id);
         };
         break;
-      case 'district':
+      case "district":
         listOptions = currentCity.districts;
         value = selectedDistrictId;
 
@@ -90,7 +96,7 @@ const FinishOrder = () => {
           setSelectedWardId(firstWard.id);
         };
         break;
-      case 'ward':
+      case "ward":
         listOptions = currentDistrict.wards;
         value = selectedWardId;
         handleOnSelect = (wardId) => setSelectedWardId(wardId);
@@ -98,15 +104,15 @@ const FinishOrder = () => {
       default:
         listOptions = locationVN;
         value = undefined;
-        handleOnSelect = () => { };
+        handleOnSelect = () => {};
         break;
     }
     return { listOptions, value, handleOnSelect };
   };
 
   useEffect(() => {
-    setHeader({ title: 'Đơn đặt hàng', type: 'secondary' });
-    changeStatusBarColor('secondary');
+    setHeader({ title: "Đơn đặt hàng", type: "secondary" });
+    changeStatusBarColor("secondary");
   }, []);
 
   return (
@@ -123,7 +129,9 @@ const FinishOrder = () => {
           </Box>
           <Box mx={3} mb={2}>
             {cart.listOrder.map((product) => {
-              const productInfo = listProducts.find((prod) => prod.id === product.id);
+              const productInfo = listProducts.find(
+                (prod) => prod.id === product.id
+              );
               return (
                 <CardProductOrder
                   pathImg={productInfo!.imgProduct}
@@ -149,10 +157,14 @@ const FinishOrder = () => {
             </Text>
 
             {AddressForm.map((item: AddressFormType) => {
-              const { listOptions, value, handleOnSelect } = filterSelectionInput(item);
+              const { listOptions, value, handleOnSelect } =
+                filterSelectionInput(item);
 
               return (
-                <div key={item.name} className={cx('py-3', item.name !== 'ward' && 'border-b')}>
+                <div
+                  key={item.name}
+                  className={cx("py-3", item.name !== "ward" && "border-b")}
+                >
                   <Text
                     size="large"
                     bold
@@ -161,7 +173,7 @@ const FinishOrder = () => {
                     {item.label}
                   </Text>
                   <Box className="relative" m={0}>
-                    {item.type === 'select' ? (
+                    {item.type === "select" ? (
                       <Select
                         // key={value}
                         id={item.name}
@@ -173,7 +185,11 @@ const FinishOrder = () => {
                         }}
                       >
                         {listOptions?.map((option) => (
-                          <Option key={option.id} value={option.id} title={option.name} />
+                          <Option
+                            key={option.id}
+                            value={option.id}
+                            title={option.name}
+                          />
                         ))}
                       </Select>
                     ) : (
@@ -195,12 +211,14 @@ const FinishOrder = () => {
               );
             })}
           </Box>
-          {shippingFee > 0 && <Box m={4} flex flexDirection="row" justifyContent="space-between">
-            <span className=" text-base font-medium">Phí ship</span>
-            <span className=" text-base font-medium text-primary">
-              {convertPrice(shippingFee)}đ
-            </span>
-          </Box>}
+          {shippingFee > 0 && (
+            <Box m={4} flex flexDirection="row" justifyContent="space-between">
+              <span className=" text-base font-medium">Phí ship</span>
+              <span className=" text-base font-medium text-primary">
+                {convertPrice(shippingFee)}đ
+              </span>
+            </Box>
+          )}
 
           <Text className="p-4 text-center">
             {`Đặt hàng đồng nghĩa với việc bạn đồng ý quan tâm 

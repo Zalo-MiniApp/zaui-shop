@@ -1,17 +1,17 @@
-import React from 'react';
-import { Button, Icon } from 'zmp-ui';
-import { Store } from '../../models';
-import { getImgUrl } from '../../utils';
-import api from 'zmp-sdk';
-import { getConfig } from '../config-provider';
-import { DEFAULT_OA_ID } from '../../constants';
+import React from "react";
+import { Button, Icon } from "zmp-ui";
+import { Store } from "../../models";
+import { getImgUrl } from "../../utils";
+import api from "zmp-sdk";
+import { getConfig } from "../config-provider";
+import { DEFAULT_OA_ID } from "../../constants";
 
 const CardShop = ({ storeInfo }: { storeInfo: Store }) => {
   const handleOpenChat = () => {
-    const oaId: string = getConfig((c) => c.template.oaIDtoOpenChat || '');
+    const oaId: string = getConfig((c) => c.template.oaIDtoOpenChat || "");
 
     api.openChat({
-      type: 'oa',
+      type: "oa",
       id: oaId || DEFAULT_OA_ID,
     });
   };
@@ -26,7 +26,9 @@ const CardShop = ({ storeInfo }: { storeInfo: Store }) => {
             className=" rounded-full object-cover w-[60px] h-[60px]"
           />
           <div className=" pl-4">
-            <div className=" text-base font-medium pb-1">{storeInfo.nameStore}</div>
+            <div className=" text-base font-medium pb-1">
+              {storeInfo.nameStore}
+            </div>
             <div className=" text-sm font-normal text-gray-500 pb-1">
               {storeInfo.followers} theo dõi
             </div>
@@ -39,7 +41,12 @@ const CardShop = ({ storeInfo }: { storeInfo: Store }) => {
           </div>
         </div>
       )}
-      <Button className="chat-button" variant="primary" size="small" onClick={handleOpenChat}>
+      <Button
+        className="chat-button"
+        variant="primary"
+        size="small"
+        onClick={handleOpenChat}
+      >
         Nhắn tin
       </Button>
     </div>

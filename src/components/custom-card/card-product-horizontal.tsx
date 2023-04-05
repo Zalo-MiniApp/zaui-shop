@@ -1,10 +1,10 @@
-import React from 'react';
-import { useSetRecoilState } from 'recoil';
-import { Box, Icon } from 'zmp-ui';
-import { openProductPickerState, productInfoPickedState } from '../../state';
-import { convertPrice, getImgUrl } from '../../utils';
-import ImageRatio from '../img-ratio';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useSetRecoilState } from "recoil";
+import { Box, Icon } from "zmp-ui";
+import { openProductPickerState, productInfoPickedState } from "../../state";
+import { convertPrice, getImgUrl } from "../../utils";
+import ImageRatio from "../img-ratio";
+import { useNavigate } from "react-router-dom";
 
 type CardProductHorizontalProps = {
   productId: number;
@@ -51,7 +51,13 @@ const CardProductHorizontal = ({
         </span>
       </div>
       <>
-        <Box mx={2} flex justifyContent="center" alignItems="center" className="flex-none">
+        <Box
+          mx={2}
+          flex
+          justifyContent="center"
+          alignItems="center"
+          className="flex-none"
+        >
           <div
             className="w-6 h-6 rounded-full bg-primary flex justify-center items-center"
             onClick={() => {

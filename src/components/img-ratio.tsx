@@ -1,6 +1,6 @@
-import React from 'react';
-import { ImgHTMLAttributes, ReactNode } from 'react';
-import cx from '../utils/cx';
+import React from "react";
+import { ImgHTMLAttributes, ReactNode } from "react";
+import cx from "../utils/cx";
 
 interface ImageWithRatioProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
@@ -10,10 +10,19 @@ interface ImageWithRatioProps extends ImgHTMLAttributes<HTMLImageElement> {
   label?: ReactNode;
 }
 
-const ImageRatio = ({ src, alt, className, ratio, ...props }: ImageWithRatioProps) => {
+const ImageRatio = ({
+  src,
+  alt,
+  className,
+  ratio,
+  ...props
+}: ImageWithRatioProps) => {
   const pt: string = `${(1 / ratio) * 100}%`;
   return (
-    <div className={cx('w-full relative', className)} style={{ paddingTop: pt }}>
+    <div
+      className={cx("w-full relative", className)}
+      style={{ paddingTop: pt }}
+    >
       <img
         src={src}
         alt={alt}

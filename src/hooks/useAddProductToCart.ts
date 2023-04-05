@@ -1,15 +1,17 @@
-import { useRecoilState } from 'recoil';
-import { useCallback } from 'react';
-import { CartProduct } from '../models';
-import { cartState } from '../state';
+import { useRecoilState } from "recoil";
+import { useCallback } from "react";
+import { CartProduct } from "../models";
+import { cartState } from "../state";
 
 const useAddProductToCart = () => {
   const [cart, setCart] = useRecoilState(cartState);
   return useCallback(
     ({ productOrder }: { productOrder: CartProduct }) => {
-      setCart(oldCart => {
+      setCart((oldCart) => {
         const cart = { ...oldCart };
-        const orderIndex = cart.listOrder.findIndex((prod) => prod.id === productOrder.id);
+        const orderIndex = cart.listOrder.findIndex(
+          (prod) => prod.id === productOrder.id
+        );
         if (orderIndex >= 0) {
           // available in cart
           cart.listOrder = [...cart.listOrder];
@@ -19,9 +21,9 @@ const useAddProductToCart = () => {
           } else {
             cart.listOrder.splice(orderIndex, 1, {
               ...cart.listOrder[orderIndex],
-              order: productOrder.order
+              order: productOrder.order,
             });
-          };
+          }
         } else if (productOrder.order.quantity > 0) {
           cart.listOrder = cart.listOrder.concat({ ...productOrder });
         }

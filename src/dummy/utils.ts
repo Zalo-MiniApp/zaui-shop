@@ -51,7 +51,7 @@ export const createDummyProductCategories = ({
 };
 
 export const createDummyStore = () => {
-  const storeId = + new Date();
+  const storeId = +new Date();
   const listDummyProducts = createDummyProductCategories({
     storeId,
   });
@@ -66,7 +66,6 @@ export const createDummyStore = () => {
     type: listType[getRandomInt(listType.length) - 1],
     listProducts: listDummyProducts,
     categories: listCategories,
-
-  }
+  };
   return dummyStore;
 };

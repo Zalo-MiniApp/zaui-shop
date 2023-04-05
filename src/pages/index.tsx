@@ -1,14 +1,14 @@
-import React, { useEffect, useMemo, useCallback } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { Input, Page } from 'zmp-ui';
-import ButtonFixed from '../components/button-fixed/button-fixed';
-import ButtonPriceFixed from '../components/button-fixed/button-price-fixed';
-import CategoriesStore from '../components/categories-store';
-import CardProductHorizontal from '../components/custom-card/card-product-horizontal';
-import CardShop from '../components/custom-card/card-shop';
+import React, { useEffect, useMemo, useCallback } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { Input, Page } from "zmp-ui";
+import ButtonFixed from "../components/button-fixed/button-fixed";
+import ButtonPriceFixed from "../components/button-fixed/button-price-fixed";
+import CategoriesStore from "../components/categories-store";
+import CardProductHorizontal from "../components/custom-card/card-product-horizontal";
+import CardShop from "../components/custom-card/card-shop";
 
-import { filter } from '../constants/referrence';
-import { Product } from '../models';
+import { filter } from "../constants/referrence";
+import { Product } from "../models";
 import {
   activeCateState,
   activeFilterState,
@@ -17,11 +17,11 @@ import {
   searchProductState,
   storeProductResultState,
   storeState,
-} from '../state';
-import { useNavigate } from 'react-router-dom';
-import useSetHeader from '../hooks/useSetHeader';
-import { changeStatusBarColor } from '../services';
-import { getConfig } from '../components/config-provider';
+} from "../state";
+import { useNavigate } from "react-router-dom";
+import useSetHeader from "../hooks/useSetHeader";
+import { changeStatusBarColor } from "../services";
+import { getConfig } from "../components/config-provider";
 
 const HomePage: React.FunctionComponent = () => {
   const store = useRecoilValue(storeState);
@@ -29,12 +29,12 @@ const HomePage: React.FunctionComponent = () => {
   const totalPrice = useRecoilValue(cartTotalPriceState);
 
   const [activeCate, setActiveCate] = useRecoilState<number>(activeCateState);
-  const [activeFilter, setActiveFilter] = useRecoilState<string>(activeFilterState);
+  const [activeFilter, setActiveFilter] =
+    useRecoilState<string>(activeFilterState);
   const storeProductResult = useRecoilValue<Product[]>(storeProductResultState);
   const setSearchProduct = useSetRecoilState(searchProductState);
   const navigate = useNavigate();
   const setHeader = useSetHeader();
-
 
   const handleInputSearch = useCallback((text: string) => {
     setSearchProduct(text);
@@ -53,11 +53,11 @@ const HomePage: React.FunctionComponent = () => {
 
   useEffect(() => {
     setHeader({
-      customTitle: getConfig((c) => c.template.searchBar) ? searchBar : '',
+      customTitle: getConfig((c) => c.template.searchBar) ? searchBar : "",
       hasLeftIcon: false,
-      type: 'secondary',
+      type: "secondary",
     });
-    changeStatusBarColor('secondary');
+    changeStatusBarColor("secondary");
   }, []);
 
   return (
@@ -78,7 +78,10 @@ const HomePage: React.FunctionComponent = () => {
             />
           </div>
           <div className="bg-gray-100 h-3" />
-          <div className="bg-white p-3" style={{ marginBottom: totalPrice > 0 ? '120px' : '0px' }}>
+          <div
+            className="bg-white p-3"
+            style={{ marginBottom: totalPrice > 0 ? "120px" : "0px" }}
+          >
             {storeProductResult.map((product) => (
               <div className=" mb-2 w-full" key={product.id}>
                 <CardProductHorizontal
@@ -98,17 +101,17 @@ const HomePage: React.FunctionComponent = () => {
                 quantity={cart.listOrder.length}
                 totalPrice={totalPrice}
                 handleOnClick={() => {
-                  navigate('/finish-order');
+                  navigate("/finish-order");
                 }}
               />
               <ButtonFixed
                 listBtn={[
                   {
                     id: 1,
-                    content: 'Hoàn tất đơn hàng',
-                    type: 'primary',
+                    content: "Hoàn tất đơn hàng",
+                    type: "primary",
                     onClick: () => {
-                      navigate('/finish-order');
+                      navigate("/finish-order");
                     },
                   },
                 ]}

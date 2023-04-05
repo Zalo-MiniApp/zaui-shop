@@ -1,19 +1,19 @@
-import { useSetRecoilState } from 'recoil';
-import { HeaderType } from '../models';
-import appConfig from '../../app-config.json';
-import { headerState } from '../state';
-import { useCallback } from 'react';
+import { useSetRecoilState } from "recoil";
+import { HeaderType } from "../models";
+import appConfig from "../../app-config.json";
+import { headerState } from "../state";
+import { useCallback } from "react";
 
 const useSetHeader = () => {
   const setHeader = useSetRecoilState(headerState);
   return useCallback(
     ({
-      route = '',
+      route = "",
       hasLeftIcon = true,
       rightIcon = null,
       title = appConfig.app.title,
       customTitle = null,
-      type = 'primary',
+      type = "primary",
     }: HeaderType) =>
       setHeader({
         route,

@@ -7,7 +7,8 @@ const pay = (amount: number, description?: string) =>
     Payment.createOrder({
       desc: description ?? `Thanh toán cho ${appConfig.app.title}`,
       item: [],
-      amount: amount + Number(getConfig(config => config.template.shippingFee)),
+      amount:
+        amount + Number(getConfig((config) => config.template.shippingFee)),
       success: (data) => {
         console.log("success: ", data);
         resolve(data);

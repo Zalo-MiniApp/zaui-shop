@@ -1,16 +1,23 @@
-import { createDummyStore } from './dummy/utils';
-import { atom, selector } from 'recoil';
-import { Address, HeaderType, StoreOrder, Product, ProductInfoPicked, Store } from './models';
-import { getRandomInt } from './utils';
-import { filter } from './constants/referrence';
+import { createDummyStore } from "./dummy/utils";
+import { atom, selector } from "recoil";
+import {
+  Address,
+  HeaderType,
+  StoreOrder,
+  Product,
+  ProductInfoPicked,
+  Store,
+} from "./models";
+import { getRandomInt } from "./utils";
+import { filter } from "./constants/referrence";
 
 export const storeState = selector<Store>({
-  key: 'store',
+  key: "store",
   get: () => createDummyStore(),
 });
 
 export const productState = selector<Product[]>({
-  key: 'product',
+  key: "product",
   get: ({ get }) => {
     const store = get(storeState);
     return store.listProducts;
@@ -18,16 +25,16 @@ export const productState = selector<Product[]>({
 });
 
 export const cartState = atom<StoreOrder>({
-  key: 'cart',
+  key: "cart",
   default: {
-    status: 'pending',
+    status: "pending",
     listOrder: [],
     date: new Date(),
   },
 });
 
 export const cartTotalPriceState = selector<number>({
-  key: 'cartTotalPrice',
+  key: "cartTotalPrice",
   get: ({ get }) => {
     const cart = get(cartState);
     const products = get(productState);
@@ -35,35 +42,35 @@ export const cartTotalPriceState = selector<number>({
       (total, item) =>
         total +
         Number(item.order.quantity) *
-        Number(products.find((product) => product.id === item.id)?.salePrice),
+          Number(products.find((product) => product.id === item.id)?.salePrice),
       0
     );
     return result;
-  }
-})
+  },
+});
 
 export const headerState = atom<HeaderType>({
-  key: 'header',
+  key: "header",
   default: {},
 });
 
 export const searchProductState = atom<string>({
-  key: 'searchProduct',
-  default: '',
+  key: "searchProduct",
+  default: "",
 });
 
 export const activeCateState = atom<number>({
-  key: 'activeCate',
+  key: "activeCate",
   default: 0,
 });
 
 export const activeFilterState = atom<string>({
-  key: 'activeFilter',
+  key: "activeFilter",
   default: filter[0].key,
 });
 
 export const storeProductResultState = selector<Product[]>({
-  key: 'storeProductResult',
+  key: "storeProductResult",
   get: ({ get }) => {
     get(activeCateState);
     get(searchProductState);
@@ -76,17 +83,17 @@ export const storeProductResultState = selector<Product[]>({
 });
 
 export const addressState = atom<Address>({
-  key: 'address',
+  key: "address",
   default: {
-    city: '',
-    district: '',
-    ward: '',
-    detail: '',
+    city: "",
+    district: "",
+    ward: "",
+    detail: "",
   },
 });
 
 export const openProductPickerState = atom<boolean>({
-  key: 'openProductPicker',
+  key: "openProductPicker",
   default: false,
 });
 
@@ -96,6 +103,6 @@ export const initialProductInfoPickedState = {
 };
 
 export const productInfoPickedState = atom<ProductInfoPicked>({
-  key: 'productInfoPicked',
+  key: "productInfoPicked",
   default: initialProductInfoPickedState,
 });

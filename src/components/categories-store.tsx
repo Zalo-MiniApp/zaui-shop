@@ -1,7 +1,7 @@
-import React, { SyntheticEvent, useRef } from 'react';
-import { Box, Icon, Select } from 'zmp-ui';
+import React, { SyntheticEvent, useRef } from "react";
+import { Box, Icon, Select } from "zmp-ui";
 // import categoriesProductsDummy from '../../dummy/category-products';
-import { cx } from '../utils';
+import { cx } from "../utils";
 
 const { Option } = Select;
 
@@ -32,10 +32,10 @@ const CategoriesStore = ({
           <div
             key={category}
             className={cx(
-              'mr-4 flex-none pb-2',
+              "mr-4 flex-none pb-2",
               activeCate === index
-                ? 'text-primary font-semibold border-b-2 border-primary'
-                : 'text-gray-500'
+                ? "text-primary font-semibold border-b-2 border-primary"
+                : "text-gray-500"
             )}
             onClick={() => {
               setActiveCate(index);
@@ -46,8 +46,16 @@ const CategoriesStore = ({
           </div>
         ))}
       </div>
-      <Box flex flexDirection="row" justifyContent="space-between" alignItems="center" m={4}>
-        <div className=" text-base font-normal text-gray-500">{quantity} Sản phẩm</div>
+      <Box
+        flex
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+        m={4}
+      >
+        <div className=" text-base font-normal text-gray-500">
+          {quantity} Sản phẩm
+        </div>
         <div className="relative w-32">
           <Select
             label=""
