@@ -1,14 +1,11 @@
 import React, { SyntheticEvent, useEffect, useState } from "react";
 import AddressForm from "../constants/address-form";
 import ButtonFixed from "../components/button-fixed/button-fixed";
-
 import { AddressFormType } from "../models";
 import { convertPrice, cx } from "../utils";
-import { locationVN } from "../dummy";
-
 import CardStore from "../components/custom-card/card-store";
 import { Box, Button, Input, Page, Select, Text } from "zmp-ui";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { selector, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   cartState,
   cartTotalPriceState,
@@ -23,6 +20,12 @@ import useSetHeader from "../hooks/useSetHeader";
 import { getConfig } from "../components/config-provider";
 
 const { Option } = Select;
+
+const locationVnState = selector({
+  key: "locationVn",
+  get: () => import("../dummy/location").then((module) => module.default),
+});
+
 const FinishOrder = () => {
   const cart = useRecoilValue(cartState);
   const totalPrice = useRecoilValue(cartTotalPriceState);
@@ -36,11 +39,13 @@ const FinishOrder = () => {
   const setProductInfoPicked = useSetRecoilState(productInfoPickedState);
   const setHeader = useSetHeader();
 
-  const [currentCity, setCurrentCity] = useState<any>(locationVN[0]);
-  const [currentDistrict, setCurrentDistrict] = useState<any>(
+  const locationVN = useRecoilValue(locationVnState);
+
+  const [currentCity, setCurrentCity] = useState(locationVN[0]);
+  const [currentDistrict, setCurrentDistrict] = useState(
     locationVN[0].districts[0]
   );
-  const [currentWard, setCurrentWard] = useState<any>(
+  const [currentWard, setCurrentWard] = useState(
     locationVN[0].districts[0].wards[0]
   );
 
@@ -89,11 +94,13 @@ const FinishOrder = () => {
           const district = currentCity.districts.find(
             (currentDistrict) => currentDistrict.id === districtId
           );
-          const firstWard = district.wards[0];
-          setCurrentDistrict(district);
-          setSelectedDistrictId(districtId);
-          setCurrentWard(firstWard);
-          setSelectedWardId(firstWard.id);
+          if (district) {
+            const firstWard = district.wards[0];
+            setCurrentDistrict(district);
+            setSelectedDistrictId(districtId);
+            setCurrentWard(firstWard);
+            setSelectedWardId(firstWard.id);
+          }
         };
         break;
       case "ward":

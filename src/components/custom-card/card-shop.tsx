@@ -1,15 +1,15 @@
 import React from "react";
 import { Button, Icon } from "zmp-ui";
 import { Store } from "../../models";
-import api from "zmp-sdk";
 import { getConfig } from "../config-provider";
 import { DEFAULT_OA_ID } from "../../constants";
+import { openChat } from "zmp-sdk";
 
 const CardShop = ({ storeInfo }: { storeInfo: Store }) => {
   const handleOpenChat = () => {
     const oaId: string = getConfig((c) => c.template.oaIDtoOpenChat || "");
 
-    api.openChat({
+    openChat({
       type: "oa",
       id: oaId || DEFAULT_OA_ID,
     });

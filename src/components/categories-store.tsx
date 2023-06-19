@@ -1,6 +1,5 @@
-import React, { SyntheticEvent, useRef } from "react";
-import { Box, Icon, Select } from "zmp-ui";
-// import categoriesProductsDummy from '../../dummy/category-products';
+import React from "react";
+import { Box, Select } from "zmp-ui";
 import { cx } from "../utils";
 
 const { Option } = Select;

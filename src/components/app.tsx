@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 import { Route } from "react-router-dom";
 import {
   App,
@@ -11,17 +11,12 @@ import { RecoilRoot } from "recoil";
 import HomePage from "../pages";
 import ProductPicker from "./product-picker";
 import DetailProduct from "../pages/detail-product";
-import api from "zmp-sdk";
 import Header from "./header";
 import { ConfigProvider, getConfig } from "./config-provider";
 import { hexToRgb } from "../utils";
 const FinishOrder = React.lazy(() => import("../pages/finish-order"));
 
 const MyApp = () => {
-  useEffect(() => {
-    api.login();
-  }, []);
-
   return (
     <RecoilRoot>
       <ConfigProvider

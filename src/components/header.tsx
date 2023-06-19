@@ -43,7 +43,7 @@ const Header = () => {
             <div className="pl-2 text-lg font-medium">{title}</div>
           )}
         </div>
-        <div className="">{rightIcon || " "}</div>
+        {rightIcon || " "}
       </div>
     </div>
   );

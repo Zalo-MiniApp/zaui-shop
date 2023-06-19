@@ -18,6 +18,7 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import { changeStatusBarColor } from "../services";
 import useSetHeader from "../hooks/useSetHeader";
+import { openShareSheet } from "zmp-sdk";
 
 const DetailProduct = () => {
   const storeInfo = useRecoilValue(storeState);
@@ -80,7 +81,23 @@ const DetailProduct = () => {
   useEffect(() => {
     setHeader({
       title: "",
-      rightIcon: <Icon icon="zi-share-external-1" />,
+      rightIcon: (
+        <div
+          onClick={() =>
+            openShareSheet({
+              type: "zmp",
+              data: {
+                path: "/",
+                title: product?.nameProduct,
+                description: product?.description.slice(0, 100),
+                thumbnail: product?.imgProduct,
+              },
+            })
+          }
+        >
+          <Icon icon="zi-share-external-1" />
+        </div>
+      ),
     });
     changeStatusBarColor();
   }, []);
