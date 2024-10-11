@@ -12,6 +12,7 @@
   "listAsyncJS": [],
   "pages": [],
   "template": {
+    "name": "zaui-shop",
     "primaryColor": "",
     "searchBar": true,
     "orderValue": "500000",
